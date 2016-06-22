@@ -1,5 +1,7 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -10,7 +12,7 @@ import weka.core.Instances;
 
 public class XorTrainingSet {
 
-    private static final int ITERATIONS = 500;
+    private static final int ITERATIONS = 50;
 
     private Attribute a;
     private Attribute b;
@@ -33,6 +35,7 @@ public class XorTrainingSet {
         this.trainingSet = new Instances("Rel", attributes, 10);
         trainingSet.setClassIndex(2);
         for(int i = 0; i < ITERATIONS; i++) {
+            Log.d("WEKA", String.format("Iteration no: %d", i));
             trainingSet.add(createTrainingExample(1.0, 1.0, "0"));
             trainingSet.add(createTrainingExample(1.0, 0.0, "1"));
             trainingSet.add(createTrainingExample(0.0, 1.0, "1"));

@@ -48,8 +48,12 @@ public class MainActivity extends AppCompatActivity {
         double b = Double.parseDouble(bText.getText().toString());
         if (service != null) {
             try {
-                XorResult result = service.getXor(a, b);
-                Toast.makeText(this, String.format("zero: %f, one: %f", result.zero(), result.one()), Toast.LENGTH_SHORT).show();
+                if(service.isReady()) {
+                    XorResult result = service.getXor(a, b);
+                    Toast.makeText(this, String.format("0: %f, 1: %f", result.zero(), result.one()), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, String.format("Service is not initialized yet"), Toast.LENGTH_SHORT).show();
+                }
             } catch (Exception e) {
                 Toast.makeText(this, String.format("Cannot calculate xor"), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
