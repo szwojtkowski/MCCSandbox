@@ -18,8 +18,8 @@ public class XorTrainingSet {
     private Instances trainingSet;
 
     public XorTrainingSet() {
-        this.a = new Attribute("a");
-        this.b = new Attribute("b");
+        this.a = new Attribute("zero");
+        this.b = new Attribute("one");
         this.result = new Attribute("result", Arrays.asList("0", "1"));
         initSet();
     }

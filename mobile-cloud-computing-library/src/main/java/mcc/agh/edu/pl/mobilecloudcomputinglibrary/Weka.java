@@ -10,6 +10,10 @@ public class Weka {
     private static final double LEARNING_RATE = 0.5;
     private static final double MOMENTUM = 0.2;
 
+    private XorTrainingSet xor;
+    private Classifier model;
+    private Instances trainingSet;
+
     public Classifier getNeuralClassifier() {
         MultilayerPerceptron classifier = new MultilayerPerceptron();
         classifier.setLearningRate(LEARNING_RATE);
@@ -17,24 +21,24 @@ public class Weka {
         return classifier;
     }
 
-    public void getXorResult(double a, double b) throws Exception {
+    public void init() throws Exception {
 
-        XorTrainingSet xor = new XorTrainingSet();
-        Instances trainingSet = xor.getInstances();
+        xor = new XorTrainingSet();
+        trainingSet = xor.getInstances();
 
-        Classifier model = getNeuralClassifier();
+        this.model = getNeuralClassifier();
         model.buildClassifier(trainingSet);
 
-        //Evaluation test = new Evaluation(trainingSet);
-        //test.evaluateModel(model, testingSet);
+    }
 
-        //String strSummary = test.toSummaryString();
-        //System.out.println(strSummary);
+    public XorResult getXorResult(double a, double b) throws Exception {
 
         Instance testcase = xor.createTestCase(a, b);
         testcase.setDataset(trainingSet);
 
         double[] distribution = model.distributionForInstance(testcase);
+
         System.out.println(String.format("0: %s, 1: %s ", distribution[0], distribution[1]));
+        return new XorResult(distribution[0], distribution[1]);
     }
 }
