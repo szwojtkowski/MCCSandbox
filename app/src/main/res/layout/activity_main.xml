@@ -52,11 +52,53 @@
 
     </LinearLayout>
 
-    <Button
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Run"
-        android:onClick="onClick"/>
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Run"
+            android:onClick="onClick"/>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="To test"
+            android:onClick="onServiceTest"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Result (probability of)" />
+
+        <TextView
+            android:id="@+id/zeroResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0: not calculated"/>
+
+        <TextView
+            android:id="@+id/oneResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1: not calculated"/>
+
+    </LinearLayout>
+
+
 
 
 

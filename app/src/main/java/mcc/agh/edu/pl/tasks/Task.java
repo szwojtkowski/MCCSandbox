@@ -1,7 +1,5 @@
 package mcc.agh.edu.pl.tasks;
 
-public class Task {
-
-
-
+public interface Task<T> {
+    TaskResult<T> execute();
 }

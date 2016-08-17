@@ -15,8 +15,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ServiceTestActivity"></activity>
 
         <service android:name="XorService"/>
+        <service android:name="mcc.agh.edu.pl.service.OffloadingService"/>
+        <service android:name="mcc.agh.edu.pl.service.local.OffloadingLocalService"/>
 
     </application>
 
