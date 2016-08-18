@@ -1,5 +1,7 @@
 package mcc.agh.edu.pl.tasks;
 
-public interface TaskResult<T> {
+import java.io.Serializable;
+
+public interface TaskResult<T> extends Serializable {
     T getResult();
 }

@@ -6,10 +6,19 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Get now"
-        android:id="@+id/nowButton"
-        android:onClick="onNow"
+        android:text="Get now (local)"
+        android:id="@+id/localButton"
+        android:onClick="onLocalNow"
         android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get now (messenger)"
+        android:id="@+id/messengerButton"
+        android:onClick="onMessengerNow"
+        android:layout_below="@+id/localButton"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
