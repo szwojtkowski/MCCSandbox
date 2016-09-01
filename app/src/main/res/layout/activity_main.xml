@@ -98,8 +98,13 @@
 
     </LinearLayout>
 
-
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calculate ArraySum"
+        android:id="@+id/calculateArraySumButton"
+        android:onClick="calculateArraySumHandler"
+        android:layout_gravity="center_horizontal" />
 
 
 </LinearLayout>

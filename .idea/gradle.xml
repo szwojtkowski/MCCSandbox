@@ -3,20 +3,31 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="$APPLICATION_HOME_DIR$/gradle/gradle-2.10" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/arraysum" />
+            <option value="$PROJECT_DIR$/arraysum_lambda" />
+            <option value="$PROJECT_DIR$/mcclib" />
             <option value="$PROJECT_DIR$/mobile-cloud-computing-library" />
+            <option value="$PROJECT_DIR$/mylibrary" />
+            <option value="$PROJECT_DIR$/smartmcc" />
           </set>
         </option>
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/arraysum" />
+            <option value="$PROJECT_DIR$/arraysum_lambda" />
+            <option value="$PROJECT_DIR$/mcclib" />
             <option value="$PROJECT_DIR$/mobile-cloud-computing-library" />
+            <option value="$PROJECT_DIR$/mylibrary" />
+            <option value="$PROJECT_DIR$/smartmcc" />
           </set>
         </option>
       </GradleProjectSettings>
