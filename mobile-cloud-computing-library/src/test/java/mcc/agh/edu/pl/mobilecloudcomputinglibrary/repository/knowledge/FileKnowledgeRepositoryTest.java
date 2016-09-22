@@ -1,17 +1,13 @@
-package mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge.file;
+package mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge.KnowledgeInstance;
 import weka.core.Instance;
 import weka.core.Instances;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * To work on unit tests, switch the Test Artifact in the Build Variants view.
- */
 public class FileKnowledgeRepositoryTest {
 
     private static final String PATH = "./weka/data.arff";
