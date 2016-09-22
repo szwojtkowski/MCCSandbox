@@ -19,9 +19,8 @@
         </activity>
         <activity android:name=".ServiceTestActivity"></activity>
 
-        <service android:name="XorService"/>
-        <service android:name="mcc.agh.edu.pl.service.local.OffloadingLocalService"/>
-        <service android:name="mcc.agh.edu.pl.service.messenger.OffloadingMessengerService"/>
+        <service android:name="mcc.agh.edu.pl.service.executive.local.OffloadingLocalService"/>
+        <service android:name="mcc.agh.edu.pl.service.executive.messenger.OffloadingMessengerService"/>
 
     </application>
 

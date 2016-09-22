@@ -14,8 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import mcc.agh.edu.pl.service.local.OffloadingLocalService;
-import mcc.agh.edu.pl.service.messenger.OffloadingMessengerService;
+import mcc.agh.edu.pl.service.executive.local.OffloadingLocalService;
+import mcc.agh.edu.pl.service.executive.messenger.OffloadingMessengerService;
 import mcc.agh.edu.pl.tasks.time.CurrentTimeResult;
 import mcc.agh.edu.pl.tasks.time.CurrentTimeTask;
 

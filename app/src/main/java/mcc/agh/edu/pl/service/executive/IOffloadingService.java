@@ -1,4 +1,4 @@
-package mcc.agh.edu.pl.service;
+package mcc.agh.edu.pl.service.executive;
 
 import mcc.agh.edu.pl.tasks.Task;
 import mcc.agh.edu.pl.tasks.TaskResult;
