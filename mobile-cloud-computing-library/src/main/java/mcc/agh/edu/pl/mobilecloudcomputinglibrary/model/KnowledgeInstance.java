@@ -1,17 +1,23 @@
-package mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge;
+package mcc.agh.edu.pl.mobilecloudcomputinglibrary.model;
 
 public class KnowledgeInstance {
 
+    private String taskName;
     private int batteryUsage;
     private int timeUsage;
     private boolean wifiEnabled;
-    private boolean executeRemotely;
+    private ExecutionEnvironment env;
 
-    public KnowledgeInstance(int batteryUsage, int timeUsage, boolean wifiEnabled, boolean executeRemotely){
+    public KnowledgeInstance(String taskName, int batteryUsage, int timeUsage, boolean wifiEnabled, ExecutionEnvironment env){
+        this.taskName = taskName;
         this.batteryUsage = batteryUsage;
         this.timeUsage = timeUsage;
         this.wifiEnabled = wifiEnabled;
-        this.executeRemotely = executeRemotely;
+        this.env = env;
+    }
+
+    public String getTaskName() {
+        return taskName;
     }
 
     public int getBatteryUsage() {
@@ -26,7 +32,7 @@ public class KnowledgeInstance {
         return wifiEnabled;
     }
 
-    public boolean shouldBeExecutedRemotely() {
-        return executeRemotely;
+    public ExecutionEnvironment getExecutionEnvironment() {
+        return env;
     }
 }

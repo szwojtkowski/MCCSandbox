@@ -3,6 +3,8 @@ package mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge;
 import java.io.File;
 import java.io.IOException;
 
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeDataSet;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeInstance;
 import weka.core.Instances;
 import weka.core.converters.ArffLoader;
 import weka.core.converters.ArffSaver;
