@@ -9,13 +9,7 @@ import weka.core.DenseInstance;
 import weka.core.Instance;
 import weka.core.Instances;
 
-public class KnowledgeDataSet {
-
-    private static final String TASK_NAME = "taskName";
-    private static final String BATTERY_USAGE = "batteryUsage";
-    private static final String TIME_USAGE = "timeUsage";
-    private static final String WIFI_ENABLED = "wifiEnabled";
-    private static final String EXECUTION_ENVIRONMENT = "executionEnvironment";
+public class KnowledgeDataSet implements Constants {
 
     private Instances dataSet;
 
@@ -24,7 +18,7 @@ public class KnowledgeDataSet {
                 Boolean.toString(true), Boolean.toString(false)
         );
 
-        Attribute nameAttr = new Attribute(TASK_NAME, (List<String>) null);
+        Attribute nameAttr = new Attribute(TASK_NAME, Arrays.asList("task", "task1"));
         Attribute batteryAttr = new Attribute(BATTERY_USAGE);
         Attribute timeAttr = new Attribute(TIME_USAGE);
         Attribute wifiAttr = new Attribute(WIFI_ENABLED, trueFalseValues);
@@ -56,4 +50,7 @@ public class KnowledgeDataSet {
         return dataSet;
     }
 
+    public void setDataSet(Instances dataSet) {
+        this.dataSet = dataSet;
+    }
 }

@@ -28,7 +28,7 @@ public class FileKnowledgeRepositoryTest {
         repository.addKnowledgeInstance(instance);
         repository.addKnowledgeInstance(instance2);
 
-        Instances dataSet = repository.getKnowledgeData();
+        Instances dataSet = repository.getKnowledgeData().getDataSet();
         assertEquals(2, dataSet.size());
     }
 
@@ -38,7 +38,7 @@ public class FileKnowledgeRepositoryTest {
 
         repository.addKnowledgeInstance(instance);
 
-        Instances dataSet = repository.getKnowledgeData();
+        Instances dataSet = repository.getKnowledgeData().getDataSet();
 
         Instance repoInstance = dataSet.get(0);
 

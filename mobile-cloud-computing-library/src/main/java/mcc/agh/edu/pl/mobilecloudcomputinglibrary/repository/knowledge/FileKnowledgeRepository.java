@@ -20,21 +20,34 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
     }
 
     @Override
-    public Instances getKnowledgeData() {
+    public KnowledgeDataSet getKnowledgeData() {
         ArffLoader loader = new ArffLoader();
         try {
             loader.setFile(new File(filePath));
-            return loader.getDataSet();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+            Instances set = loader.getDataSet();
+            dataSet.setDataSet(set);
+            return dataSet;
+        } catch (IOException e) {}
+        return new KnowledgeDataSet();
     }
 
     @Override
     public void addKnowledgeInstance(KnowledgeInstance instance) {
         try {
             dataSet.addKnowledgeInstance(instance);
+            ArffSaver saver = new ArffSaver();
+            saver.setFile(new File(filePath));
+            saver.setInstances(dataSet.getDataSet());
+            saver.writeBatch();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void clearKnowledgeDataSet() {
+        try {
+            dataSet.getDataSet().clear();
             ArffSaver saver = new ArffSaver();
             saver.setFile(new File(filePath));
             saver.setInstances(dataSet.getDataSet());
