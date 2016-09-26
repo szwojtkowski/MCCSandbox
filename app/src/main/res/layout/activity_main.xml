@@ -106,5 +106,13 @@
         android:onClick="calculateArraySumHandler"
         android:layout_gravity="center_horizontal" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calculate Quicksort"
+        android:id="@+id/calculateQuicksort"
+        android:onClick="calculateQuicksortHandler"
+        android:layout_gravity="center_horizontal" />
+
 
 </LinearLayout>

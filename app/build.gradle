@@ -25,6 +25,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile project(':mobile-cloud-computing-library')
     compile project(path: ':arraysum')
+    compile project(path: ':quicksort_smarttask')
     compile 'com.amazonaws:aws-android-sdk-core:2.3.+'
     compile 'com.amazonaws:aws-android-sdk-lambda:2.3.+'
     compile project(path: ':smartmcc')

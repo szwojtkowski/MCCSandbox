@@ -13,11 +13,13 @@ import com.amazonaws.mobileconnectors.lambdainvoker.LambdaFunctionException;
 import com.example.ArraySum;
 import com.example.ArraySumRequest;
 import com.example.ArraySumResponse;
+import com.mccfunction.QuickSortRequest;
 
 import java.util.Locale;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.XorResult;
 import mcc.agh.edu.pl.tasks.ArraySumTask;
+import mcc.agh.edu.pl.tasks.QuickSortTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,6 +73,12 @@ public class MainActivity extends AppCompatActivity {
     public void calculateArraySumHandler(View view) {
         float [] testArray = {1.f, 2.f, 3.f, 4.f};
         new ArraySumTask(this).execute(new ArraySumRequest(testArray));
+    }
+
+    public void calculateQuicksortHandler(View view) {
+        double [] testArray = {1.2, 6.1, 0.1, 22.3, 1.32, 13.4, 44.2, 0.0001, 0.002};
+        new QuickSortTask(this).execute(new QuickSortRequest(testArray));
+
     }
 
     public void onServiceTest(View view) {

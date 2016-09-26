@@ -1,1 +1,1 @@
-include ':app', ':mobile-cloud-computing-library', ':arraysum', ':mcclib', ':arraysum_lambda', ':mylibrary', ':smartmcc'
+include ':app', ':mobile-cloud-computing-library', ':arraysum', ':mcclib', ':arraysum_lambda', ':mylibrary', ':smartmcc', ':quicksort_smarttask', ':quicksort_handler'

@@ -15,8 +15,7 @@ public class SmartProxy <Q, R> {
         return this.localInstance.process(request);
     }
 
-    public R processRemotly(Q request) {
-        System.out.println("Processing remotly");
+    public R processRemotely(Q request) {
         return this.amazonProxy.process(request);
     }
 
