@@ -11,7 +11,7 @@ repositories {
 dependencies {
     compile (
             fileTree(dir: 'lib', include: ['*.jar']),
-            'com.google.zxing', name: 'core', version: '3.3.0'
+            'com.google.zxing:core:3.3.0'
     )
     compile project(path: ':mcclib')
 }

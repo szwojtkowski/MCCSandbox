@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/BarcodeReader_smarthandler/BarcodeReader_smarthandler.iml" filepath="$PROJECT_DIR$/BarcodeReader_smarthandler/BarcodeReader_smarthandler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BarcodeReader_smarttask/BarcodeReader_smarttask.iml" filepath="$PROJECT_DIR$/BarcodeReader_smarttask/BarcodeReader_smarttask.iml" />
       <module fileurl="file://$PROJECT_DIR$/MCCSandbox.iml" filepath="$PROJECT_DIR$/MCCSandbox.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/arraysum/arraysum.iml" filepath="$PROJECT_DIR$/arraysum/arraysum.iml" />

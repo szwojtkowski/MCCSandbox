@@ -114,5 +114,13 @@
         android:onClick="calculateQuicksortHandler"
         android:layout_gravity="center_horizontal" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Read Barcode"
+        android:id="@+id/readBarcode"
+        android:onClick="readBarcodeHandler"
+        android:layout_gravity="center_horizontal" />
+
 
 </LinearLayout>
