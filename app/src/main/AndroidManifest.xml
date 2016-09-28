@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="mcc.agh.edu.pl.sandbox">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,10 +19,8 @@
         </activity>
         <activity android:name=".ServiceTestActivity"></activity>
 
-        <service android:name="XorService"/>
-        <service android:name="mcc.agh.edu.pl.service.OffloadingService"/>
-        <service android:name="mcc.agh.edu.pl.service.local.OffloadingLocalService"/>
-        <service android:name="mcc.agh.edu.pl.service.messenger.OffloadingMessengerService"/>
+        <service android:name="mcc.agh.edu.pl.service.executive.local.OffloadingLocalService"/>
+        <service android:name="mcc.agh.edu.pl.service.executive.messenger.OffloadingMessengerService"/>
 
     </application>
     <uses-permission android:name="android.permission.INTERNET" />

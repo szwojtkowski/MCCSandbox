@@ -1,4 +1,6 @@
-package mcc.agh.edu.pl.tasks;
+package mcc.agh.edu.pl.tasks.time;
+
+import mcc.agh.edu.pl.tasks.TaskResult;
 
 public class CurrentTimeResult implements TaskResult<String> {
 

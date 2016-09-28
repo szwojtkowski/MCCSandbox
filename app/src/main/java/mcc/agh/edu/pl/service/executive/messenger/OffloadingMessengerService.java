@@ -1,4 +1,4 @@
-package mcc.agh.edu.pl.service.messenger;
+package mcc.agh.edu.pl.service.executive.messenger;
 
 import android.app.Service;
 import android.content.Intent;

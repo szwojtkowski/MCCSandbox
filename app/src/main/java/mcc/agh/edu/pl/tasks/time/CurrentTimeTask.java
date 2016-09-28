@@ -1,7 +1,9 @@
-package mcc.agh.edu.pl.tasks;
+package mcc.agh.edu.pl.tasks.time;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import mcc.agh.edu.pl.tasks.Task;
 
 public class CurrentTimeTask implements Task {
 

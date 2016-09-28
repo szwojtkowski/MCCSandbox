@@ -23,7 +23,6 @@ import mcc.agh.edu.pl.tasks.QuickSortTask;
 
 public class MainActivity extends AppCompatActivity {
 
-    //private XorServiceConnection serviceConn;
 
     private EditText aText;
     private EditText bText;
@@ -36,11 +35,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //serviceConn = new XorServiceConnection();
-
         aText = (EditText) findViewById(R.id.aText);
         bText = (EditText) findViewById(R.id.bText);
-
 
         zeroResult = (TextView) findViewById(R.id.zeroResult);
         oneResult = (TextView) findViewById(R.id.oneResult);
