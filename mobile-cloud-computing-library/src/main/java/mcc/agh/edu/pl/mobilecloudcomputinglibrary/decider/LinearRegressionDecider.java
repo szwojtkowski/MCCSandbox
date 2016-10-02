@@ -11,8 +11,11 @@ import mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge.Knowledge
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.InstanceTransformer;
 import weka.classifiers.Classifier;
 import weka.classifiers.functions.LinearRegression;
+import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
+import weka.filters.Filter;
+import weka.filters.unsupervised.instance.RemoveWithValues;
 
 public class LinearRegressionDecider implements Decider, Constants {
 
@@ -40,16 +43,32 @@ public class LinearRegressionDecider implements Decider, Constants {
     private double predictEnvironmentFitness(PredictionInstance predictionInstance, ExecutionEnvironment environment){
         Instance instance = transformer.toInstance(predictionInstance);
         Instances dataSet = repository.getKnowledgeData().getDataSet();
-        instance.setDataset(dataSet);
-        instance.setValue(dataSet.attribute(EXECUTION_ENVIRONMENT), environment.toString());
+        Instances filteredDataSet = filterEnvironmentDataKnowledge(dataSet, environment);
+        instance.setDataset(filteredDataSet);
+        instance.setValue(filteredDataSet.attribute(EXECUTION_ENVIRONMENT), environment.toString());
 
-        double batteryUsage = predictBatteryUsage(instance, dataSet);
-        double timeUsage = predictTimeUsage(instance, dataSet);
+        double batteryUsage = predictBatteryUsage(instance, filteredDataSet);
+        double timeUsage = predictTimeUsage(instance, filteredDataSet);
 
         //TODO remove println or make logger and log info about prediction results
-        //System.out.println(String.format("env: %s, batteryUsage: %f, time: %f\n", environment.toString(), batteryUsage, timeUsage));
+        System.out.println(String.format("env: %s, batteryUsage: %f, time: %f\n", environment.toString(), batteryUsage, timeUsage));
 
         return fitness.resultFor(Arrays.asList(batteryUsage, timeUsage));
+    }
+
+    private Instances filterEnvironmentDataKnowledge(Instances dataSet, ExecutionEnvironment environment){
+        try {
+            Attribute environmentAttribute = dataSet.attribute(EXECUTION_ENVIRONMENT);
+            RemoveWithValues removeFilter = new RemoveWithValues();
+            removeFilter.setInvertSelection(true);
+            removeFilter.setAttributeIndex(Integer.toString(environmentAttribute.index()+1));
+            removeFilter.setNominalIndices(Integer.toString(environmentAttribute.indexOfValue(environment.toString())+1));
+            removeFilter.setInputFormat(dataSet);
+            return Filter.useFilter(dataSet, removeFilter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dataSet;
     }
 
     private double predictBatteryUsage(Instance instance, Instances dataSet){
