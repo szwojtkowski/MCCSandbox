@@ -1,0 +1,3 @@
+{ 
+    "defaultRoleId": "arn:aws:iam::424211957724:role/lambda-android-execution-role"
+}

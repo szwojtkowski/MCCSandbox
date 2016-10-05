@@ -1,0 +1,27 @@
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile (
+            fileTree(dir: 'lib', include: ['*.jar']),
+            'com.google.zxing:core:3.3.0'
+    )
+    compile project(path: ':mcclib')
+}
+
+task buildZip(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtime
+    }
+}
+
+build.dependsOn buildZip

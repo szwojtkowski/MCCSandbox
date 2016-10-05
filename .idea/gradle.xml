@@ -3,22 +3,27 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="$APPLICATION_HOME_DIR$/gradle/gradle-2.14.1" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/BarcodeReader_smarttask" />
+            <option value="$PROJECT_DIR$/BarcodeReader_smarttasksmarthandler" />
+            <option value="$PROJECT_DIR$/ImageScaler_smarttask" />
+            <option value="$PROJECT_DIR$/ImageScaler_smarttask/handler" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/arraysum" />
+            <option value="$PROJECT_DIR$/arraysum_lambda" />
+            <option value="$PROJECT_DIR$/mcclib" />
             <option value="$PROJECT_DIR$/mobile-cloud-computing-library" />
+            <option value="$PROJECT_DIR$/mylibrary" />
+            <option value="$PROJECT_DIR$/quicksort_handler" />
+            <option value="$PROJECT_DIR$/quicksort_smarttask" />
           </set>
         </option>
-        <option name="myModules">
-          <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/mobile-cloud-computing-library" />
-          </set>
-        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

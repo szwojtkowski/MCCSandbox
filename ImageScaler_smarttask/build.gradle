@@ -1,0 +1,27 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile (
+            'org.imgscalr:imgscalr-lib:4.2',
+            fileTree(dir: 'lib', include: ['*.jar'])
+
+    )
+    compile project(path: ':mcclib')
+}
+
+task buildZip(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtime
+    }
+}
+
+build.dependsOn buildZip

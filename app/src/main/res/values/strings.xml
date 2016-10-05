@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Sandbox</string>
+    <string name="locally">LOCALLY.</string>
+    <string name="remotely">Remotely</string>
 </resources>
