@@ -1,1 +1,1 @@
-include ':app', ':mobile-cloud-computing-library', ':arraysum', ':mcclib', ':arraysum_lambda', ':mylibrary', ':smartmcc', ':quicksort_smarttask', ':quicksort_handler', ':BarcodeReader_smarttask', ':BarcodeReader_smarthandler'
+include ':app', ':mobile-cloud-computing-library', ':arraysum', ':mcclib', ':arraysum_lambda', ':mylibrary', ':quicksort_smarttask', ':quicksort_handler', ':BarcodeReader_smarttask', ':BarcodeReader_smarttasksmarthandler', ':ImageScaler_smarttask', ':ImageScaler_smarttask:handler'

@@ -26,8 +26,8 @@ dependencies {
     compile project(path: ':arraysum')
     compile project(path: ':quicksort_smarttask')
     compile project(path: ':BarcodeReader_smarttask')
+    compile project(path: ':ImageScaler_smarttask')
     compile 'com.amazonaws:aws-android-sdk-core:2.3.+'
     compile 'com.amazonaws:aws-android-sdk-lambda:2.3.+'
-    compile project(path: ':smartmcc')
     compile 'commons-io:commons-io:2.5'
 }

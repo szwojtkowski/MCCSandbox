@@ -5,13 +5,13 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.amazonaws.regions.Regions;
-import com.example.smartmcc.ProxyFactory;
-import com.example.smartmcc.ProxyFactoryConfiguration;
 import com.mccfunction.BarcodeReader;
 import com.mccfunction.BarcodeReaderRequest;
 import com.mccfunction.BarcodeReaderResponse;
 
 import mcc.agh.edu.pl.lambdaproxy.IBarcodeReaderLambdaProxy;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ProxyFactory;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ProxyFactoryConfiguration;
 import proxy.SmartProxy;
 
 public class BarcodeReaderTask extends AsyncTask<BarcodeReaderRequest, Void, BarcodeReaderResponse> {
