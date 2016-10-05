@@ -12,90 +12,17 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="XOR - a xor b" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Value of a: " />
-
-        <EditText
-            android:id="@+id/aText"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Value of b: " />
-
-        <EditText
-            android:id="@+id/bText"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Run"
-            android:onClick="onClick"/>
-
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="To test"
             android:onClick="onServiceTest"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="50dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Result (probability of)" />
-
-        <TextView
-            android:id="@+id/zeroResult"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0: not calculated"/>
-
-        <TextView
-            android:id="@+id/oneResult"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1: not calculated"/>
 
     </LinearLayout>
 

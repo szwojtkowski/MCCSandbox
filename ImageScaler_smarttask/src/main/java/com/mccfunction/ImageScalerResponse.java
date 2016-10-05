@@ -1,6 +1,8 @@
 package com.mccfunction;
 
-public class ImageScalerResponse {
+import task.SmartResponse;
+
+public class ImageScalerResponse implements SmartResponse {
     private final int height;
     private final int width;
     private byte [] payload;

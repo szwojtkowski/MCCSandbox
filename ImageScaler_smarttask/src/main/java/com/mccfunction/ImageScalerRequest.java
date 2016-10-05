@@ -1,6 +1,8 @@
 package com.mccfunction;
 
-public class ImageScalerRequest {
+import task.SmartRequest;
+
+public class ImageScalerRequest implements SmartRequest {
     private byte [] payload;
     private int height;
     private int width;

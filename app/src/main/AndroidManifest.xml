@@ -21,6 +21,7 @@
 
         <service android:name="mcc.agh.edu.pl.service.executive.local.OffloadingLocalService"/>
         <service android:name="mcc.agh.edu.pl.service.executive.messenger.OffloadingMessengerService"/>
+        <service android:name="mcc.agh.edu.pl.service.smart.local.SmartOffloadingLocalService"/>
 
     </application>
     <uses-permission android:name="android.permission.INTERNET" />

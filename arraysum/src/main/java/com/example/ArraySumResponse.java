@@ -1,6 +1,8 @@
 package com.example;
 
-public class ArraySumResponse {
+import task.SmartResponse;
+
+public class ArraySumResponse implements SmartResponse {
     private float sum;
 
     public float getSum() {

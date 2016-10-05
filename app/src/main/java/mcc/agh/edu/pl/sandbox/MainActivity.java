@@ -1,20 +1,21 @@
 package mcc.agh.edu.pl.sandbox;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ArraySumRequest;
 import com.mccfunction.BarcodeReaderRequest;
@@ -26,8 +27,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import mcc.agh.edu.pl.mobilecloudcomputinglibrary.XorResult;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
+import mcc.agh.edu.pl.service.smart.local.SmartOffloadingLocalService;
 import mcc.agh.edu.pl.tasks.ArraySumTask;
 import mcc.agh.edu.pl.tasks.BarcodeReaderTask;
 import mcc.agh.edu.pl.tasks.ImageScalerTask;
@@ -35,12 +36,10 @@ import mcc.agh.edu.pl.tasks.QuickSortTask;
 
 public class MainActivity extends AppCompatActivity {
 
+    private SmartOffloadingLocalService service;
+    private boolean bound = false;
+    private ServiceConnection connection = new SmartOffloadingServiceConnection();
 
-    private EditText aText;
-    private EditText bText;
-    private TextView zeroResult;
-    private TextView oneResult;
-    private WekaService service;
     private static final int BARCODE_PROCESSING = 1;
     private static final int IMAGE_SCALING = 2;
     private String selectedImagePath;
@@ -51,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        aText = (EditText) findViewById(R.id.aText);
-        bText = (EditText) findViewById(R.id.bText);
         Switch executionTypeSwitch = (Switch) findViewById(R.id.executionTypeSwitch);
 
         if (executionTypeSwitch != null) {
@@ -67,44 +64,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
-
-        zeroResult = (TextView) findViewById(R.id.zeroResult);
-        oneResult = (TextView) findViewById(R.id.oneResult);
-
-        service = new WekaService();
-        service.init();
-
-    }
-
-    public void onClick(View view) {
-        double a = Double.parseDouble(aText.getText().toString());
-        double b = Double.parseDouble(bText.getText().toString());
-        if (service != null) {
-            try {
-                if (service.isReady()) {
-                    XorResult result = service.getXor(a, b);
-                    Toast.makeText(this, String.format("0: %f, 1: %f", result.zero(), result.one()), Toast.LENGTH_SHORT).show();
-                    zeroResult.setText(String.format("0: %f", result.zero()));
-                    oneResult.setText(String.format("1: %f", result.one()));
-                } else {
-                    Toast.makeText(this, String.format("Service is not initialized yet"), Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                Toast.makeText(this, String.format("Cannot calculate xor"), Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
-        }
     }
 
     public void calculateArraySumHandler(View view) {
         float [] testArray = {1.f, 2.f, 3.f, 4.f};
-        new ArraySumTask(this).execute(new ArraySumRequest(testArray));
-        if (executionEnvironment == ExecutionEnvironment.CLOUD) {
-            new ArraySumTask(this).executeRemotely(new ArraySumRequest(testArray));
-        } else if (executionEnvironment == ExecutionEnvironment.LOCAL) {
-            new ArraySumTask(this).executeLocally(new ArraySumRequest(testArray));
-        }
+        ArraySumRequest input = new ArraySumRequest(testArray);
+        ArraySumTask task = new ArraySumTask(this);
+        service.execute(task, input);
     }
 
     public void calculateQuicksortHandler(View view) {
@@ -199,5 +165,33 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent(this, SmartOffloadingLocalService.class);
+        bindService(intent, connection, Context.BIND_AUTO_CREATE);
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (bound) {
+            unbindService(connection);
+            bound = false;
+        }
+    }
+
+    class SmartOffloadingServiceConnection implements ServiceConnection {
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            SmartOffloadingLocalService.LocalBinder binder = (SmartOffloadingLocalService.LocalBinder) service;
+            MainActivity.this.service = binder.getService();
+            bound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            bound = false;
+        }
+    };
 }

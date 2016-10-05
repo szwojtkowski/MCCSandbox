@@ -31,5 +31,4 @@ public class OffloadingLocalService extends Service implements OffloadingService
         }
 
     }
-
 }

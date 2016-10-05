@@ -4,9 +4,11 @@ import android.os.AsyncTask;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
 import proxy.SmartProxy;
+import task.SmartRequest;
+import task.SmartResponse;
 
 
-public abstract class SmartTask <Q, R> extends AsyncTask<Q, Void, R> {
+public abstract class SmartTask <Q extends SmartRequest, R extends SmartResponse> extends AsyncTask<Q, Void, R> {
 
     private SmartProxy <Q, R> smartProxy;
     private ExecutionEnvironment type = ExecutionEnvironment.LOCAL;

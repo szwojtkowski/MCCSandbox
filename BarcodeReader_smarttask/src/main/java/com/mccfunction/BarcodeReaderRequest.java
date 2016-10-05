@@ -1,8 +1,8 @@
 package com.mccfunction;
 
-import java.io.InputStream;
+import task.SmartRequest;
 
-public class BarcodeReaderRequest {
+public class BarcodeReaderRequest implements SmartRequest {
     private int[] pixels;
     private int width;
     private int height;

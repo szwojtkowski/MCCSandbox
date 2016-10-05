@@ -2,7 +2,9 @@
 
 package com.mccfunction;
 
-public class QuickSortResponse {
+import task.SmartResponse;
+
+public class QuickSortResponse implements SmartResponse{
     private double [] outputArray;
     public QuickSortResponse(double[] outputArray) {
         this.outputArray = outputArray;
