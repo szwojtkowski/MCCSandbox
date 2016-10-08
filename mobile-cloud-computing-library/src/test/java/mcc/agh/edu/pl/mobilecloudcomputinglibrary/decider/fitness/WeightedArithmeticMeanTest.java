@@ -1,11 +1,9 @@
-package mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider;
+package mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.fitness;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.fitness.WeightedArithmeticMean;
 
 import static org.junit.Assert.assertEquals;
 

@@ -33,11 +33,12 @@ public class LinearRegressionDecider implements Decider, Constants {
 
     @Override
     public ExecutionEnvironment whereExecute(PredictionInstance predictionInstance) {
-        TreeMap<ExecutionEnvironment, Double> fitnessResults = new TreeMap<>();
+        TreeMap<Double, ExecutionEnvironment> fitnessResults = new TreeMap<>();
         for(ExecutionEnvironment env: ExecutionEnvironment.values()){
-            fitnessResults.put(env, predictEnvironmentFitness(predictionInstance, env));
+            fitnessResults.put(predictEnvironmentFitness(predictionInstance, env), env);
         }
-        return fitnessResults.firstKey();
+        System.out.println(fitnessResults);
+        return fitnessResults.firstEntry().getValue();
     }
 
     private double predictEnvironmentFitness(PredictionInstance predictionInstance, ExecutionEnvironment environment){

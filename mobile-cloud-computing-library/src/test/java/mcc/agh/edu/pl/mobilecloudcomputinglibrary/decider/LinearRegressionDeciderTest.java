@@ -25,7 +25,7 @@ public class LinearRegressionDeciderTest {
 
     @Before
     public void createDecider(){
-        List<Double> weights = Arrays.asList(1.0, 5.0);
+        List<Double> weights = Arrays.asList(5.0, 1.0);
         FitnessAlgorithm algorithm = new WeightedArithmeticMean(weights);
         this.repository = new FileKnowledgeRepository("./weka/deciderTest.arff");
         this.decider = new LinearRegressionDecider(repository, algorithm);
@@ -51,4 +51,18 @@ public class LinearRegressionDeciderTest {
         ExecutionEnvironment env = decider.whereExecute(instance);
         assertEquals(ExecutionEnvironment.CLOUD, env);
     }
+
+    @Test
+    public void checkDecisionChange() throws Exception {
+        KnowledgeInstance instance = new KnowledgeInstance("task", 3, 4, false, ExecutionEnvironment.LOCAL);
+        KnowledgeInstance instance2 = new KnowledgeInstance("task", 2, 2, false, ExecutionEnvironment.LOCAL);
+        repository.addKnowledgeInstance(instance);
+        repository.addKnowledgeInstance(instance2);
+
+        PredictionInstance predictionInstance = new PredictionInstance("task", false);
+        ExecutionEnvironment env = decider.whereExecute(predictionInstance);
+        assertEquals(ExecutionEnvironment.LOCAL, env);
+    }
+
+
 }

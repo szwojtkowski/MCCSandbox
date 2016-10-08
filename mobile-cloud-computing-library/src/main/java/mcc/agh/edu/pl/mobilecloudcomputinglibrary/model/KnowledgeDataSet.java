@@ -18,7 +18,7 @@ public class KnowledgeDataSet implements Constants {
                 Boolean.toString(true), Boolean.toString(false)
         );
 
-        Attribute nameAttr = new Attribute(TASK_NAME, Arrays.asList("task", "task1"));
+        Attribute nameAttr = new Attribute(TASK_NAME, Arrays.asList("task", "task1", "ArraySumTask"));
         Attribute batteryAttr = new Attribute(BATTERY_USAGE);
         Attribute timeAttr = new Attribute(TIME_USAGE);
         Attribute wifiAttr = new Attribute(WIFI_ENABLED, trueFalseValues);
