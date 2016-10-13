@@ -20,11 +20,12 @@ public class SmartDecider implements Decider {
         FitnessAlgorithm algorithm = new WeightedArithmeticMean(Arrays.asList(1.0, 4.0));
         this.randomDecider = new RandomDecider();
         this.decider = new LinearRegressionDecider(repository, algorithm);
+        this.repository = repository;
     }
 
     @Override
     public ExecutionEnvironment whereExecute(PredictionInstance instance) {
-        if(repository.getKnowledgeData().getDataSet().size() < 5){
+        if(repository.getKnowledgeData().getDataSet().size() < 10){
             return randomDecider.whereExecute(instance);
         } else {
             return decider.whereExecute(instance);

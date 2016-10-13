@@ -4,11 +4,11 @@ public class KnowledgeInstance {
 
     private String taskName;
     private int batteryUsage;
-    private int timeUsage;
+    private long timeUsage;
     private boolean wifiEnabled;
     private ExecutionEnvironment env;
 
-    public KnowledgeInstance(String taskName, int batteryUsage, int timeUsage, boolean wifiEnabled, ExecutionEnvironment env){
+    public KnowledgeInstance(String taskName, int batteryUsage, long timeUsage, boolean wifiEnabled, ExecutionEnvironment env){
         this.taskName = taskName;
         this.batteryUsage = batteryUsage;
         this.timeUsage = timeUsage;
@@ -24,7 +24,7 @@ public class KnowledgeInstance {
         return batteryUsage;
     }
 
-    public int getTimeUsage() {
+    public long getTimeUsage() {
         return timeUsage;
     }
 

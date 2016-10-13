@@ -1,7 +1,9 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils;
 
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ExecutionModel;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.Constants;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeDataSet;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeInstance;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.PredictionInstance;
 import weka.core.DenseInstance;
 import weka.core.Instance;
@@ -26,5 +28,11 @@ public class InstanceTransformer implements Constants{
         i.setMissing(set.attribute(TIME_USAGE));
 
         return i;
+    }
+
+    //TODO remove default values
+    public KnowledgeInstance toKnowledgeInstance(ExecutionModel model){
+        KnowledgeInstance instance = new KnowledgeInstance(model.getName(), 0, model.getMilisElapsed(), false, model.getExecutionEnvironment());
+        return instance;
     }
 }

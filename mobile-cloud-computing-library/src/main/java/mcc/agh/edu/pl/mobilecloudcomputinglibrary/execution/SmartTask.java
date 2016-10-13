@@ -13,6 +13,7 @@ public abstract class SmartTask <Q extends SmartRequest, R extends SmartResponse
     private SmartProxy <Q, R> smartProxy;
     private ExecutionEnvironment type = ExecutionEnvironment.LOCAL;
     protected ExecutionModel executionModel;
+    private ExecutionRegistry executionRegistry;
     private long startTime = 0;
 
     public SmartTask() {
@@ -51,10 +52,18 @@ public abstract class SmartTask <Q extends SmartRequest, R extends SmartResponse
     @Override
     protected void onPostExecute(R result) {
         this.executionModel.setMilisElapsed(System.currentTimeMillis() - this.startTime);
+        this.executionModel.setName(this.getClass().getSimpleName());
+        this.executionModel.setExecutionEnvironment(this.type);
+        if(executionRegistry != null)
+            this.executionRegistry.registerExecution(executionModel);
         this.end(result);
     }
 
     public void setSmartProxy(SmartProxy<Q, R> smartProxy) {
         this.smartProxy = smartProxy;
+    }
+
+    public void setExecutionRegistry(ExecutionRegistry registry){
+        this.executionRegistry = registry;
     }
 }

@@ -1,5 +1,7 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge;
 
+import android.os.Environment;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -19,11 +21,20 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
         this.dataSet = new KnowledgeDataSet();
     }
 
+    private File getFile() throws IOException {
+        File myFile = new File(Environment.getExternalStorageDirectory(), filePath);
+        if (!myFile.exists()) {
+            myFile.mkdirs();
+            myFile.createNewFile();
+        }
+        return myFile;
+    }
+
     @Override
     public KnowledgeDataSet getKnowledgeData() {
         ArffLoader loader = new ArffLoader();
         try {
-            loader.setFile(new File(filePath));
+            loader.setFile(getFile());
             Instances set = loader.getDataSet();
             dataSet.setDataSet(set);
             return dataSet;
@@ -36,7 +47,7 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
         try {
             dataSet.addKnowledgeInstance(instance);
             ArffSaver saver = new ArffSaver();
-            saver.setFile(new File(filePath));
+            saver.setFile(getFile());
             saver.setInstances(dataSet.getDataSet());
             saver.writeBatch();
         } catch (IOException e) {
@@ -49,7 +60,7 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
         try {
             dataSet.getDataSet().clear();
             ArffSaver saver = new ArffSaver();
-            saver.setFile(new File(filePath));
+            saver.setFile(getFile());
             saver.setInstances(dataSet.getDataSet());
             saver.writeBatch();
         } catch (IOException e) {
