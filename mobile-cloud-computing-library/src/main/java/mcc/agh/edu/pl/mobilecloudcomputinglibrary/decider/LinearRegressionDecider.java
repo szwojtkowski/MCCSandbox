@@ -42,6 +42,10 @@ public class LinearRegressionDecider implements Decider, Constants {
     }
 
     private double predictEnvironmentFitness(PredictionInstance predictionInstance, ExecutionEnvironment environment){
+        String taskName = predictionInstance.getTaskName();
+        if(!repository.isRegistered(taskName)){
+            repository.registerTask(taskName);
+        }
         Instance instance = transformer.toInstance(predictionInstance);
         Instances dataSet = repository.getKnowledgeData().getDataSet();
         Instances filteredDataSet = filterEnvironmentDataKnowledge(dataSet, environment);

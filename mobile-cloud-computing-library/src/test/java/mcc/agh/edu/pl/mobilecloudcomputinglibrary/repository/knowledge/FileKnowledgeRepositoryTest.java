@@ -33,12 +33,11 @@ public class FileKnowledgeRepositoryTest {
         this.repository = new FileKnowledgeRepository(PATH);
         this.repository.registerTask("task");
         PowerMockito.mockStatic(Environment.class);
-
+        when(Environment.getExternalStorageDirectory()).thenReturn(new File(EXTERNAL_STORAGE_DIR_PATH));
     }
 
     @Test
     public void persistsAllKnowledgeInstances() throws Exception {
-        when(Environment.getExternalStorageDirectory()).thenReturn(new File(EXTERNAL_STORAGE_DIR_PATH));
         KnowledgeInstance instance = new KnowledgeInstance("task", 12, 12, false, ExecutionEnvironment.CLOUD);
         KnowledgeInstance instance2 = new KnowledgeInstance("task", 15, 1, true, ExecutionEnvironment.LOCAL);
 

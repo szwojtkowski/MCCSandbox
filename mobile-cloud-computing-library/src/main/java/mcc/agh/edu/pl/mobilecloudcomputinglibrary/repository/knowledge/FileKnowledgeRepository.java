@@ -28,7 +28,7 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
     }
 
     private File getFile() throws IOException {
-        File myFile = new File(new Environment().getExternalStorageDirectory(), filePath);
+        File myFile = new File(Environment.getExternalStorageDirectory(), filePath);
         if (!myFile.exists()) {
             myFile.mkdirs();
             myFile.createNewFile();
