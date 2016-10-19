@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.ArraySumRequest;
 import com.mccfunction.BarcodeReaderRequest;
 import com.mccfunction.ImageScalerRequest;
+import com.mccfunction.PolymonialHaltRequest;
 import com.mccfunction.QuickSortRequest;
 
 import java.io.ByteArrayOutputStream;
@@ -31,6 +32,7 @@ import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
 import mcc.agh.edu.pl.tasks.ArraySumTask;
 import mcc.agh.edu.pl.tasks.BarcodeReaderTask;
 import mcc.agh.edu.pl.tasks.ImageScalerTask;
+import mcc.agh.edu.pl.tasks.PolymonialHaltTask;
 import mcc.agh.edu.pl.tasks.QuickSortTask;
 
 public class MainActivity extends AppCompatActivity {
@@ -130,6 +132,10 @@ public class MainActivity extends AppCompatActivity {
         intent.setType("image/*");
         startActivityForResult(Intent.createChooser(intent,
                 "Select Picture"), IMAGE_SCALING);
+    }
+
+    public void sleepingProcessHandler(View view) {
+        new PolymonialHaltTask(this).executeRemotely(new PolymonialHaltRequest(20, 20, 20, 20));
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
