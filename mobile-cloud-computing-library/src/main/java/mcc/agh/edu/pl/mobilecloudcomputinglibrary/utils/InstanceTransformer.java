@@ -30,6 +30,14 @@ public class InstanceTransformer implements Constants{
         return i;
     }
 
+    public Instances toNewKnowledgeDataSetFormat(Instances format){
+        for(Instance i: knowledgeDataSet.getDataSet()){
+            i.setDataset(format);
+            format.add(i);
+        }
+        return format;
+    }
+
     //TODO remove default values
     public KnowledgeInstance toKnowledgeInstance(ExecutionModel model){
         KnowledgeInstance instance = new KnowledgeInstance(model.getName(), 0, model.getMilisElapsed(), false, model.getExecutionEnvironment());

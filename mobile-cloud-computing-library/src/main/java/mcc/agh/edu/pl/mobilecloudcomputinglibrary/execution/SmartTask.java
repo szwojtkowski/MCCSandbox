@@ -52,11 +52,15 @@ public abstract class SmartTask <Q extends SmartRequest, R extends SmartResponse
     @Override
     protected void onPostExecute(R result) {
         this.executionModel.setMilisElapsed(System.currentTimeMillis() - this.startTime);
-        this.executionModel.setName(this.getClass().getSimpleName());
+        this.executionModel.setName(this.getName());
         this.executionModel.setExecutionEnvironment(this.type);
         if(executionRegistry != null)
             this.executionRegistry.registerExecution(executionModel);
         this.end(result);
+    }
+
+    public String getName(){
+        return this.getClass().getSimpleName();
     }
 
     public void setSmartProxy(SmartProxy<Q, R> smartProxy) {

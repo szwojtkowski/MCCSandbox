@@ -4,9 +4,12 @@ import android.os.Environment;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeDataSet;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeInstance;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.InstanceTransformer;
 import weka.core.Instances;
 import weka.core.converters.ArffLoader;
 import weka.core.converters.ArffSaver;
@@ -15,14 +18,17 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
 
     private String filePath;
     private KnowledgeDataSet dataSet;
+    private Set<String> registeredTasks;
+
 
     public FileKnowledgeRepository(String filePath){
+        this.registeredTasks = new HashSet<>();
         this.filePath = filePath;
-        this.dataSet = new KnowledgeDataSet();
+        this.dataSet = new KnowledgeDataSet(registeredTasks);
     }
 
     private File getFile() throws IOException {
-        File myFile = new File(Environment.getExternalStorageDirectory(), filePath);
+        File myFile = new File(new Environment().getExternalStorageDirectory(), filePath);
         if (!myFile.exists()) {
             myFile.mkdirs();
             myFile.createNewFile();
@@ -39,7 +45,7 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
             dataSet.setDataSet(set);
             return dataSet;
         } catch (IOException e) {}
-        return new KnowledgeDataSet();
+        return new KnowledgeDataSet(registeredTasks);
     }
 
     @Override
@@ -66,5 +72,19 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void registerTask(String name) {
+        registeredTasks.add(name);
+        KnowledgeDataSet newSet =  new KnowledgeDataSet(registeredTasks);
+        Instances newInstances = newSet.getDataSet();
+        Instances newDataSet = new InstanceTransformer(dataSet).toNewKnowledgeDataSetFormat(newInstances);
+        this.dataSet.setDataSet(newDataSet);
+    }
+
+    @Override
+    public boolean isRegistered(String name) {
+        return registeredTasks.contains(name);
     }
 }
