@@ -2,6 +2,7 @@ package mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution;
 
 import android.os.AsyncTask;
 
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.battery.BatteryMonitor;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
 import proxy.SmartProxy;
 import task.SmartRequest;
@@ -14,7 +15,9 @@ public abstract class SmartTask <Q extends SmartRequest, R extends SmartResponse
     private ExecutionEnvironment type = ExecutionEnvironment.LOCAL;
     protected ExecutionModel executionModel;
     private ExecutionRegistry executionRegistry;
+    private BatteryMonitor batteryMonitor;
     private long startTime = 0;
+    private long startBatteryLevel = 0;
 
     public SmartTask() {
         this.executionModel = new ExecutionModel();
@@ -26,12 +29,14 @@ public abstract class SmartTask <Q extends SmartRequest, R extends SmartResponse
 
     public void executeRemotely(Q arg) {
         this.startTime = System.currentTimeMillis();
+        this.startBatteryLevel = batteryMonitor.getBatteryLevel();
         this.type = ExecutionEnvironment.CLOUD;
         this.execute(arg);
     }
 
     public void executeLocally(Q arg) {
         this.startTime = System.currentTimeMillis();
+        this.startBatteryLevel = batteryMonitor.getBatteryLevel();
         this.type = ExecutionEnvironment.LOCAL;
         this.execute(arg);
     }
@@ -52,10 +57,10 @@ public abstract class SmartTask <Q extends SmartRequest, R extends SmartResponse
     @Override
     protected void onPostExecute(R result) {
         this.executionModel.setMilisElapsed(System.currentTimeMillis() - this.startTime);
+        this.executionModel.setBatteryUsage(this.startBatteryLevel - batteryMonitor.getBatteryLevel());
         this.executionModel.setName(this.getName());
         this.executionModel.setExecutionEnvironment(this.type);
-        if(executionRegistry != null)
-            this.executionRegistry.registerExecution(executionModel);
+        this.executionRegistry.registerExecution(executionModel);
         this.end(result);
     }
 
@@ -69,5 +74,9 @@ public abstract class SmartTask <Q extends SmartRequest, R extends SmartResponse
 
     public void setExecutionRegistry(ExecutionRegistry registry){
         this.executionRegistry = registry;
+    }
+
+    public void setBatteryMonitor(BatteryMonitor batteryMonitor){
+        this.batteryMonitor = batteryMonitor;
     }
 }

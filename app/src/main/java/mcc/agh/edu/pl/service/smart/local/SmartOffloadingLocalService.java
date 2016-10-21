@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.battery.SimpleBatteryMonitor;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.Decider;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.SmartDecider;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ExecutionRegistry;
@@ -20,9 +21,19 @@ public class SmartOffloadingLocalService extends Service implements SmartOffload
 
 
     private final IBinder mBinder = new LocalBinder();
-    private KnowledgeRepository repository = new FileKnowledgeRepository("/data/data/files/weka/repo.arff");
-    private Decider decider = new SmartDecider(repository);
-    private ExecutionRegistry executionRegistry = new ExecutionRegistry(repository);
+    private KnowledgeRepository repository;
+    private Decider decider;
+    private ExecutionRegistry executionRegistry;
+    private SimpleBatteryMonitor batteryMonitor;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        this.repository = new FileKnowledgeRepository("/data/data/files/weka/repo.arff");
+        this.decider = new SmartDecider(repository);
+        this.executionRegistry = new ExecutionRegistry(repository);
+        this.batteryMonitor = new SimpleBatteryMonitor(this);
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -33,6 +44,7 @@ public class SmartOffloadingLocalService extends Service implements SmartOffload
     public void execute(SmartTask task, SmartRequest input) {
         PredictionInstance predictionInstance = composePredictionInstance(task);
         task.setExecutionRegistry(executionRegistry);
+        task.setBatteryMonitor(batteryMonitor);
         ExecutionEnvironment env = decider.whereExecute(predictionInstance);
         switch (env) {
             case CLOUD: task.executeRemotely(input); break;

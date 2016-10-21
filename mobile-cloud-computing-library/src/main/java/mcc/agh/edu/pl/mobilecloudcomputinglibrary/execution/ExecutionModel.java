@@ -6,8 +6,8 @@ public class ExecutionModel {
 
     private String name;
     private long milisElapsed;
+    private long batteryUsage;
     private ExecutionEnvironment environment;
-
 
     public String getName() {
         return name;
@@ -33,4 +33,11 @@ public class ExecutionModel {
         return this.environment;
     }
 
+    public long getBatteryUsage() {
+        return batteryUsage;
+    }
+
+    public void setBatteryUsage(long batteryUsage) {
+        this.batteryUsage = batteryUsage;
+    }
 }
