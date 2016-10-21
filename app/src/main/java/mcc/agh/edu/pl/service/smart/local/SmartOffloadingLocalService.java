@@ -45,6 +45,7 @@ public class SmartOffloadingLocalService extends Service implements SmartOffload
         PredictionInstance predictionInstance = composePredictionInstance(task);
         task.setExecutionRegistry(executionRegistry);
         task.setBatteryMonitor(batteryMonitor);
+        repository.registerTask(task.getName());
         ExecutionEnvironment env = decider.whereExecute(predictionInstance);
         switch (env) {
             case CLOUD: task.executeRemotely(input); break;

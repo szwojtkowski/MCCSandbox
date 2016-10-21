@@ -1,5 +1,7 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider;
 
+import android.util.Log;
+
 import java.util.Arrays;
 import java.util.TreeMap;
 
@@ -19,6 +21,8 @@ import weka.filters.unsupervised.instance.RemoveWithValues;
 
 public class LinearRegressionDecider implements Decider, Constants {
 
+    private String TAG = getClass().getSimpleName();
+
     private Classifier classifier;
     private KnowledgeRepository repository;
     private FitnessAlgorithm fitness;
@@ -37,7 +41,7 @@ public class LinearRegressionDecider implements Decider, Constants {
         for(ExecutionEnvironment env: ExecutionEnvironment.values()){
             fitnessResults.put(predictEnvironmentFitness(predictionInstance, env), env);
         }
-        System.out.println(fitnessResults);
+        Log.i(TAG, fitnessResults.toString());
         return fitnessResults.firstEntry().getValue();
     }
 
@@ -55,8 +59,7 @@ public class LinearRegressionDecider implements Decider, Constants {
         double batteryUsage = predictBatteryUsage(instance, filteredDataSet);
         double timeUsage = predictTimeUsage(instance, filteredDataSet);
 
-        //TODO remove println or make logger and log info about prediction results
-        System.out.println(String.format("env: %s, batteryUsage: %f, time: %f\n", environment.toString(), batteryUsage, timeUsage));
+        Log.i(TAG, String.format("env: %s, batteryUsage: %f, time: %f\n", environment.toString(), batteryUsage, timeUsage));
 
         return fitness.resultFor(Arrays.asList(batteryUsage, timeUsage));
     }
@@ -97,5 +100,4 @@ public class LinearRegressionDecider implements Decider, Constants {
         }
         return Double.MAX_VALUE;
     }
-
 }

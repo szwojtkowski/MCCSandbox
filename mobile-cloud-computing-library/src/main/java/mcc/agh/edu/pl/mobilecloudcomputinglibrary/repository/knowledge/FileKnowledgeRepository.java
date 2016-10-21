@@ -1,6 +1,7 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge;
 
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +16,8 @@ import weka.core.converters.ArffLoader;
 import weka.core.converters.ArffSaver;
 
 public class FileKnowledgeRepository implements KnowledgeRepository{
+
+    private final String TAG = getClass().getSimpleName();
 
     private String filePath;
     private KnowledgeDataSet dataSet;
@@ -54,8 +57,11 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
             dataSet.addKnowledgeInstance(instance);
             ArffSaver saver = new ArffSaver();
             saver.setFile(getFile());
-            saver.setInstances(dataSet.getDataSet());
+            Instances instances = dataSet.getDataSet();
+            saver.setInstances(instances);
             saver.writeBatch();
+            Log.i(TAG, "Added new instance to knowledge repository");
+            Log.d(TAG, instances.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }

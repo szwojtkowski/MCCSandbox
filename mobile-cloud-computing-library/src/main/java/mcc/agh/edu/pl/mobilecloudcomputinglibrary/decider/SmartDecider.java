@@ -10,7 +10,7 @@ import mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge.Knowledge
 
 public class SmartDecider implements Decider {
 
-
+    private final int RANDOM_STEP_SIZE = 10;
 
     private RandomDecider randomDecider;
     private LinearRegressionDecider decider;
@@ -25,7 +25,7 @@ public class SmartDecider implements Decider {
 
     @Override
     public ExecutionEnvironment whereExecute(PredictionInstance instance) {
-        if(repository.getKnowledgeData().getDataSet().size() < 10){
+        if(repository.getKnowledgeData().getDataSet().size() < RANDOM_STEP_SIZE){
             return randomDecider.whereExecute(instance);
         } else {
             return decider.whereExecute(instance);
