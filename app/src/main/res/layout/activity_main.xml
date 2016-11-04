@@ -118,6 +118,14 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="OCR"
+        android:id="@+id/simpleOCR"
+        android:onClick="simpleOCRHandler"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Wait for a while"
         android:id="@+id/sleepingProcess"
         android:onClick="sleepingProcessHandler"
