@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.ArraySumRequest;
 import com.mccfunction.BarcodeReaderRequest;
 import com.mccfunction.ImageScalerRequest;
+import com.mccfunction.OCRLang;
 import com.mccfunction.PolymonialHaltRequest;
 import com.mccfunction.QuickSortRequest;
 import com.mccfunction.SimpleOCRRequest;
@@ -65,11 +66,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         prepareTesseract();
-
         setContentView(R.layout.activity_main);
 
-        aText = (EditText) findViewById(R.id.aText);
-        bText = (EditText) findViewById(R.id.bText);
         Switch executionTypeSwitch = (Switch) findViewById(R.id.executionTypeSwitch);
 
         if (executionTypeSwitch != null) {
@@ -80,14 +78,9 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         executionEnvironment = ExecutionEnvironment.LOCAL;
                     }
-
                 }
             });
         }
-
-
-        zeroResult = (TextView) findViewById(R.id.zeroResult);
-        oneResult = (TextView) findViewById(R.id.oneResult);
 
         service = new WekaService();
         service.init();
@@ -198,11 +191,12 @@ public class MainActivity extends AppCompatActivity {
                                 new ImageScalerTask(this, (ImageView)findViewById(R.id.imageView)).executeLocally(imageScalerRequest);
                             break;
                         case OCR_PROCESSING:
+                            ActivitySetTextHandler handler = new ActivitySetTextHandler((EditText)findViewById(R.id.editText2));
                             if (executionEnvironment == ExecutionEnvironment.CLOUD) {
-                                new SimpleOCRTask(this).executeRemotely(new SimpleOCRRequest(blob.toByteArray()));
+                                new SimpleOCRTask(this, handler).executeRemotely(new SimpleOCRRequest(blob.toByteArray(), OCRLang.POL));
                             }
                             else {
-                                new SimpleOCRTask(this).executeLocally(new SimpleOCRRequest(blob.toByteArray()));
+                                new SimpleOCRTask(this, handler).executeLocally(new SimpleOCRRequest(blob.toByteArray(), OCRLang.POL));
                             }
                     }
                 } catch (Exception e) {

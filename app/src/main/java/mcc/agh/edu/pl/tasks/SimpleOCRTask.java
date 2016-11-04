@@ -5,37 +5,33 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
-import android.widget.Toast;
 
 import com.amazonaws.regions.Regions;
 import com.googlecode.tesseract.android.TessBaseAPI;
 import com.mccfunction.ISimpleOCR;
+import com.mccfunction.OCRLang;
 import com.mccfunction.SimpleOCR;
 import com.mccfunction.SimpleOCRRequest;
 import com.mccfunction.SimpleOCRResponse;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ProxyFactory;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ProxyFactoryConfiguration;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.SmartTask;
+import mcc.agh.edu.pl.sandbox.ActivitySetTextHandler;
 
 public class SimpleOCRTask extends SmartTask<SimpleOCRRequest, SimpleOCRResponse> {
 
     private final Activity caller;
     private static final String DATA_PATH = Environment.getExternalStorageDirectory().toString() + "/MCCSandbox/";
-    private static final String TESSDATA = "tessdata";
-    Uri outputFileUri;
+    private final ActivitySetTextHandler setTextHandler;
     private TessBaseAPI tessBaseApi;
-    private static final String lang = "pol";
+    private String lang = OCRLang.getLanguage(OCRLang.ENG);
 
 
-    public SimpleOCRTask(Activity caller) {
+    public SimpleOCRTask(Activity caller, ActivitySetTextHandler handler) {
         this.caller = caller;
+        this.setTextHandler = handler;
         ProxyFactoryConfiguration pfc = new ProxyFactoryConfiguration("eu-west-1:b9444146-c3d3-4a3f-93a7-d9f8fd72dfc5", Regions.EU_WEST_1);
         ProxyFactory factory = new ProxyFactory<SimpleOCRRequest, SimpleOCRResponse>(caller.getApplicationContext(), pfc);
         this.setSmartProxy(factory.create(ISimpleOCR.class, new SimpleOCR(), "SimpleOCR", SimpleOCRResponse.class));
@@ -43,15 +39,17 @@ public class SimpleOCRTask extends SmartTask<SimpleOCRRequest, SimpleOCRResponse
 
     @Override
     public void end(SimpleOCRResponse result) {
-        if (result != null)
-            Toast.makeText(this.caller, String.format("Response result %s", result.getText()), Toast.LENGTH_SHORT).show();
+        if (result != null) {
+            this.setTextHandler.setText(result.getText());
+        }
     }
 
     @Override
-    public void executeLocally(SimpleOCRRequest arg) {
+    public SimpleOCRResponse processLocally(SimpleOCRRequest arg) {
+        this.lang = OCRLang.getLanguage(arg.getLanguage());
         Bitmap bitmap = BitmapFactory.decodeByteArray(arg.getPayload(), 0, arg.getPayload().length);
         String result = startOCR(bitmap);
-        Toast.makeText(this.caller, String.format("Response result %s", result), Toast.LENGTH_SHORT).show();
+        return new SimpleOCRResponse(result);
     }
 
     private String startOCR(Bitmap bitmap) {
@@ -89,7 +87,6 @@ public class SimpleOCRTask extends SmartTask<SimpleOCRRequest, SimpleOCRResponse
 //        tessBaseApi.setVariable(TessBaseAPI.VAR_CHAR_BLACKLIST, "!@#$%^&*()_+=-qwertyuiop[]}{POIU" +
 //                "YTRWQasdASDfghFGHjklJKLl;L:'\"\\|~`xcvXCVbnmBNM,./<>?");
 
-        System.out.println(("Training file loaded"));
         tessBaseApi.setImage(bitmap);
         String extractedText = "empty result";
         try {
