@@ -1,6 +1,7 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge;
 
 import android.os.Environment;
+import android.util.Log;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Environment.class)
+@PrepareForTest({Environment.class, Log.class})
 public class FileKnowledgeRepositoryTest {
 
     private static final String EXTERNAL_STORAGE_DIR_PATH = ".";
@@ -33,6 +34,7 @@ public class FileKnowledgeRepositoryTest {
         this.repository = new FileKnowledgeRepository(PATH);
         this.repository.registerTask("task");
         PowerMockito.mockStatic(Environment.class);
+        PowerMockito.mockStatic(Log.class);
         when(Environment.getExternalStorageDirectory()).thenReturn(new File(EXTERNAL_STORAGE_DIR_PATH));
     }
 

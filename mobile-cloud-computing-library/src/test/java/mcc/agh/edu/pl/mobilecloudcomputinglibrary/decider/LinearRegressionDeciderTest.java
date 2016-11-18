@@ -1,6 +1,7 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider;
 
 import android.os.Environment;
+import android.util.Log;
 
 import org.junit.After;
 import org.junit.Before;
@@ -26,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Environment.class)
+@PrepareForTest({Environment.class, Log.class})
 public class LinearRegressionDeciderTest {
 
     private LinearRegressionDecider decider;
@@ -37,6 +38,7 @@ public class LinearRegressionDeciderTest {
     public void createDecider(){
 
         PowerMockito.mockStatic(Environment.class);
+        PowerMockito.mockStatic(Log.class);
         when(Environment.getExternalStorageDirectory()).thenReturn(new File(EXTERNAL_STORAGE_DIR_PATH));
 
         List<Double> weights = Arrays.asList(5.0, 1.0);
