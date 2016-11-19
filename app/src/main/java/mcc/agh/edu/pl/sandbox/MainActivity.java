@@ -80,9 +80,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (executionEnvironment == ExecutionEnvironment.LOCAL) {
             new QuickSortTask(this).executeLocally(new QuickSortRequest(testArray));
         }
-        /*QuickSortRequest input = new QuickSortRequest(testArray);
+        /* QuickSortRequest input = new QuickSortRequest(testArray);
         QuickSortTask task = new QuickSortTask(this);
-        service.execute(task, input);*/
+        service.execute(task, input); */
     }
 
     public void readBarcodeHandler(View view) {
