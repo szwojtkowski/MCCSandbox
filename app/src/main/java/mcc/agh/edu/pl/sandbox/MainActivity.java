@@ -28,7 +28,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
-import mcc.agh.edu.pl.service.smart.local.SmartOffloadingLocalService;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.service.local.SmartOffloadingLocalService;
 import mcc.agh.edu.pl.tasks.ArraySumTask;
 import mcc.agh.edu.pl.tasks.BarcodeReaderTask;
 import mcc.agh.edu.pl.tasks.ImageScalerTask;
@@ -80,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (executionEnvironment == ExecutionEnvironment.LOCAL) {
             new QuickSortTask(this).executeLocally(new QuickSortRequest(testArray));
         }
+        /*QuickSortRequest input = new QuickSortRequest(testArray);
+        QuickSortTask task = new QuickSortTask(this);
+        service.execute(task, input);*/
     }
 
     public void readBarcodeHandler(View view) {
@@ -158,11 +161,6 @@ public class MainActivity extends AppCompatActivity {
         }
         // this is our fallback here
         return uri.getPath();
-    }
-
-    public void onServiceTest(View view) {
-        Intent intent = new Intent(MainActivity.this, ServiceTestActivity.class);
-        startActivity(intent);
     }
 
     @Override

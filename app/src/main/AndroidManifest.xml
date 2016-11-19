@@ -17,11 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ServiceTestActivity"></activity>
-
-        <service android:name="mcc.agh.edu.pl.service.executive.local.OffloadingLocalService"/>
-        <service android:name="mcc.agh.edu.pl.service.executive.messenger.OffloadingMessengerService"/>
-        <service android:name="mcc.agh.edu.pl.service.smart.local.SmartOffloadingLocalService"/>
+        <service android:name="mcc.agh.edu.pl.mobilecloudcomputinglibrary.service.local.SmartOffloadingLocalService"/>
+        <service android:name="edu.umich.PowerTutor.service.UMLoggerService"/>
 
     </application>
     <uses-permission android:name="android.permission.INTERNET" />

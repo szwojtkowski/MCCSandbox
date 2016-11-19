@@ -1,4 +1,4 @@
-package mcc.agh.edu.pl.service.smart;
+package mcc.agh.edu.pl.mobilecloudcomputinglibrary.service;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.SmartTask;
 import task.SmartRequest;

@@ -15,6 +15,7 @@
       <module fileurl="file://$PROJECT_DIR$/mcclib/mcclib.iml" filepath="$PROJECT_DIR$/mcclib/mcclib.iml" />
       <module fileurl="file://$PROJECT_DIR$/mobile-cloud-computing-library/mobile-cloud-computing-library.iml" filepath="$PROJECT_DIR$/mobile-cloud-computing-library/mobile-cloud-computing-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/mylibrary/mylibrary.iml" filepath="$PROJECT_DIR$/mylibrary/mylibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/powertutor/powertutor.iml" filepath="$PROJECT_DIR$/powertutor/powertutor.iml" />
       <module fileurl="file://$PROJECT_DIR$/quicksort_handler/quicksort_handler.iml" filepath="$PROJECT_DIR$/quicksort_handler/quicksort_handler.iml" />
       <module fileurl="file://$PROJECT_DIR$/quicksort_smarttask/quicksort_smarttask.iml" filepath="$PROJECT_DIR$/quicksort_smarttask/quicksort_smarttask.iml" />
     </modules>

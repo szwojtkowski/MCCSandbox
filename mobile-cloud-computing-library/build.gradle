@@ -30,4 +30,5 @@ dependencies {
     compile 'com.amazonaws:aws-android-sdk-lambda:2.3.+'
     compile project(path: ':mcclib')
     compile files('libs/wekaSTRIPPED.jar')
+    compile project(path: ':powertutor')
 }

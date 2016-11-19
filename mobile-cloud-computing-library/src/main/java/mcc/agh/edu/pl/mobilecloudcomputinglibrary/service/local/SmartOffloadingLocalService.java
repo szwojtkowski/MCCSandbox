@@ -1,11 +1,11 @@
-package mcc.agh.edu.pl.service.smart.local;
+package mcc.agh.edu.pl.mobilecloudcomputinglibrary.service.local;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
-import mcc.agh.edu.pl.mobilecloudcomputinglibrary.battery.SimpleBatteryMonitor;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.battery.powertutor.PowerTutorBatteryMonitor;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.Decider;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.SmartDecider;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ExecutionRegistry;
@@ -14,7 +14,7 @@ import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.PredictionInstance;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge.FileKnowledgeRepository;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge.KnowledgeRepository;
-import mcc.agh.edu.pl.service.smart.SmartOffloadingService;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.service.SmartOffloadingService;
 import task.SmartRequest;
 
 public class SmartOffloadingLocalService extends Service implements SmartOffloadingService{
@@ -24,7 +24,7 @@ public class SmartOffloadingLocalService extends Service implements SmartOffload
     private KnowledgeRepository repository;
     private Decider decider;
     private ExecutionRegistry executionRegistry;
-    private SimpleBatteryMonitor batteryMonitor;
+    private PowerTutorBatteryMonitor batteryMonitor;
 
     @Override
     public void onCreate() {
@@ -32,7 +32,14 @@ public class SmartOffloadingLocalService extends Service implements SmartOffload
         this.repository = new FileKnowledgeRepository("/data/data/files/weka/repo.arff");
         this.decider = new SmartDecider(repository);
         this.executionRegistry = new ExecutionRegistry(repository);
-        this.batteryMonitor = new SimpleBatteryMonitor(this);
+        this.batteryMonitor = new PowerTutorBatteryMonitor(this);
+        this.batteryMonitor.start();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        batteryMonitor.stop();
     }
 
     @Override
