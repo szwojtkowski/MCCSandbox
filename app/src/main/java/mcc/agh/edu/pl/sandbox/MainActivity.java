@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int BARCODE_PROCESSING = 1;
     private static final int IMAGE_SCALING = 2;
     private static final int OCR_PROCESSING = 3;
-    private String selectedImagePath;
     private ExecutionEnvironment executionEnvironment = ExecutionEnvironment.LOCAL;
     //  TESSERACT
     private static final String DATA_PATH = Environment.getExternalStorageDirectory().toString() + "/MCCSandbox/";
@@ -136,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
                 Uri selectedImageUri = data.getData();
-                selectedImagePath = getPath(selectedImageUri);
+                String selectedImagePath = getPath(selectedImageUri);
                 File file = new File(selectedImagePath);
                 try {
                     InputStream inputStream = new FileInputStream(file);
