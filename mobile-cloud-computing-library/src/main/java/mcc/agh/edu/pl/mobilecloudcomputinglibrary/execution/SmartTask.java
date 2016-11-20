@@ -29,14 +29,14 @@ public abstract class SmartTask <Q extends SmartRequest, R extends SmartResponse
 
     public void executeRemotely(Q arg) {
         this.startTime = System.currentTimeMillis();
-        this.startBatteryLevel = batteryMonitor.getBatteryLevel();
+        if(batteryMonitor != null) this.startBatteryLevel = batteryMonitor.getBatteryLevel();
         this.type = ExecutionEnvironment.CLOUD;
         this.execute(arg);
     }
 
     public void executeLocally(Q arg) {
         this.startTime = System.currentTimeMillis();
-        this.startBatteryLevel = batteryMonitor.getBatteryLevel();
+        if(batteryMonitor != null) this.startBatteryLevel = batteryMonitor.getBatteryLevel();
         this.type = ExecutionEnvironment.LOCAL;
         this.execute(arg);
     }
@@ -56,11 +56,15 @@ public abstract class SmartTask <Q extends SmartRequest, R extends SmartResponse
 
     @Override
     protected void onPostExecute(R result) {
+        if(batteryMonitor != null) {
+            this.executionModel.setBatteryUsage(this.startBatteryLevel - batteryMonitor.getBatteryLevel());
+        }
         this.executionModel.setMilisElapsed(System.currentTimeMillis() - this.startTime);
-        this.executionModel.setBatteryUsage(this.startBatteryLevel - batteryMonitor.getBatteryLevel());
         this.executionModel.setName(this.getName());
         this.executionModel.setExecutionEnvironment(this.type);
-        this.executionRegistry.registerExecution(executionModel);
+        if(executionRegistry != null) {
+            this.executionRegistry.registerExecution(executionModel);
+        }
         this.end(result);
     }
 

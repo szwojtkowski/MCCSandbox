@@ -19,27 +19,26 @@ Please send inquiries to powertutor@umich.edu
 
 package edu.umich.PowerTutor.phone;
 
-import java.util.List;
-
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
+
+import java.util.List;
+
 import edu.umich.PowerTutor.components.Audio;
+import edu.umich.PowerTutor.components.Audio.AudioData;
 import edu.umich.PowerTutor.components.CPU;
-import edu.umich.PowerTutor.components.GPS;
+import edu.umich.PowerTutor.components.CPU.CpuData;
 import edu.umich.PowerTutor.components.LCD;
+import edu.umich.PowerTutor.components.LCD.LcdData;
 import edu.umich.PowerTutor.components.OLED;
+import edu.umich.PowerTutor.components.OLED.OledData;
 import edu.umich.PowerTutor.components.PowerComponent;
 import edu.umich.PowerTutor.components.Sensors;
-import edu.umich.PowerTutor.components.Threeg;
-import edu.umich.PowerTutor.components.Wifi;
-import edu.umich.PowerTutor.components.Audio.AudioData;
-import edu.umich.PowerTutor.components.CPU.CpuData;
-import edu.umich.PowerTutor.components.GPS.GpsData;
-import edu.umich.PowerTutor.components.LCD.LcdData;
-import edu.umich.PowerTutor.components.OLED.OledData;
 import edu.umich.PowerTutor.components.Sensors.SensorData;
+import edu.umich.PowerTutor.components.Threeg;
 import edu.umich.PowerTutor.components.Threeg.ThreegData;
+import edu.umich.PowerTutor.components.Wifi;
 import edu.umich.PowerTutor.components.Wifi.WifiData;
 import edu.umich.PowerTutor.service.PowerData;
 import edu.umich.PowerTutor.util.NotificationService;
@@ -179,11 +178,12 @@ public class PhoneSelector {
     }
 
     /* Add GPS component. */
-    components.add(new GPS(context, constants));
+    // @TODO handle requesting of fine location access in marshmallow devices
+    /* components.add(new GPS(context, constants));
     functions.add(new PowerFunction() {
       public double calculate(PowerData data) {
-        return calculator.getGpsPower((GpsData)data);
-      }});
+        return calculator.getGpsPower((GPS.GpsData)data);
+      }}); */
 
     /* Add Audio component. */
     components.add(new Audio(context));

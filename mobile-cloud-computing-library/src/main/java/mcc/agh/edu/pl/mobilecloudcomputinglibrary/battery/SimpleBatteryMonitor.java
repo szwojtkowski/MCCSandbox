@@ -20,4 +20,14 @@ public class SimpleBatteryMonitor implements BatteryMonitor {
 
         return  (long) (((float)level / (float)scale) * 100.0f);
     }
+
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void stop() {
+
+    }
 }

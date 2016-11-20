@@ -1,6 +1,8 @@
 package com.mccfunction;
 
-public class PolymonialHaltResponse {
+import task.SmartResponse;
+
+public class PolymonialHaltResponse implements SmartResponse{
     private boolean status;
     PolymonialHaltResponse(boolean status) {
         this.status = status;

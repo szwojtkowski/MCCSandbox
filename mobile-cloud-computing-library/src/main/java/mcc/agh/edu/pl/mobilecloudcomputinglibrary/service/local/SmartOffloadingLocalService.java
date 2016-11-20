@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.battery.BatteryMonitor;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.battery.powertutor.PowerTutorBatteryMonitor;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.Decider;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.SmartDecider;
@@ -24,7 +25,7 @@ public class SmartOffloadingLocalService extends Service implements SmartOffload
     private KnowledgeRepository repository;
     private Decider decider;
     private ExecutionRegistry executionRegistry;
-    private PowerTutorBatteryMonitor batteryMonitor;
+    private BatteryMonitor batteryMonitor;
 
     @Override
     public void onCreate() {

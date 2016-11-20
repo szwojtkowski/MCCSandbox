@@ -18,11 +18,13 @@
             </intent-filter>
         </activity>
         <service android:name="mcc.agh.edu.pl.mobilecloudcomputinglibrary.service.local.SmartOffloadingLocalService"/>
-        <service android:name="edu.umich.PowerTutor.service.UMLoggerService"/>
+        <!--<service android:name="edu.umich.PowerTutor.service.UMLoggerService"/>-->
 
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
 </manifest>

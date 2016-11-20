@@ -1,6 +1,5 @@
 package mcc.agh.edu.pl.sandbox;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -19,8 +18,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ArraySumRequest;
 import com.mccfunction.BarcodeReaderRequest;
@@ -53,11 +50,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean bound = false;
     private ServiceConnection connection = new SmartOffloadingServiceConnection();
 
-    private EditText aText;
-    private EditText bText;
-    private TextView zeroResult;
-    private TextView oneResult;
-    private WekaService service;
     private static final int BARCODE_PROCESSING = 1;
     private static final int IMAGE_SCALING = 2;
     private static final int OCR_PROCESSING = 3;
