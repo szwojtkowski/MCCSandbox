@@ -10,10 +10,9 @@ import java.util.Set;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeDataSet;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeInstance;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.ArffHelper;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.InstanceTransformer;
 import weka.core.Instances;
-import weka.core.converters.ArffLoader;
-import weka.core.converters.ArffSaver;
 
 public class FileKnowledgeRepository implements KnowledgeRepository{
 
@@ -22,11 +21,13 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
     private String filePath;
     private KnowledgeDataSet dataSet;
     private Set<String> registeredTasks;
+    private ArffHelper arffHelper;
 
 
     public FileKnowledgeRepository(String filePath){
         this.registeredTasks = new HashSet<>();
         this.filePath = filePath;
+        this.arffHelper = new ArffHelper();
         this.dataSet = new KnowledgeDataSet(registeredTasks);
     }
 
@@ -41,10 +42,8 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
 
     @Override
     public KnowledgeDataSet getKnowledgeData() {
-        ArffLoader loader = new ArffLoader();
         try {
-            loader.setFile(getFile());
-            Instances set = loader.getDataSet();
+            Instances set = arffHelper.load(filePath);
             dataSet.setDataSet(set);
             return dataSet;
         } catch (IOException e) {}
@@ -53,31 +52,16 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
 
     @Override
     public void addKnowledgeInstance(KnowledgeInstance instance) {
-        try {
-            dataSet.addKnowledgeInstance(instance);
-            ArffSaver saver = new ArffSaver();
-            saver.setFile(getFile());
-            Instances instances = dataSet.getDataSet();
-            saver.setInstances(instances);
-            saver.writeBatch();
-            Log.i(TAG, "Added new instance to knowledge repository");
-            Log.d(TAG, instances.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dataSet.addKnowledgeInstance(instance);
+        Instances instances = dataSet.getDataSet();
+        arffHelper.save(filePath, instances);
+        Log.i(TAG, "Added new instance to knowledge repository");
+        Log.d(TAG, instances.toString());
     }
 
     @Override
     public void clearKnowledgeDataSet() {
-        try {
-            dataSet.getDataSet().clear();
-            ArffSaver saver = new ArffSaver();
-            saver.setFile(getFile());
-            saver.setInstances(dataSet.getDataSet());
-            saver.writeBatch();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        arffHelper.clear(filePath, dataSet.getDataSet());
     }
 
     @Override
@@ -86,7 +70,8 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
         KnowledgeDataSet newSet =  new KnowledgeDataSet(registeredTasks);
         Instances newInstances = newSet.getDataSet();
         Instances newDataSet = new InstanceTransformer(dataSet).toNewKnowledgeDataSetFormat(newInstances);
-        this.dataSet.setDataSet(newDataSet);
+        dataSet.setDataSet(newDataSet);
+        arffHelper.save(filePath, newDataSet);
     }
 
     @Override

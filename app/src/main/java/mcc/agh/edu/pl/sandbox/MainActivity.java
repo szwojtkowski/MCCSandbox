@@ -90,14 +90,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void calculateQuicksortHandler(View view) {
         double [] testArray = {1.2, 6.1, 0.1, 22.3, 1.32, 13.4, 44.2, 0.0001, 0.002};
-        if (executionEnvironment == ExecutionEnvironment.CLOUD) {
-            new QuickSortTask(this).executeRemotely(new QuickSortRequest(testArray));
-        } else if (executionEnvironment == ExecutionEnvironment.LOCAL) {
-            new QuickSortTask(this).executeLocally(new QuickSortRequest(testArray));
-        }
-        /* QuickSortRequest input = new QuickSortRequest(testArray);
+        QuickSortRequest input = new QuickSortRequest(testArray);
         QuickSortTask task = new QuickSortTask(this);
-        service.execute(task, input); */
+        service.execute(task, input);
     }
 
     public void readBarcodeHandler(View view) {

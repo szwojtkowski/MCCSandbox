@@ -14,6 +14,8 @@ import java.io.File;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeInstance;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.PredictionInstance;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.InstanceTransformer;
 import weka.core.Instance;
 import weka.core.Instances;
 
@@ -22,7 +24,8 @@ import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Environment.class, Log.class})
-public class FileKnowledgeRepositoryTest {
+public class
+FileKnowledgeRepositoryTest {
 
     private static final String EXTERNAL_STORAGE_DIR_PATH = ".";
     private static final String PATH = "./weka/test.arff";
@@ -31,10 +34,10 @@ public class FileKnowledgeRepositoryTest {
 
     @Before
     public void createRepository(){
-        this.repository = new FileKnowledgeRepository(PATH);
-        this.repository.registerTask("task");
         PowerMockito.mockStatic(Environment.class);
         PowerMockito.mockStatic(Log.class);
+        this.repository = new FileKnowledgeRepository(PATH);
+        this.repository.registerTask("task");
         when(Environment.getExternalStorageDirectory()).thenReturn(new File(EXTERNAL_STORAGE_DIR_PATH));
     }
 
@@ -83,6 +86,19 @@ public class FileKnowledgeRepositoryTest {
         repository.registerTask("task3");
         repository.addKnowledgeInstance(instance4);
         assertEquals(4, repository.getKnowledgeData().getDataSet().size());
+    }
+
+    @Test
+    public void predictsRegisteredTask() throws Exception {
+        KnowledgeInstance instance = new KnowledgeInstance("newTask", 13, 5, true, ExecutionEnvironment.CLOUD);
+        PredictionInstance instance2 = new PredictionInstance("newTask2", false);
+        repository.registerTask("newTask");
+        repository.addKnowledgeInstance(instance);
+        repository.registerTask("newTask2");
+        InstanceTransformer transformer = new InstanceTransformer(repository.getKnowledgeData());
+        transformer.toInstance(instance2);
+        assertEquals(1, repository.getKnowledgeData().getDataSet().size());
+        assertEquals(true, repository.isRegistered("newTask2"));
     }
 
 }
