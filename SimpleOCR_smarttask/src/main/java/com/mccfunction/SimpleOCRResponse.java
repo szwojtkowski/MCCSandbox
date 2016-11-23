@@ -1,6 +1,8 @@
 package com.mccfunction;
 
-public class SimpleOCRResponse {
+import task.SmartResponse;
+
+public class SimpleOCRResponse implements SmartResponse {
     private String text;
     public SimpleOCRResponse(String text) {
         this.text = text;

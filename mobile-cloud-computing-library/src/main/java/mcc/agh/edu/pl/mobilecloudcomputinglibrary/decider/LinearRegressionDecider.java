@@ -1,5 +1,7 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider;
 
+import android.util.Log;
+
 import java.util.Arrays;
 import java.util.TreeMap;
 
@@ -19,28 +21,34 @@ import weka.filters.unsupervised.instance.RemoveWithValues;
 
 public class LinearRegressionDecider implements Decider, Constants {
 
+    private String TAG = getClass().getSimpleName();
+
     private Classifier classifier;
     private KnowledgeRepository repository;
     private FitnessAlgorithm fitness;
-    private InstanceTransformer transformer;
 
     public LinearRegressionDecider(KnowledgeRepository repository, FitnessAlgorithm fitness){
         this.repository = repository;
         this.fitness = fitness;
-        this.transformer = new InstanceTransformer(repository.getKnowledgeData());
         this.classifier = new LinearRegression();
     }
 
     @Override
     public ExecutionEnvironment whereExecute(PredictionInstance predictionInstance) {
-        TreeMap<ExecutionEnvironment, Double> fitnessResults = new TreeMap<>();
+        TreeMap<Double, ExecutionEnvironment> fitnessResults = new TreeMap<>();
         for(ExecutionEnvironment env: ExecutionEnvironment.values()){
-            fitnessResults.put(env, predictEnvironmentFitness(predictionInstance, env));
+            fitnessResults.put(predictEnvironmentFitness(predictionInstance, env), env);
         }
-        return fitnessResults.firstKey();
+        Log.i(TAG, fitnessResults.toString());
+        return fitnessResults.firstEntry().getValue();
     }
 
     private double predictEnvironmentFitness(PredictionInstance predictionInstance, ExecutionEnvironment environment){
+        String taskName = predictionInstance.getTaskName();
+        if(!repository.isRegistered(taskName)){
+            repository.registerTask(taskName);
+        }
+        InstanceTransformer transformer = new InstanceTransformer(repository.getKnowledgeData());
         Instance instance = transformer.toInstance(predictionInstance);
         Instances dataSet = repository.getKnowledgeData().getDataSet();
         Instances filteredDataSet = filterEnvironmentDataKnowledge(dataSet, environment);
@@ -50,8 +58,7 @@ public class LinearRegressionDecider implements Decider, Constants {
         double batteryUsage = predictBatteryUsage(instance, filteredDataSet);
         double timeUsage = predictTimeUsage(instance, filteredDataSet);
 
-        //TODO remove println or make logger and log info about prediction results
-        System.out.println(String.format("env: %s, batteryUsage: %f, time: %f\n", environment.toString(), batteryUsage, timeUsage));
+        Log.i(TAG, String.format("env: %s, batteryUsage: %f, time: %f\n", environment.toString(), batteryUsage, timeUsage));
 
         return fitness.resultFor(Arrays.asList(batteryUsage, timeUsage));
     }
@@ -92,5 +99,4 @@ public class LinearRegressionDecider implements Decider, Constants {
         }
         return Double.MAX_VALUE;
     }
-
 }

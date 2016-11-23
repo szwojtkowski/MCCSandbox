@@ -1,8 +1,0 @@
-package mcc.agh.edu.pl.service.executive;
-
-import mcc.agh.edu.pl.tasks.Task;
-import mcc.agh.edu.pl.tasks.TaskResult;
-
-public interface OffloadingService {
-    TaskResult execute(Task task);
-}

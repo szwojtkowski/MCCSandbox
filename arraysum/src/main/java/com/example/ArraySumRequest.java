@@ -1,6 +1,8 @@
 package com.example;
 
-public class ArraySumRequest {
+import task.SmartRequest;
+
+public class ArraySumRequest implements SmartRequest{
     private float[] array;
 
 

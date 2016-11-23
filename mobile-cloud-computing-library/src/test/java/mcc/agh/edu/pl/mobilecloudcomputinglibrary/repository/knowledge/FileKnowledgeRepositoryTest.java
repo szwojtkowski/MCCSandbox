@@ -1,23 +1,44 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge;
 
+import android.os.Environment;
+import android.util.Log;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
+import java.io.File;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeInstance;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.PredictionInstance;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.InstanceTransformer;
 import weka.core.Instance;
 import weka.core.Instances;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
-public class FileKnowledgeRepositoryTest {
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({Environment.class, Log.class})
+public class
+FileKnowledgeRepositoryTest {
 
+    private static final String EXTERNAL_STORAGE_DIR_PATH = ".";
     private static final String PATH = "./weka/test.arff";
     private FileKnowledgeRepository repository;
 
+
     @Before
     public void createRepository(){
+        PowerMockito.mockStatic(Environment.class);
+        PowerMockito.mockStatic(Log.class);
         this.repository = new FileKnowledgeRepository(PATH);
+        this.repository.registerTask("task");
+        when(Environment.getExternalStorageDirectory()).thenReturn(new File(EXTERNAL_STORAGE_DIR_PATH));
     }
 
     @Test
@@ -50,6 +71,34 @@ public class FileKnowledgeRepositoryTest {
         assertEquals(6, repoInstance.value(2), delta);
         assertEquals("false", repoInstance.stringValue(3));
         assertEquals("cloud", repoInstance.stringValue(4));
+    }
+
+    @Test
+    public void registersNewTaskCorrectly() throws Exception {
+        KnowledgeInstance instance = new KnowledgeInstance("task", 13, 5, true, ExecutionEnvironment.CLOUD);
+        KnowledgeInstance instance2 = new KnowledgeInstance("task", 19, 16, true, ExecutionEnvironment.LOCAL);
+        KnowledgeInstance instance3 = new KnowledgeInstance("task2", 19, 16, true, ExecutionEnvironment.LOCAL);
+        KnowledgeInstance instance4 = new KnowledgeInstance("task3", 19, 16, false, ExecutionEnvironment.LOCAL);
+        repository.addKnowledgeInstance(instance);
+        repository.addKnowledgeInstance(instance2);
+        repository.registerTask("task2");
+        repository.addKnowledgeInstance(instance3);
+        repository.registerTask("task3");
+        repository.addKnowledgeInstance(instance4);
+        assertEquals(4, repository.getKnowledgeData().getDataSet().size());
+    }
+
+    @Test
+    public void predictsRegisteredTask() throws Exception {
+        KnowledgeInstance instance = new KnowledgeInstance("newTask", 13, 5, true, ExecutionEnvironment.CLOUD);
+        PredictionInstance instance2 = new PredictionInstance("newTask2", false);
+        repository.registerTask("newTask");
+        repository.addKnowledgeInstance(instance);
+        repository.registerTask("newTask2");
+        InstanceTransformer transformer = new InstanceTransformer(repository.getKnowledgeData());
+        transformer.toInstance(instance2);
+        assertEquals(1, repository.getKnowledgeData().getDataSet().size());
+        assertEquals(true, repository.isRegistered("newTask2"));
     }
 
 }

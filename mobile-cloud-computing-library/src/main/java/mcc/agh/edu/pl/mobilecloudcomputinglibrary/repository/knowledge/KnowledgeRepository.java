@@ -7,4 +7,6 @@ public interface KnowledgeRepository {
     KnowledgeDataSet getKnowledgeData();
     void addKnowledgeInstance(KnowledgeInstance instance);
     void clearKnowledgeDataSet();
+    void registerTask(String task);
+    boolean isRegistered(String task);
 }

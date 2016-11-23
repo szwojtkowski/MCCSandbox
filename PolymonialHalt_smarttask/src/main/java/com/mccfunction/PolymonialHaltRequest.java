@@ -1,6 +1,8 @@
 package com.mccfunction;
 
-public class PolymonialHaltRequest {
+import task.SmartRequest;
+
+public class PolymonialHaltRequest implements SmartRequest {
     public double a;
     public double b;
     public double c;

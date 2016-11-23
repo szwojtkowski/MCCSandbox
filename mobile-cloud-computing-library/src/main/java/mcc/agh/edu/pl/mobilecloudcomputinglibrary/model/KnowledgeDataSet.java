@@ -3,6 +3,7 @@ package mcc.agh.edu.pl.mobilecloudcomputinglibrary.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import weka.core.Attribute;
 import weka.core.DenseInstance;
@@ -12,13 +13,13 @@ import weka.core.Instances;
 public class KnowledgeDataSet implements Constants {
 
     private Instances dataSet;
+    private final int CAPACITY = 10000;
 
-    public KnowledgeDataSet() {
-        List<String> trueFalseValues = Arrays.asList(
-                Boolean.toString(true), Boolean.toString(false)
-        );
 
-        Attribute nameAttr = new Attribute(TASK_NAME, Arrays.asList("task", "task1"));
+    public KnowledgeDataSet(Set<String> registeredTasksNames) {
+        List<String> tasksNames = new ArrayList<>(registeredTasksNames);
+
+        Attribute nameAttr = new Attribute(TASK_NAME, tasksNames);
         Attribute batteryAttr = new Attribute(BATTERY_USAGE);
         Attribute timeAttr = new Attribute(TIME_USAGE);
         Attribute wifiAttr = new Attribute(WIFI_ENABLED, trueFalseValues);
@@ -28,7 +29,7 @@ public class KnowledgeDataSet implements Constants {
                 nameAttr, batteryAttr, timeAttr, wifiAttr, execAttr)
         );
 
-        this.dataSet = new Instances("DataSet", attributes, 10);
+        this.dataSet = new Instances("DataSet", attributes, CAPACITY);
         this.dataSet.setClassIndex(4);
     }
 

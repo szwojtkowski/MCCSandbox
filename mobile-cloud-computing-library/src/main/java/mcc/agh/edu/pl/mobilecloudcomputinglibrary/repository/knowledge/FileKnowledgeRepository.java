@@ -1,59 +1,80 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge;
 
-import java.io.File;
-import java.io.IOException;
+import android.util.Log;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.Constants;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeDataSet;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeInstance;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.ArffHelper;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.InstanceTransformer;
 import weka.core.Instances;
-import weka.core.converters.ArffLoader;
-import weka.core.converters.ArffSaver;
 
 public class FileKnowledgeRepository implements KnowledgeRepository{
 
+    private final String TAG = getClass().getSimpleName();
+
     private String filePath;
     private KnowledgeDataSet dataSet;
+    private Set<String> registeredTasks;
+    private ArffHelper arffHelper;
+
 
     public FileKnowledgeRepository(String filePath){
+        this.registeredTasks = new HashSet<>();
         this.filePath = filePath;
-        this.dataSet = new KnowledgeDataSet();
+        this.arffHelper = new ArffHelper();
+        this.dataSet = new KnowledgeDataSet(registeredTasks);
+        load();
+    }
+
+    private void load(){
+        try {
+            Instances set = arffHelper.load(filePath);
+            registeredTasks.addAll(Collections.list(set.attribute(Constants.TASK_NAME).enumerateValues()));
+            dataSet.setDataSet(set);
+        } catch (IOException e) {}
     }
 
     @Override
     public KnowledgeDataSet getKnowledgeData() {
-        ArffLoader loader = new ArffLoader();
-        try {
-            loader.setFile(new File(filePath));
-            Instances set = loader.getDataSet();
-            dataSet.setDataSet(set);
-            return dataSet;
-        } catch (IOException e) {}
-        return new KnowledgeDataSet();
+        load();
+        return dataSet;
     }
 
     @Override
     public void addKnowledgeInstance(KnowledgeInstance instance) {
-        try {
-            dataSet.addKnowledgeInstance(instance);
-            ArffSaver saver = new ArffSaver();
-            saver.setFile(new File(filePath));
-            saver.setInstances(dataSet.getDataSet());
-            saver.writeBatch();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dataSet.addKnowledgeInstance(instance);
+        Instances instances = dataSet.getDataSet();
+        arffHelper.save(filePath, instances);
+        Log.i(TAG, "Added new instance to knowledge repository");
+        Log.d(TAG, instances.toString());
     }
 
     @Override
     public void clearKnowledgeDataSet() {
-        try {
-            dataSet.getDataSet().clear();
-            ArffSaver saver = new ArffSaver();
-            saver.setFile(new File(filePath));
-            saver.setInstances(dataSet.getDataSet());
-            saver.writeBatch();
-        } catch (IOException e) {
-            e.printStackTrace();
+        arffHelper.clear(filePath, dataSet.getDataSet());
+    }
+
+    @Override
+    public void registerTask(String name) {
+        if(registeredTasks.contains(name)) {
+            return;
         }
+        registeredTasks.add(name);
+        KnowledgeDataSet newSet =  new KnowledgeDataSet(registeredTasks);
+        Instances newInstances = newSet.getDataSet();
+        Instances newDataSet = new InstanceTransformer(dataSet).toNewKnowledgeDataSetFormat(newInstances);
+        dataSet.setDataSet(newDataSet);
+        arffHelper.save(filePath, newDataSet);
+    }
+
+    @Override
+    public boolean isRegistered(String name) {
+        return registeredTasks.contains(name);
     }
 }
