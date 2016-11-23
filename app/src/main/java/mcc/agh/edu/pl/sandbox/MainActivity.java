@@ -154,19 +154,14 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case IMAGE_SCALING:
                             ImageScalerRequest imageScalerRequest = new ImageScalerRequest(blob.toByteArray(), 80, 80);
-                            if (executionEnvironment == ExecutionEnvironment.CLOUD)
-                                new ImageScalerTask(this, (ImageView)findViewById(R.id.imageView)).executeRemotely(imageScalerRequest);
-                            else if (executionEnvironment == ExecutionEnvironment.LOCAL)
-                                new ImageScalerTask(this, (ImageView)findViewById(R.id.imageView)).executeLocally(imageScalerRequest);
+                            ImageScalerTask scalerTask = new ImageScalerTask(this, (ImageView)findViewById(R.id.imageView));
+                            service.execute(scalerTask, imageScalerRequest);
                             break;
                         case OCR_PROCESSING:
                             ActivitySetTextHandler handler = new ActivitySetTextHandler((EditText)findViewById(R.id.editText2));
-                            if (executionEnvironment == ExecutionEnvironment.CLOUD) {
-                                new SimpleOCRTask(this, handler).executeRemotely(new SimpleOCRRequest(blob.toByteArray(), OCRLang.POL));
-                            }
-                            else {
-                                new SimpleOCRTask(this, handler).executeLocally(new SimpleOCRRequest(blob.toByteArray(), OCRLang.POL));
-                            }
+                            SimpleOCRRequest ocrRequest = new SimpleOCRRequest(blob.toByteArray(), OCRLang.POL);
+                            SimpleOCRTask ocrTask = new SimpleOCRTask(this, handler);
+                            service.execute(ocrTask, ocrRequest);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

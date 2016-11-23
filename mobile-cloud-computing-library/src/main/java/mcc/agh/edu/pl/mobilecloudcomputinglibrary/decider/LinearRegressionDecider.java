@@ -26,12 +26,10 @@ public class LinearRegressionDecider implements Decider, Constants {
     private Classifier classifier;
     private KnowledgeRepository repository;
     private FitnessAlgorithm fitness;
-    private InstanceTransformer transformer;
 
     public LinearRegressionDecider(KnowledgeRepository repository, FitnessAlgorithm fitness){
         this.repository = repository;
         this.fitness = fitness;
-        this.transformer = new InstanceTransformer(repository.getKnowledgeData());
         this.classifier = new LinearRegression();
     }
 
@@ -50,6 +48,7 @@ public class LinearRegressionDecider implements Decider, Constants {
         if(!repository.isRegistered(taskName)){
             repository.registerTask(taskName);
         }
+        InstanceTransformer transformer = new InstanceTransformer(repository.getKnowledgeData());
         Instance instance = transformer.toInstance(predictionInstance);
         Instances dataSet = repository.getKnowledgeData().getDataSet();
         Instances filteredDataSet = filterEnvironmentDataKnowledge(dataSet, environment);

@@ -13,6 +13,7 @@ import weka.core.Instances;
 public class KnowledgeDataSet implements Constants {
 
     private Instances dataSet;
+    private final int CAPACITY = 10000;
 
 
     public KnowledgeDataSet(Set<String> registeredTasksNames) {
@@ -28,7 +29,7 @@ public class KnowledgeDataSet implements Constants {
                 nameAttr, batteryAttr, timeAttr, wifiAttr, execAttr)
         );
 
-        this.dataSet = new Instances("DataSet", attributes, 10);
+        this.dataSet = new Instances("DataSet", attributes, CAPACITY);
         this.dataSet.setClassIndex(4);
     }
 

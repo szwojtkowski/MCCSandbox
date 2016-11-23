@@ -1,13 +1,13 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge;
 
-import android.os.Environment;
 import android.util.Log;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.Constants;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeDataSet;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeInstance;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.ArffHelper;
@@ -29,25 +29,21 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
         this.filePath = filePath;
         this.arffHelper = new ArffHelper();
         this.dataSet = new KnowledgeDataSet(registeredTasks);
+        load();
     }
 
-    private File getFile() throws IOException {
-        File myFile = new File(Environment.getExternalStorageDirectory(), filePath);
-        if (!myFile.exists()) {
-            myFile.mkdirs();
-            myFile.createNewFile();
-        }
-        return myFile;
+    private void load(){
+        try {
+            Instances set = arffHelper.load(filePath);
+            registeredTasks.addAll(Collections.list(set.attribute(Constants.TASK_NAME).enumerateValues()));
+            dataSet.setDataSet(set);
+        } catch (IOException e) {}
     }
 
     @Override
     public KnowledgeDataSet getKnowledgeData() {
-        try {
-            Instances set = arffHelper.load(filePath);
-            dataSet.setDataSet(set);
-            return dataSet;
-        } catch (IOException e) {}
-        return new KnowledgeDataSet(registeredTasks);
+        load();
+        return dataSet;
     }
 
     @Override
@@ -66,6 +62,9 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
 
     @Override
     public void registerTask(String name) {
+        if(registeredTasks.contains(name)) {
+            return;
+        }
         registeredTasks.add(name);
         KnowledgeDataSet newSet =  new KnowledgeDataSet(registeredTasks);
         Instances newInstances = newSet.getDataSet();
