@@ -43,6 +43,7 @@ import mcc.agh.edu.pl.tasks.ImageScalerTask;
 import mcc.agh.edu.pl.tasks.PolymonialHaltTask;
 import mcc.agh.edu.pl.tasks.QuickSortTask;
 import mcc.agh.edu.pl.tasks.SimpleOCRTask;
+import mcc.agh.edu.pl.tests.TestsActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void calculateArraySumHandler(View view) {
-        float [] testArray = {1.f, 2.f, 3.f, 4.f};
+        double [] testArray = {1.f, 2.f, 3.f, 4.f};
         ArraySumRequest input = new ArraySumRequest(testArray);
         ArraySumTask task = new ArraySumTask(this);
         service.execute(task, input);
@@ -255,6 +256,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void onTestsActivity(View view) {
+        Intent intent = new Intent(this, TestsActivity.class);
+        this.startActivity(intent);
+    }
 
 
     class SmartOffloadingServiceConnection implements ServiceConnection {

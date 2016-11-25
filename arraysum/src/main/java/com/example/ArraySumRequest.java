@@ -3,21 +3,21 @@ package com.example;
 import task.SmartRequest;
 
 public class ArraySumRequest implements SmartRequest{
-    private float[] array;
+    private double[] array;
 
 
-    public ArraySumRequest(float[] array) {
+    public ArraySumRequest(double[] array) {
         this.array = array;
     }
 
     public ArraySumRequest() {
     }
 
-    public float[] getArray() {
+    public double[] getArray() {
         return array;
     }
 
-    public void setArray(float[] array) {
+    public void setArray(double[] array) {
         this.array = array;
     }
 }

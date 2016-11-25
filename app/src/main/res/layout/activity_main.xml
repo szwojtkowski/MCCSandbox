@@ -77,12 +77,21 @@
         android:id="@+id/readBarcode"
         android:onClick="readBarcodeHandler"
         android:layout_gravity="center_horizontal" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Scale Image"
         android:id="@+id/scaleImage"
         android:onClick="scaleImageHandler"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tests"
+        android:id="@+id/tests"
+        android:onClick="onTestsActivity"
         android:layout_gravity="center_horizontal" />
 
 

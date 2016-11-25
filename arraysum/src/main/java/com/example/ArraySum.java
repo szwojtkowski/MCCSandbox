@@ -4,8 +4,8 @@ public class ArraySum implements IArraySum {
 
     @Override
     public ArraySumResponse process(ArraySumRequest request) {
-        float sum = 0;
-        for (float value: request.getArray()) {
+        double sum = 0;
+        for (double value: request.getArray()) {
             sum += value;
         }
         return new ArraySumResponse(sum / request.getArray().length);

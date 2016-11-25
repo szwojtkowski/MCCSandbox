@@ -61,6 +61,16 @@ public class SmartOffloadingLocalService extends Service implements SmartOffload
         }
     }
 
+    @Override
+    public void setKnowledgeRepository(KnowledgeRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public void setOffloadingDecider(Decider decider) {
+        this.decider = decider;
+    }
+
     public class LocalBinder extends Binder {
         public SmartOffloadingLocalService getService() {
             return SmartOffloadingLocalService.this;

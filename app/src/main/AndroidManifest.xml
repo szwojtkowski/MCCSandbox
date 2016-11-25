@@ -17,6 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="mcc.agh.edu.pl.tests.TestsActivity"/>
         <service android:name="mcc.agh.edu.pl.mobilecloudcomputinglibrary.service.local.SmartOffloadingLocalService"/>
         <!--<service android:name="edu.umich.PowerTutor.service.UMLoggerService"/>-->
 

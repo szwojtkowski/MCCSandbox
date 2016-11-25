@@ -3,20 +3,20 @@ package com.example;
 import task.SmartResponse;
 
 public class ArraySumResponse implements SmartResponse {
-    private float sum;
+    private double sum;
 
-    public float getSum() {
+    public double getSum() {
         return sum;
     }
 
-    public void setSum(float sum) {
+    public void setSum(double sum) {
         this.sum = sum;
     }
 
     public ArraySumResponse() {
     }
 
-    public ArraySumResponse(float sum) {
+    public ArraySumResponse(double sum) {
         this.sum = sum;
     }
 }
