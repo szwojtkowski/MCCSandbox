@@ -5,6 +5,8 @@ import android.util.Log;
 import java.util.Arrays;
 import java.util.TreeMap;
 
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.classifiers.NeuralClassifier;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.classifiers.PredictionClassifier;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.fitness.FitnessAlgorithm;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.Constants;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
@@ -12,25 +14,22 @@ import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.PredictionInstance;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge.KnowledgeRepository;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.InstanceTransformer;
 import weka.classifiers.Classifier;
-import weka.classifiers.functions.LinearRegression;
-import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
-import weka.filters.Filter;
-import weka.filters.unsupervised.instance.RemoveWithValues;
 
-public class LinearRegressionDecider implements Decider, Constants {
+public class NeuralNetworkDecider implements Decider, Constants {
 
     private String TAG = getClass().getSimpleName();
 
-    private Classifier classifier;
     private KnowledgeRepository repository;
+    private PredictionClassifier classifier;
     private FitnessAlgorithm fitness;
 
-    public LinearRegressionDecider(KnowledgeRepository repository, FitnessAlgorithm fitness){
+
+    public NeuralNetworkDecider(KnowledgeRepository repository, FitnessAlgorithm fitness){
         this.repository = repository;
         this.fitness = fitness;
-        this.classifier = new LinearRegression();
+        this.classifier = new NeuralClassifier();
     }
 
     @Override
@@ -51,38 +50,23 @@ public class LinearRegressionDecider implements Decider, Constants {
         InstanceTransformer transformer = new InstanceTransformer(repository.getKnowledgeData());
         Instance instance = transformer.toInstance(predictionInstance);
         Instances dataSet = repository.getKnowledgeData().getDataSet();
-        Instances filteredDataSet = filterEnvironmentDataKnowledge(dataSet, environment);
-        instance.setDataset(filteredDataSet);
-        instance.setValue(filteredDataSet.attribute(EXECUTION_ENVIRONMENT), environment.toString());
+        instance.setDataset(dataSet);
+        instance.setValue(dataSet.attribute(EXECUTION_ENVIRONMENT), environment.toString());
 
-        double batteryUsage = predictBatteryUsage(instance, filteredDataSet);
-        double timeUsage = predictTimeUsage(instance, filteredDataSet);
+        double batteryUsage = predictBatteryUsage(instance, dataSet);
+        double timeUsage = predictTimeUsage(instance, dataSet);
 
         System.out.println(String.format("env: %s, batteryUsage: %f, time: %f\n", environment.toString(), batteryUsage, timeUsage));
 
         return fitness.resultFor(Arrays.asList(batteryUsage, timeUsage));
     }
 
-    private Instances filterEnvironmentDataKnowledge(Instances dataSet, ExecutionEnvironment environment){
-        try {
-            Attribute environmentAttribute = dataSet.attribute(EXECUTION_ENVIRONMENT);
-            RemoveWithValues removeFilter = new RemoveWithValues();
-            removeFilter.setInvertSelection(true);
-            removeFilter.setAttributeIndex(Integer.toString(environmentAttribute.index()+1));
-            removeFilter.setNominalIndices(Integer.toString(environmentAttribute.indexOfValue(environment.toString())+1));
-            removeFilter.setInputFormat(dataSet);
-            return Filter.useFilter(dataSet, removeFilter);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return dataSet;
-    }
-
     private double predictBatteryUsage(Instance instance, Instances dataSet){
         try {
+            Classifier cls = classifier.getClassifier();
             dataSet.setClass(dataSet.attribute(BATTERY_USAGE));
-            classifier.buildClassifier(dataSet);
-            return classifier.classifyInstance(instance);
+            cls.buildClassifier(dataSet);
+            return cls.classifyInstance(instance);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,12 +75,28 @@ public class LinearRegressionDecider implements Decider, Constants {
 
     private double predictTimeUsage(Instance instance, Instances dataSet){
         try {
+            Classifier cls = classifier.getClassifier();
             dataSet.setClass(dataSet.attribute(TIME_USAGE));
-            classifier.buildClassifier(dataSet);
-            return classifier.classifyInstance(instance);
+            cls.buildClassifier(dataSet);
+            return cls.classifyInstance(instance);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return Double.MAX_VALUE;
     }
+
+
+
+/*    @Override
+    public ExecutionEnvironment whereExecute(PredictionInstance instance) {
+        Classifier cls = classifier.getClassifier();
+        try {
+            cls.buildClassifier(repository.getKnowledgeData().getDataSet());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }*/
+
+
 }
