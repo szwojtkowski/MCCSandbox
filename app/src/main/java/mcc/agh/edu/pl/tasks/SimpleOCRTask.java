@@ -56,7 +56,7 @@ public class SimpleOCRTask extends SmartTask<SimpleOCRRequest, SimpleOCRResponse
         String result = "";
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 4; // 1 - means max size. 4 - means maxsize/4 size. Don't use value <4, because you need more memory in the heap to store your data.
+            options.inSampleSize = 1;
 
             return extractText(bitmap);
 
@@ -70,6 +70,7 @@ public class SimpleOCRTask extends SmartTask<SimpleOCRRequest, SimpleOCRResponse
     private String extractText(Bitmap bitmap) {
         try {
             tessBaseApi = new TessBaseAPI();
+            tessBaseApi.setPageSegMode(8);
         } catch (Exception e) {
             System.out.println((e.getMessage()));
             if (tessBaseApi == null) {
