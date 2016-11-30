@@ -2,6 +2,7 @@ package mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ExecutionModel;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.Constants;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeDataSet;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeInstance;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.PredictionInstance;
@@ -27,7 +28,14 @@ public class InstanceTransformer implements Constants{
         i.setMissing(set.attribute(BATTERY_USAGE));
         i.setMissing(set.attribute(TIME_USAGE));
 
+        i.setDataset(set);
+
         return i;
+    }
+
+    public Instance addEnvironment(Instance instance, ExecutionEnvironment env){
+        instance.setValue(knowledgeDataSet.getDataSet().attribute(EXECUTION_ENVIRONMENT), env.toString());
+        return instance;
     }
 
     public Instances toNewKnowledgeDataSetFormat(Instances format){

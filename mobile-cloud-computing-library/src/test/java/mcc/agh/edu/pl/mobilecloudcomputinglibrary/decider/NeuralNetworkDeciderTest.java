@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 @PrepareForTest({Environment.class, Log.class})
 public class NeuralNetworkDeciderTest {
 
-    private NeuralNetworkDecider decider;
+    private WekaDecider decider;
     private KnowledgeRepository repository;
     private static final String EXTERNAL_STORAGE_DIR_PATH = ".";
 
@@ -44,7 +44,7 @@ public class NeuralNetworkDeciderTest {
         List<Double> weights = Arrays.asList(5.0, 1.0);
         FitnessAlgorithm algorithm = new WeightedArithmeticMean(weights);
         this.repository = new FileKnowledgeRepository("./weka/deciderTest.arff");
-        this.decider = new NeuralNetworkDecider(repository, algorithm);
+        this.decider = new WekaNeuralDecider(repository, algorithm);
 
         KnowledgeInstance instance = new KnowledgeInstance("task", 8, 6, false, ExecutionEnvironment.CLOUD);
         KnowledgeInstance instance2 = new KnowledgeInstance("task", 12, 10, false, ExecutionEnvironment.CLOUD);

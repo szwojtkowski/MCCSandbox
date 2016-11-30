@@ -2,7 +2,6 @@ package mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.classifiers;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.functions.MultilayerPerceptron;
-import weka.core.Instances;
 
 public class NeuralClassifier implements PredictionClassifier{
 
@@ -10,7 +9,6 @@ public class NeuralClassifier implements PredictionClassifier{
     private static final double MOMENTUM = 0.2;
 
     private Classifier model;
-    private Instances trainingSet;
 
     public NeuralClassifier(){
         MultilayerPerceptron classifier = new MultilayerPerceptron();

@@ -48,6 +48,7 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
 
     @Override
     public void addKnowledgeInstance(KnowledgeInstance instance) {
+        registerTask(instance.getTaskName());
         dataSet.addKnowledgeInstance(instance);
         Instances instances = dataSet.getDataSet();
         arffHelper.save(filePath, instances);

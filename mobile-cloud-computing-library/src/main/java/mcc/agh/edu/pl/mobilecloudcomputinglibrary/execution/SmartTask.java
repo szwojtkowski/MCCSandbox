@@ -57,7 +57,7 @@ public abstract class SmartTask <Q extends SmartRequest, R extends SmartResponse
     @Override
     protected void onPostExecute(R result) {
         if(batteryMonitor != null) {
-            this.executionModel.setBatteryUsage(this.startBatteryLevel - batteryMonitor.getBatteryLevel());
+            this.executionModel.setBatteryUsage(batteryMonitor.getBatteryLevel() - this.startBatteryLevel);
         }
         this.executionModel.setMilisElapsed(System.currentTimeMillis() - this.startTime);
         this.executionModel.setName(this.getName());

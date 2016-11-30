@@ -13,13 +13,13 @@ public class SmartDecider implements Decider {
     private final int RANDOM_STEP_SIZE = 10;
 
     private RandomDecider randomDecider;
-    private LinearRegressionDecider decider;
+    private Decider decider;
     private KnowledgeRepository repository;
 
     public SmartDecider(KnowledgeRepository repository){
         FitnessAlgorithm algorithm = new WeightedArithmeticMean(Arrays.asList(1.0, 4.0));
-        this.randomDecider = new RandomDecider();
-        this.decider = new LinearRegressionDecider(repository, algorithm);
+        this.randomDecider = new RandomDecider(repository);
+        this.decider = new WekaNeuralDecider(repository, algorithm);
         this.repository = repository;
     }
 

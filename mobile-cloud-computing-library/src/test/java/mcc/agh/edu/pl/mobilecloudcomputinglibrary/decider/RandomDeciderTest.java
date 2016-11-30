@@ -8,16 +8,20 @@ import java.util.List;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.PredictionInstance;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge.FileKnowledgeRepository;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge.KnowledgeRepository;
 
 import static org.junit.Assert.assertEquals;
 
 public class RandomDeciderTest {
 
     private RandomDecider decider;
+    private KnowledgeRepository repository;
 
     @Before
     public void createDecider(){
-        this.decider = new RandomDecider();
+        this.repository = new FileKnowledgeRepository("./weka/deciderTest.arff");
+        this.decider = new RandomDecider(repository);
     }
 
     @Test
