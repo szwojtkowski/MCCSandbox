@@ -27,7 +27,7 @@ public class TestsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tests);
 
-        this.repository = new FileKnowledgeRepository("/data/data/files/weka/tests.arff");
+        this.repository = new FileKnowledgeRepository("/data/data/files/weka/repo.arff");
     }
 
 

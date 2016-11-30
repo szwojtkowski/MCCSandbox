@@ -1,10 +1,12 @@
-package mcc.agh.edu.pl.sandbox;
+package mcc.agh.edu.pl.sandbox.handlers;
 
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class ActivitySetTextHandler {
+public class ActivitySetTextHandler implements TextHandler {
+
     private EditText editText;
+
     public ActivitySetTextHandler(EditText editText) {
         this.editText = editText;
 

@@ -3,7 +3,6 @@ package mcc.agh.edu.pl.tasks;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Environment;
 
 import com.amazonaws.regions.Regions;
@@ -14,22 +13,22 @@ import com.mccfunction.SimpleOCR;
 import com.mccfunction.SimpleOCRRequest;
 import com.mccfunction.SimpleOCRResponse;
 
-
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ProxyFactory;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ProxyFactoryConfiguration;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.SmartTask;
-import mcc.agh.edu.pl.sandbox.ActivitySetTextHandler;
+import mcc.agh.edu.pl.sandbox.handlers.TextHandler;
+import mcc.agh.edu.pl.tests.TestSuiteExecutor;
 
 public class SimpleOCRTask extends SmartTask<SimpleOCRRequest, SimpleOCRResponse> {
 
     private final Activity caller;
     private static final String DATA_PATH = Environment.getExternalStorageDirectory().toString() + "/MCCSandbox/";
-    private final ActivitySetTextHandler setTextHandler;
+    private final TextHandler setTextHandler;
     private TessBaseAPI tessBaseApi;
     private String lang = OCRLang.getLanguage(OCRLang.ENG);
 
 
-    public SimpleOCRTask(Activity caller, ActivitySetTextHandler handler) {
+    public SimpleOCRTask(Activity caller, TextHandler handler) {
         this.caller = caller;
         this.setTextHandler = handler;
         ProxyFactoryConfiguration pfc = new ProxyFactoryConfiguration("eu-west-1:b9444146-c3d3-4a3f-93a7-d9f8fd72dfc5", Regions.EU_WEST_1);
@@ -42,6 +41,7 @@ public class SimpleOCRTask extends SmartTask<SimpleOCRRequest, SimpleOCRResponse
         if (result != null) {
             this.setTextHandler.setText(result.getText());
         }
+        TestSuiteExecutor.getInstance().executeNext();
     }
 
     @Override

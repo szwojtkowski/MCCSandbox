@@ -1,7 +1,6 @@
 package mcc.agh.edu.pl.tasks;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.amazonaws.regions.Regions;
@@ -15,7 +14,7 @@ import java.util.Arrays;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ProxyFactory;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ProxyFactoryConfiguration;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.SmartTask;
-import proxy.SmartProxy;
+import mcc.agh.edu.pl.tests.TestSuiteExecutor;
 
 public class QuickSortTask extends SmartTask<QuickSortRequest, QuickSortResponse> {
 
@@ -33,5 +32,6 @@ public class QuickSortTask extends SmartTask<QuickSortRequest, QuickSortResponse
     public void end(QuickSortResponse result) {
         if (result != null)
             Toast.makeText(this.caller, String.format("Response result %s", Arrays.toString(result.getOutputArray())), Toast.LENGTH_SHORT).show();
+        TestSuiteExecutor.getInstance().executeNext();
     }
 }

@@ -4,15 +4,14 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -37,6 +36,7 @@ import java.io.OutputStream;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.service.local.SmartOffloadingLocalService;
+import mcc.agh.edu.pl.sandbox.handlers.ActivitySetTextHandler;
 import mcc.agh.edu.pl.tasks.ArraySumTask;
 import mcc.agh.edu.pl.tasks.BarcodeReaderTask;
 import mcc.agh.edu.pl.tasks.ImageScalerTask;
@@ -44,6 +44,7 @@ import mcc.agh.edu.pl.tasks.PolymonialHaltTask;
 import mcc.agh.edu.pl.tasks.QuickSortTask;
 import mcc.agh.edu.pl.tasks.SimpleOCRTask;
 import mcc.agh.edu.pl.tests.TestsActivity;
+import mcc.agh.edu.pl.util.FileHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -159,8 +160,10 @@ public class MainActivity extends AppCompatActivity {
                             service.execute(scalerTask, imageScalerRequest);
                             break;
                         case OCR_PROCESSING:
+                            byte[] b = FileHelper.getImageAsByteArray(selectedImagePath);
+                            Log.e("MCCMainActivty", selectedImagePath);
                             ActivitySetTextHandler handler = new ActivitySetTextHandler((EditText)findViewById(R.id.editText2));
-                            SimpleOCRRequest ocrRequest = new SimpleOCRRequest(blob.toByteArray(), OCRLang.POL);
+                            SimpleOCRRequest ocrRequest = new SimpleOCRRequest(b, OCRLang.POL);
                             SimpleOCRTask ocrTask = new SimpleOCRTask(this, handler);
                             service.execute(ocrTask, ocrRequest);
                     }
@@ -169,22 +172,9 @@ public class MainActivity extends AppCompatActivity {
                 }
         }
     }
-    // TODO: move to some helper class
 
     public String getPath(Uri uri) {
-        if( uri == null ) {
-            return null;
-        }
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if( cursor != null ){
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        // this is our fallback here
-        return uri.getPath();
+        return FileHelper.getRealPathFromURI(this, uri);
     }
 
     @Override

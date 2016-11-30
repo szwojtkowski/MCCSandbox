@@ -9,11 +9,10 @@ import com.mccfunction.PolymonialHalt;
 import com.mccfunction.PolymonialHaltRequest;
 import com.mccfunction.PolymonialHaltResponse;
 
-import java.util.Arrays;
-
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ProxyFactory;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ProxyFactoryConfiguration;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.SmartTask;
+import mcc.agh.edu.pl.tests.TestSuiteExecutor;
 
 public class PolymonialHaltTask extends SmartTask<PolymonialHaltRequest, PolymonialHaltResponse> {
 
@@ -30,5 +29,7 @@ public class PolymonialHaltTask extends SmartTask<PolymonialHaltRequest, Polymon
     public void end(PolymonialHaltResponse result) {
         if (result != null)
             Toast.makeText(this.caller, String.format("Response result %b", result.isStatus()), Toast.LENGTH_SHORT).show();
+        TestSuiteExecutor.getInstance().executeNext();
+
     }
 }

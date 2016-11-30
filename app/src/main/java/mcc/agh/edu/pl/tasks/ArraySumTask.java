@@ -1,7 +1,6 @@
 package mcc.agh.edu.pl.tasks;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.amazonaws.regions.Regions;
@@ -13,7 +12,7 @@ import mcc.agh.edu.pl.lambdaproxy.IArraySumLambdaProxy;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ProxyFactory;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ProxyFactoryConfiguration;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.SmartTask;
-import proxy.SmartProxy;
+import mcc.agh.edu.pl.tests.TestSuiteExecutor;
 
 public class ArraySumTask extends SmartTask<ArraySumRequest, ArraySumResponse> {
 
@@ -30,5 +29,6 @@ public class ArraySumTask extends SmartTask<ArraySumRequest, ArraySumResponse> {
     public void end(ArraySumResponse result) {
         if (result != null)
             Toast.makeText(this.caller, String.format("Response result %f", result.getSum()), Toast.LENGTH_SHORT).show();
+        TestSuiteExecutor.getInstance().executeNext();
     }
 }
