@@ -20,8 +20,13 @@ public class FitnessPredictor {
     }
 
     public double predictInstanceFitness(Instance instance, Instances dataSet){
-        double batteryUsage = predictBatteryUsage(instance, dataSet);
-        double timeUsage = predictTimeUsage(instance, dataSet);
+        Normalizer normalizer = new Normalizer(dataSet, instance);
+        Instances normalizedTrainingSet = normalizer.normalized();
+        Instance normalizedInstance = normalizer.normalizedOne();
+
+
+        double batteryUsage = predictBatteryUsage(normalizedInstance, normalizedTrainingSet);
+        double timeUsage = predictTimeUsage(normalizedInstance, normalizedTrainingSet);
 
         System.out.println(String.format("batteryUsage: %f, time: %f\n", batteryUsage, timeUsage));
 
@@ -37,8 +42,4 @@ public class FitnessPredictor {
         AttributeValuePredictor predictor = new AttributeValuePredictor(classifier, dataSet);
         return predictor.predict(instance, Constants.TIME_USAGE);
     }
-
-
-
-
 }
