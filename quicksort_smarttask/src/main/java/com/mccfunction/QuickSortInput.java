@@ -1,10 +1,10 @@
 package com.mccfunction;
 
-import task.SmartRequest;
+import task.SmartInput;
 
-public class QuickSortRequest implements SmartRequest{
+public class QuickSortInput implements SmartInput {
     double [] inputArray;
-    public QuickSortRequest(double [] arr) {
+    public QuickSortInput(double [] arr) {
         inputArray = arr;
     }
 

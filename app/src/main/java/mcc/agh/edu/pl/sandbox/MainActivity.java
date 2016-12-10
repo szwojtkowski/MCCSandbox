@@ -18,13 +18,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 
-import com.example.ArraySumRequest;
-import com.mccfunction.BarcodeReaderRequest;
-import com.mccfunction.ImageScalerRequest;
+import com.example.ArraySumInput;
+import com.mccfunction.BarcodeReaderInput;
+import com.mccfunction.ImageScalerInput;
 import com.mccfunction.OCRLang;
-import com.mccfunction.PolymonialHaltRequest;
-import com.mccfunction.QuickSortRequest;
-import com.mccfunction.SimpleOCRRequest;
+import com.mccfunction.PolymonialHaltInput;
+import com.mccfunction.QuickSortInput;
+import com.mccfunction.SimpleOCRInput;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -85,14 +85,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void calculateArraySumHandler(View view) {
         double [] testArray = {1.f, 2.f, 3.f, 4.f};
-        ArraySumRequest input = new ArraySumRequest(testArray);
+        ArraySumInput input = new ArraySumInput(testArray);
         ArraySumTask task = new ArraySumTask(this);
         service.execute(task, input);
     }
 
     public void calculateQuicksortHandler(View view) {
         double [] testArray = {1.2, 6.1, 0.1, 22.3, 1.32, 13.4, 44.2, 0.0001, 0.002};
-        QuickSortRequest input = new QuickSortRequest(testArray);
+        QuickSortInput input = new QuickSortInput(testArray);
         QuickSortTask task = new QuickSortTask(this);
         service.execute(task, input);
     }
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sleepingProcessHandler(View view) {
-        new PolymonialHaltTask(this).executeRemotely(new PolymonialHaltRequest(20, 20, 20, 20));
+        new PolymonialHaltTask(this).executeRemotely(new PolymonialHaltInput(20, 20, 20, 20));
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -151,11 +151,11 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (requestCode) {
                         case BARCODE_PROCESSING:
-                            BarcodeReaderRequest request = new BarcodeReaderRequest(pixels, width, height);
+                            BarcodeReaderInput request = new BarcodeReaderInput(pixels, width, height);
                             new BarcodeReaderTask(this).execute(request);
                             break;
                         case IMAGE_SCALING:
-                            ImageScalerRequest imageScalerRequest = new ImageScalerRequest(blob.toByteArray(), 80, 80);
+                            ImageScalerInput imageScalerRequest = new ImageScalerInput(blob.toByteArray(), 80, 80);
                             ImageScalerTask scalerTask = new ImageScalerTask(this, (ImageView)findViewById(R.id.imageView));
                             service.execute(scalerTask, imageScalerRequest);
                             break;
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                             byte[] b = FileHelper.getImageAsByteArray(selectedImagePath);
                             Log.e("MCCMainActivty", selectedImagePath);
                             ActivitySetTextHandler handler = new ActivitySetTextHandler((EditText)findViewById(R.id.editText2));
-                            SimpleOCRRequest ocrRequest = new SimpleOCRRequest(b, OCRLang.POL);
+                            SimpleOCRInput ocrRequest = new SimpleOCRInput(b, OCRLang.POL);
                             SimpleOCRTask ocrTask = new SimpleOCRTask(this, handler);
                             service.execute(ocrTask, ocrRequest);
                     }

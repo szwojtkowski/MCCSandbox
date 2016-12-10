@@ -1,11 +1,11 @@
 package com.mccfunction;
 
-import task.SmartResponse;
+import task.SmartOutput;
 
-public class BarcodeReaderResponse implements SmartResponse{
+public class BarcodeReaderOutput implements SmartOutput {
     private String response;
 
-    public BarcodeReaderResponse(String response) {
+    public BarcodeReaderOutput(String response) {
         this.response = response;
     }
 

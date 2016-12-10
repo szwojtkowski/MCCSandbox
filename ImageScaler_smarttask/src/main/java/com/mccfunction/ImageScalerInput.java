@@ -1,12 +1,12 @@
 package com.mccfunction;
 
-import task.SmartRequest;
+import task.SmartInput;
 
-public class ImageScalerRequest implements SmartRequest {
+public class ImageScalerInput implements SmartInput {
     private byte [] payload;
     private int height;
     private int width;
-    public ImageScalerRequest(byte [] payload, int width, int height) {
+    public ImageScalerInput(byte [] payload, int width, int height) {
         this.payload = payload;
         this.height = height;
         this.width = width;

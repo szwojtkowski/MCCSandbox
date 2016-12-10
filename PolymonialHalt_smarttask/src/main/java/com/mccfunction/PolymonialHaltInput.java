@@ -1,13 +1,13 @@
 package com.mccfunction;
 
-import task.SmartRequest;
+import task.SmartInput;
 
-public class PolymonialHaltRequest implements SmartRequest {
+public class PolymonialHaltInput implements SmartInput {
     public double a;
     public double b;
     public double c;
     public double d;
-    public PolymonialHaltRequest(double a, double b, double c, double d) {
+    public PolymonialHaltInput(double a, double b, double c, double d) {
         this.a = a;
         this.b = b;
         this.c = c;

@@ -1,8 +1,8 @@
 package com.example;
 
-import task.SmartResponse;
+import task.SmartOutput;
 
-public class ArraySumResponse implements SmartResponse {
+public class ArraySumOutput implements SmartOutput {
     private double sum;
 
     public double getSum() {
@@ -13,10 +13,10 @@ public class ArraySumResponse implements SmartResponse {
         this.sum = sum;
     }
 
-    public ArraySumResponse() {
+    public ArraySumOutput() {
     }
 
-    public ArraySumResponse(double sum) {
+    public ArraySumOutput(double sum) {
         this.sum = sum;
     }
 }

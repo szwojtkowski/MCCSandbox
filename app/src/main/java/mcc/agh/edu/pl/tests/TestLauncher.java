@@ -23,10 +23,22 @@ public class TestLauncher {
             "QuickSortTask,12;22;23;24;25;26;27;28;29;210;211",
             "QuickSortTask,11;21;31;4;15;16;71;8;91;110;11",
             "QuickSortTask,31;32;33;34;53;63;73;38;39;103;113",
+            "SimpleOCRTask,/storage/emulated/0/Documents/andromed.png",
+            "SimpleOCRTask,/storage/emulated/0/Documents/barak.png",
+            "SimpleOCRTask,/storage/emulated/0/Documents/bh.png",
             "SimpleOCRTask,/storage/emulated/0/Documents/bht.png",
-            "SimpleOCRTask,/storage/emulated/0/Documents/bht.png",
-            "SimpleOCRTask,/storage/emulated/0/Documents/bht.png",
-            "SimpleOCRTask,/storage/emulated/0/Documents/bht.png"
+            "SimpleOCRTask,/storage/emulated/0/Documents/davis.png",
+            "SimpleOCRTask,/storage/emulated/0/Documents/inwaz.png",
+            "SimpleOCRTask,/storage/emulated/0/Documents/kans.png",
+            "SimpleOCRTask,/storage/emulated/0/Documents/kansas.png",
+            "SimpleOCRTask,/storage/emulated/0/Documents/nasa.png",
+            "SimpleOCRTask,/storage/emulated/0/Documents/ncrp.png",
+            "SimpleOCRTask,/storage/emulated/0/Documents/procinw.png",
+            "SimpleOCRTask,/storage/emulated/0/Documents/rak.png",
+            "SimpleOCRTask,/storage/emulated/0/Documents/rewkub.png",
+            "SimpleOCRTask,/storage/emulated/0/Documents/rtsz.png",
+            "SimpleOCRTask,/storage/emulated/0/Documents/wjntrz.png",
+            "SimpleOCRTask,/storage/emulated/0/Documents/zebra.png"
     };
 
     private TestCaseFactory factory;
@@ -48,7 +60,7 @@ public class TestLauncher {
         Decider decider = new WekaNeuralDecider(repository, algorithm);
 
         TestSuiteCreator testSuiteCreator = new TestSuiteCreator(bag, randomDecider, decider);
-        TestSuite testSuite = testSuiteCreator.create(5, 5);
+        TestSuite testSuite = testSuiteCreator.create(5, 15);
 
         TestSuiteExecutor executor = TestSuiteExecutor.getInstance();
         executor.init(testSuite, service);

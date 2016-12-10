@@ -5,11 +5,11 @@ import android.os.AsyncTask;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.battery.BatteryMonitor;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
 import proxy.SmartProxy;
-import task.SmartRequest;
-import task.SmartResponse;
+import task.SmartInput;
+import task.SmartOutput;
 
 
-public abstract class SmartTask <Q extends SmartRequest, R extends SmartResponse> extends AsyncTask<Q, Void, R> {
+public abstract class SmartTask <Q extends SmartInput, R extends SmartOutput> extends AsyncTask<Q, Void, R> {
 
     private SmartProxy <Q, R> smartProxy;
     private ExecutionEnvironment type = ExecutionEnvironment.LOCAL;
@@ -59,7 +59,7 @@ public abstract class SmartTask <Q extends SmartRequest, R extends SmartResponse
         if(batteryMonitor != null) {
             this.executionModel.setBatteryUsage(batteryMonitor.getBatteryLevel() - this.startBatteryLevel);
         }
-        this.executionModel.setMilisElapsed(System.currentTimeMillis() - this.startTime);
+        this.executionModel.setMillisElapsed(System.currentTimeMillis() - this.startTime);
         this.executionModel.setName(this.getName());
         this.executionModel.setExecutionEnvironment(this.type);
         if(executionRegistry != null) {

@@ -2,6 +2,6 @@ package com.mccfunction;
 
 import task.ISharedResource;
 
-public interface ISimpleOCR extends ISharedResource<SimpleOCRRequest, SimpleOCRResponse> {
-    SimpleOCRResponse process(SimpleOCRRequest request);
+public interface ISimpleOCR extends ISharedResource<SimpleOCRInput, SimpleOCROutput> {
+    SimpleOCROutput process(SimpleOCRInput request);
 }

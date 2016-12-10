@@ -1,13 +1,13 @@
 package com.mccfunction;
 
-import task.SmartRequest;
+import task.SmartInput;
 
-public class BarcodeReaderRequest implements SmartRequest {
+public class BarcodeReaderInput implements SmartInput {
     private int[] pixels;
     private int width;
     private int height;
 
-    public BarcodeReaderRequest(int [] pixels, int width, int height) {
+    public BarcodeReaderInput(int [] pixels, int width, int height) {
         this.pixels = pixels;
         this.width = width;
         this.height = height;

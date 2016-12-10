@@ -3,12 +3,12 @@ package com.handler;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.example.ArraySum;
-import com.example.ArraySumRequest;
-import com.example.ArraySumResponse;
+import com.example.ArraySumInput;
+import com.example.ArraySumOutput;
 
-public class ArraySumLambdaHandler implements RequestHandler<ArraySumRequest, ArraySumResponse> {
+public class ArraySumLambdaHandler implements RequestHandler<ArraySumInput, ArraySumOutput> {
 
-    public ArraySumResponse handleRequest(ArraySumRequest request, Context context) {
+    public ArraySumOutput handleRequest(ArraySumInput request, Context context) {
         return new ArraySum().process(request);
     }
 }

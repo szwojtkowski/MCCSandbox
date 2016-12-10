@@ -1,13 +1,13 @@
 package com.mccfunction;
 
-import task.SmartResponse;
+import task.SmartOutput;
 
-public class ImageScalerResponse implements SmartResponse {
+public class ImageScalerOutput implements SmartOutput {
     private final int height;
     private final int width;
     private byte [] payload;
 
-    public ImageScalerResponse(byte [] payload, int width, int height) {
+    public ImageScalerOutput(byte [] payload, int width, int height) {
         this.payload = payload;
         this.height = height;
         this.width = width;

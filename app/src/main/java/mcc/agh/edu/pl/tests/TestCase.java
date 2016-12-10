@@ -1,14 +1,14 @@
 package mcc.agh.edu.pl.tests;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.SmartTask;
-import task.SmartRequest;
+import task.SmartInput;
 
 public class TestCase {
 
     private SmartTask task;
-    private SmartRequest input;
+    private SmartInput input;
 
-    public TestCase(SmartTask task, SmartRequest input){
+    public TestCase(SmartTask task, SmartInput input){
         this.task = task;
         this.input = input;
     }
@@ -17,7 +17,7 @@ public class TestCase {
         return task;
     }
 
-    public SmartRequest getInput(){
+    public SmartInput getInput(){
         return input;
     }
 

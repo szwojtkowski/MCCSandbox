@@ -34,7 +34,7 @@ public class LinearRegressionDecider implements Decider, Constants {
     }
 
     @Override
-    public ExecutionEnvironment whereExecute(PredictionInstance predictionInstance) {
+    public ExecutionEnvironment getExecutionEnvironment(PredictionInstance predictionInstance) {
         TreeMap<Double, ExecutionEnvironment> fitnessResults = new TreeMap<>();
         for(ExecutionEnvironment env: ExecutionEnvironment.values()){
             fitnessResults.put(predictEnvironmentFitness(predictionInstance, env), env);

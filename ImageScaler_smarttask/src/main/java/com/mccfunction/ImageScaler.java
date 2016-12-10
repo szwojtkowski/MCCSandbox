@@ -30,13 +30,13 @@ public class ImageScaler implements IImageScaler {
     }
 
     @Override
-    public ImageScalerResponse process(ImageScalerRequest request) {
+    public ImageScalerOutput process(ImageScalerInput request) {
         BufferedImage scaled = Scalr.resize(createImageFromBytes(request.getPayload()), request.getWidth(), request.getHeight());
-        ImageScalerResponse response;
+        ImageScalerOutput response;
         try {
-            response = new ImageScalerResponse(bufferedImageToBytes(scaled), request.getWidth(), request.getHeight());
+            response = new ImageScalerOutput(bufferedImageToBytes(scaled), request.getWidth(), request.getHeight());
         } catch (IOException e) {
-            response = new ImageScalerResponse(new byte[0], 0, 0);
+            response = new ImageScalerOutput(new byte[0], 0, 0);
         }
         return response;
     }

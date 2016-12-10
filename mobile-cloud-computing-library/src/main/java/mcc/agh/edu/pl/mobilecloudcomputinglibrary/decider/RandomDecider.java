@@ -17,7 +17,7 @@ public class RandomDecider implements Decider {
     }
 
     @Override
-    public ExecutionEnvironment whereExecute(PredictionInstance instance) {
+    public ExecutionEnvironment getExecutionEnvironment(PredictionInstance instance) {
         String taskName = instance.getTaskName();
 
         if(!repository.isRegistered(taskName)){

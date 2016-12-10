@@ -65,7 +65,7 @@ public class LinearRegressionDeciderTest {
     @Test
     public void checkDecision() throws Exception {
         PredictionInstance instance = new PredictionInstance("task", false);
-        ExecutionEnvironment env = decider.whereExecute(instance);
+        ExecutionEnvironment env = decider.getExecutionEnvironment(instance);
         assertEquals(ExecutionEnvironment.CLOUD, env);
     }
 
@@ -77,7 +77,7 @@ public class LinearRegressionDeciderTest {
         repository.addKnowledgeInstance(instance2);
 
         PredictionInstance predictionInstance = new PredictionInstance("task", false);
-        ExecutionEnvironment env = decider.whereExecute(predictionInstance);
+        ExecutionEnvironment env = decider.getExecutionEnvironment(predictionInstance);
         assertEquals(ExecutionEnvironment.LOCAL, env);
     }
 

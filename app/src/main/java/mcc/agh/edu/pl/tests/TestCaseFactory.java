@@ -3,10 +3,10 @@ package mcc.agh.edu.pl.tests;
 import android.app.Activity;
 import android.widget.TextView;
 
-import com.example.ArraySumRequest;
+import com.example.ArraySumInput;
 import com.mccfunction.OCRLang;
-import com.mccfunction.QuickSortRequest;
-import com.mccfunction.SimpleOCRRequest;
+import com.mccfunction.QuickSortInput;
+import com.mccfunction.SimpleOCRInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,21 +42,21 @@ public class TestCaseFactory {
 
     private TestCase createQuickSortTestCase(String[] criteria){
         QuickSortTask task = new QuickSortTask(caller);
-        QuickSortRequest request = new QuickSortRequest(getNumbersArray(criteria[1]));
+        QuickSortInput request = new QuickSortInput(getNumbersArray(criteria[1]));
         return new TestCase(task, request);
     }
 
     private TestCase createSimpleOCRTestCase(String[] criteria){
         byte[] b = FileHelper.getImageAsByteArray(criteria[1]);
         TextHandler handler = new TextViewSetTextHandler((TextView) caller.findViewById(R.id.text));
-        SimpleOCRRequest ocrRequest = new SimpleOCRRequest(b, OCRLang.POL);
+        SimpleOCRInput ocrRequest = new SimpleOCRInput(b, OCRLang.POL);
         SimpleOCRTask ocrTask = new SimpleOCRTask(caller, handler);
         return new TestCase(ocrTask, ocrRequest);
     }
 
     private TestCase createArraySumTestCase(String[] criteria){
         ArraySumTask task = new ArraySumTask(caller);
-        ArraySumRequest request = new ArraySumRequest(getNumbersArray(criteria[1]));
+        ArraySumInput request = new ArraySumInput(getNumbersArray(criteria[1]));
         return new TestCase(task, request);
     }
 

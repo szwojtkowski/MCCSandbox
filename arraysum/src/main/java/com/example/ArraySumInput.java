@@ -1,16 +1,16 @@
 package com.example;
 
-import task.SmartRequest;
+import task.SmartInput;
 
-public class ArraySumRequest implements SmartRequest{
+public class ArraySumInput implements SmartInput {
     private double[] array;
 
 
-    public ArraySumRequest(double[] array) {
+    public ArraySumInput(double[] array) {
         this.array = array;
     }
 
-    public ArraySumRequest() {
+    public ArraySumInput() {
     }
 
     public double[] getArray() {

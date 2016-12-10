@@ -24,11 +24,11 @@ public class SmartDecider implements Decider {
     }
 
     @Override
-    public ExecutionEnvironment whereExecute(PredictionInstance instance) {
+    public ExecutionEnvironment getExecutionEnvironment(PredictionInstance instance) {
         if(repository.getKnowledgeData().getDataSet().size() < RANDOM_STEP_SIZE){
-            return randomDecider.whereExecute(instance);
+            return randomDecider.getExecutionEnvironment(instance);
         } else {
-            return decider.whereExecute(instance);
+            return decider.getExecutionEnvironment(instance);
         }
     }
 

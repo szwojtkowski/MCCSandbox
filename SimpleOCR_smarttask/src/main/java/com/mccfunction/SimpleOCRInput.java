@@ -1,11 +1,11 @@
 package com.mccfunction;
 
-import task.SmartRequest;
+import task.SmartInput;
 
-public class SimpleOCRRequest implements SmartRequest{
+public class SimpleOCRInput implements SmartInput {
     private byte [] payload;
     private OCRLang language;
-    public SimpleOCRRequest(byte [] payload, OCRLang lang) {
+    public SimpleOCRInput(byte [] payload, OCRLang lang) {
         this.payload = payload;
         this.language = lang;
     }

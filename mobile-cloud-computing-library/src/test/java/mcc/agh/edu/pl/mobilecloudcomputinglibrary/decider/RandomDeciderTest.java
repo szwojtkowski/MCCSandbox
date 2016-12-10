@@ -29,7 +29,7 @@ public class RandomDeciderTest {
         PredictionInstance instance = new PredictionInstance("task", false);
         List<ExecutionEnvironment> chosenEnvs = new ArrayList<>();
         for(int i = 0; i < 10; i++){
-            chosenEnvs.add(decider.whereExecute(instance));
+            chosenEnvs.add(decider.getExecutionEnvironment(instance));
         }
         assertEquals(true, chosenEnvs.contains(ExecutionEnvironment.CLOUD));
         assertEquals(true, chosenEnvs.contains(ExecutionEnvironment.LOCAL));

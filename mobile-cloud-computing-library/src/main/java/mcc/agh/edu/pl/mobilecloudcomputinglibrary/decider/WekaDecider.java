@@ -23,7 +23,7 @@ public abstract class WekaDecider implements Decider, Constants {
     }
 
     @Override
-    public ExecutionEnvironment whereExecute(PredictionInstance predictionInstance) {
+    public ExecutionEnvironment getExecutionEnvironment(PredictionInstance predictionInstance) {
         String taskName = predictionInstance.getTaskName();
 
         if(!repository.isRegistered(taskName)){

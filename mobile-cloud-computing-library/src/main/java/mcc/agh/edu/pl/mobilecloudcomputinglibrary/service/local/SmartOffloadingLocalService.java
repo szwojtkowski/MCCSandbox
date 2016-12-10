@@ -16,7 +16,7 @@ import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.PredictionInstance;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge.FileKnowledgeRepository;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge.KnowledgeRepository;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.service.SmartOffloadingService;
-import task.SmartRequest;
+import task.SmartInput;
 
 public class SmartOffloadingLocalService extends Service implements SmartOffloadingService{
 
@@ -49,12 +49,12 @@ public class SmartOffloadingLocalService extends Service implements SmartOffload
     }
 
     @Override
-    public void execute(SmartTask task, SmartRequest input) {
+    public void execute(SmartTask task, SmartInput input) {
         PredictionInstance predictionInstance = composePredictionInstance(task);
         task.setExecutionRegistry(executionRegistry);
         task.setBatteryMonitor(batteryMonitor);
         repository.registerTask(task.getName());
-        ExecutionEnvironment env = decider.whereExecute(predictionInstance);
+        ExecutionEnvironment env = decider.getExecutionEnvironment(predictionInstance);
         switch (env) {
             case CLOUD: task.executeRemotely(input); break;
             case LOCAL: task.executeLocally(input); break;

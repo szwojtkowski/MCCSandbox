@@ -33,7 +33,7 @@ public class NeuralNetworkDecider implements Decider, Constants {
     }
 
     @Override
-    public ExecutionEnvironment whereExecute(PredictionInstance predictionInstance) {
+    public ExecutionEnvironment getExecutionEnvironment(PredictionInstance predictionInstance) {
         TreeMap<Double, ExecutionEnvironment> fitnessResults = new TreeMap<>();
         for(ExecutionEnvironment env: ExecutionEnvironment.values()){
             fitnessResults.put(predictEnvironmentFitness(predictionInstance, env), env);
@@ -88,7 +88,7 @@ public class NeuralNetworkDecider implements Decider, Constants {
 
 
 /*    @Override
-    public ExecutionEnvironment whereExecute(PredictionInstance instance) {
+    public ExecutionEnvironment getExecutionEnvironment(PredictionInstance instance) {
         Classifier cls = classifier.getClassifier();
         try {
             cls.buildClassifier(repository.getKnowledgeData().getDataSet());

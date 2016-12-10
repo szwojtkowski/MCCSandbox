@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 
-public class SimpleBatteryMonitor implements BatteryMonitor {
+public class BasicBatteryMonitor implements BatteryMonitor {
 
     private Context context;
 
-    public SimpleBatteryMonitor(Context context){
+    public BasicBatteryMonitor(Context context){
         this.context = context;
     }
 
