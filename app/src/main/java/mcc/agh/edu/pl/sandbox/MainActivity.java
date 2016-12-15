@@ -165,7 +165,8 @@ public class MainActivity extends AppCompatActivity {
                             ActivitySetTextHandler handler = new ActivitySetTextHandler((EditText)findViewById(R.id.editText2));
                             SimpleOCRInput ocrRequest = new SimpleOCRInput(b, OCRLang.POL);
                             SimpleOCRTask ocrTask = new SimpleOCRTask(this, handler);
-                            service.execute(ocrTask, ocrRequest);
+                            ocrTask.executeLocally(ocrRequest);
+//                            service.execute(ocrTask, ocrRequest);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
