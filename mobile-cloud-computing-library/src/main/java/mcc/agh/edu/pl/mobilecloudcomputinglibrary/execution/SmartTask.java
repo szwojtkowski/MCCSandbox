@@ -1,6 +1,11 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution;
 
+import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.battery.BatteryMonitor;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
@@ -14,13 +19,18 @@ public abstract class SmartTask <Q extends SmartInput, R extends SmartOutput> ex
     private SmartProxy <Q, R> smartProxy;
     private ExecutionEnvironment type = ExecutionEnvironment.LOCAL;
     protected ExecutionModel executionModel;
+
     private ExecutionRegistry executionRegistry;
     private BatteryMonitor batteryMonitor;
+    private WifiManager wifi;
+
     private long startTime = 0;
     private long startBatteryLevel = 0;
+    private Map<String, String> params;
 
     public SmartTask() {
         this.executionModel = new ExecutionModel();
+        this.params = new HashMap<>();
     }
 
     public R processLocally(Q arg) {
@@ -59,6 +69,9 @@ public abstract class SmartTask <Q extends SmartInput, R extends SmartOutput> ex
         if(batteryMonitor != null) {
             this.executionModel.setBatteryUsage(batteryMonitor.getBatteryLevel() - this.startBatteryLevel);
         }
+        if(wifi != null) {
+            this.executionModel.setWifiEnabled(wifi.isWifiEnabled());
+        }
         this.executionModel.setMillisElapsed(System.currentTimeMillis() - this.startTime);
         this.executionModel.setName(this.getName());
         this.executionModel.setExecutionEnvironment(this.type);
@@ -82,5 +95,17 @@ public abstract class SmartTask <Q extends SmartInput, R extends SmartOutput> ex
 
     public void setBatteryMonitor(BatteryMonitor batteryMonitor){
         this.batteryMonitor = batteryMonitor;
+    }
+
+    public void setWifiManager(WifiManager manager){
+        this.wifi = manager;
+    }
+
+    public void addParam(String key, String value){
+        this.params.put(key, value);
+    }
+
+    public Map<String, String> getParams(){
+        return this.params;
     }
 }

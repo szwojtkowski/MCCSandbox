@@ -26,6 +26,18 @@ public class ArraySumTask extends SmartTask<ArraySumInput, ArraySumOutput> {
     }
 
     @Override
+    public void executeRemotely(ArraySumInput arg) {
+        this.addParam("length", String.valueOf(arg.getArray().length));
+        super.executeRemotely(arg);
+    }
+
+    @Override
+    public void executeLocally(ArraySumInput arg) {
+        this.addParam("length", String.valueOf(arg.getArray().length));
+        super.executeLocally(arg);
+    }
+
+    @Override
     public void end(ArraySumOutput result) {
         if (result != null)
             Toast.makeText(this.caller, String.format("Response result %f", result.getSum()), Toast.LENGTH_SHORT).show();

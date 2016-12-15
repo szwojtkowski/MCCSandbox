@@ -1,7 +1,11 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.service.local;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.Binder;
 import android.os.IBinder;
 
@@ -26,6 +30,7 @@ public class SmartOffloadingLocalService extends Service implements SmartOffload
     private Decider decider;
     private ExecutionRegistry executionRegistry;
     private BatteryMonitor batteryMonitor;
+    private WifiManager wifiManager;
 
     @Override
     public void onCreate() {
@@ -34,6 +39,7 @@ public class SmartOffloadingLocalService extends Service implements SmartOffload
         this.decider = new SmartDecider(repository);
         this.executionRegistry = new ExecutionRegistry(repository);
         this.batteryMonitor = new PowerTutorBatteryMonitor(this);
+        this.wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         this.batteryMonitor.start();
     }
 
@@ -53,11 +59,16 @@ public class SmartOffloadingLocalService extends Service implements SmartOffload
         PredictionInstance predictionInstance = composePredictionInstance(task);
         task.setExecutionRegistry(executionRegistry);
         task.setBatteryMonitor(batteryMonitor);
+        task.setWifiManager(wifiManager);
         repository.registerTask(task.getName());
-        ExecutionEnvironment env = decider.getExecutionEnvironment(predictionInstance);
-        switch (env) {
-            case CLOUD: task.executeRemotely(input); break;
-            case LOCAL: task.executeLocally(input); break;
+        if(isNetworkAvailable()) {
+            ExecutionEnvironment env = decider.getExecutionEnvironment(predictionInstance);
+            switch (env) {
+                case CLOUD: task.executeRemotely(input); break;
+                case LOCAL: task.executeLocally(input);break;
+            }
+        } else {
+            task.executeLocally(input);
         }
     }
 
@@ -81,4 +92,12 @@ public class SmartOffloadingLocalService extends Service implements SmartOffload
         PredictionInstance instance = new PredictionInstance(task.getClass().getSimpleName(), false);
         return instance;
     }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 }

@@ -49,7 +49,7 @@ public class TestCaseFactory {
     private TestCase createSimpleOCRTestCase(String[] criteria){
         byte[] b = FileHelper.getImageAsByteArray(criteria[1]);
         TextHandler handler = new TextViewSetTextHandler((TextView) caller.findViewById(R.id.text));
-        SimpleOCRInput ocrRequest = new SimpleOCRInput(b, OCRLang.POL);
+        SimpleOCRInput ocrRequest = new SimpleOCRInput(b, OCRLang.ENG);
         SimpleOCRTask ocrTask = new SimpleOCRTask(caller, handler);
         return new TestCase(ocrTask, ocrRequest);
     }

@@ -163,10 +163,10 @@ public class MainActivity extends AppCompatActivity {
                             byte[] b = FileHelper.getImageAsByteArray(selectedImagePath);
                             Log.e("MCCMainActivty", selectedImagePath);
                             ActivitySetTextHandler handler = new ActivitySetTextHandler((EditText)findViewById(R.id.editText2));
-                            SimpleOCRInput ocrRequest = new SimpleOCRInput(b, OCRLang.POL);
+                            SimpleOCRInput ocrRequest = new SimpleOCRInput(b, OCRLang.ENG);
                             SimpleOCRTask ocrTask = new SimpleOCRTask(this, handler);
-                            ocrTask.executeLocally(ocrRequest);
-//                            service.execute(ocrTask, ocrRequest);
+                            //ocrTask.executeLocally(ocrRequest);
+                            service.execute(ocrTask, ocrRequest);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
