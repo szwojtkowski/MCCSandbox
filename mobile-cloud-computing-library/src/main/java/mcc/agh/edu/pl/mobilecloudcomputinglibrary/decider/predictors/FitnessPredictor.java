@@ -1,7 +1,5 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.predictors;
 
-import android.util.Log;
-
 import java.util.Arrays;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.classifiers.PredictionClassifier;
@@ -22,19 +20,13 @@ public class FitnessPredictor {
     }
 
     public double predictInstanceFitness(Instance instance, Instances dataSet){
-        Log.e("Fitness Predictor", dataSet.toString());
 
-        Normalizer normalizer = new Normalizer(dataSet, instance);
-        Instances normalizedTrainingSet = normalizer.normalized();
-        Instance normalizedInstance = normalizer.normalizedOne();
+        double batteryUsage = predictBatteryUsage(instance, dataSet);
+        double timeUsage = predictTimeUsage(instance, dataSet);
 
-        Log.e("Fitness Predictor", normalizedTrainingSet.toString());
-
-        double batteryUsage = predictBatteryUsage(normalizedInstance, normalizedTrainingSet);
-        double timeUsage = predictTimeUsage(normalizedInstance, normalizedTrainingSet);
-
-        Log.e("Fitness predictor", classifier.getClass().toString());
-        System.out.println(String.format("batteryUsage: %f, time: %f\n", batteryUsage, timeUsage));
+        //Log.e("Fitness predictor", classifier.getClass().toString());
+        //System.out.println(String.format("batteryUsage: %f, time: %f\n", batteryUsage, timeUsage));
+        //Log.e("Fitness Predictor", dataSet.toString());
 
         return algorithm.resultFor(Arrays.asList(batteryUsage, timeUsage));
     }

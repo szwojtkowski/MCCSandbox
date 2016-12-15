@@ -33,10 +33,14 @@ public abstract class WekaDecider implements Decider, Constants {
         EnvironmentFittingSelector selector = new EnvironmentFittingSelector();
 
         for(ExecutionEnvironment env: ExecutionEnvironment.values()){
+            //Log.e("WekaDecider", env.toString());
             double fitness = predictEnvironmentFitness(predictionInstance, env);
+            //Log.e("WekaDecider", "fitness: "+ fitness);
             selector.addEnvironmentFitness(env, fitness);
         }
 
+        ExecutionEnvironment selected = selector.getBestFittingEnvironment();
+        //Log.e("WekaDecider", "SELECTED: "+selected.toString());
         return selector.getBestFittingEnvironment();
     }
 

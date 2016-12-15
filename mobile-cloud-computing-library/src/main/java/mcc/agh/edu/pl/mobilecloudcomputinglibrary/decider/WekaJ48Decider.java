@@ -3,6 +3,7 @@ package mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.classifiers.J48Classifier;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.fitness.FitnessAlgorithm;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.predictors.FitnessPredictor;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.predictors.Normalizer;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.predictors.NumericToNominalConverter;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeDataSet;
@@ -27,7 +28,12 @@ public class WekaJ48Decider extends WekaDecider {
         Instance instance = transformer.toInstance(predictionInstance);
         transformer.addEnvironment(instance, environment);
 
-        NumericToNominalConverter converter = new NumericToNominalConverter(data.getDataSet(), instance);
+        Instances trainingSet = data.getDataSet();
+        Normalizer normalizer = new Normalizer(trainingSet, instance);
+        Instances normalizedTrainingSet = normalizer.normalized();
+        Instance normalizedInstance = normalizer.normalizedOne();
+
+        NumericToNominalConverter converter = new NumericToNominalConverter(normalizedTrainingSet, normalizedInstance);
         Instances converted = converter.converted();
         Instance prediction = converter.convertedOne();
 
