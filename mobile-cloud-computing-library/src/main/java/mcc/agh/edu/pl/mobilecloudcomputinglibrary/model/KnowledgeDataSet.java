@@ -41,6 +41,8 @@ public class KnowledgeDataSet implements Constants {
     public void addKnowledgeInstance(KnowledgeInstance instance){
         String taskName = instance.getTaskName();
 
+        addNewTask(taskName);
+
         for(Map.Entry<String, String> param: instance.getParams().entrySet()){
             addAttribute(param.getKey(), param.getValue());
         }
@@ -89,6 +91,18 @@ public class KnowledgeDataSet implements Constants {
         r.setAttributeIndices(range);
         r.setInputFormat(dataSet);
         dataSet = Filter.useFilter(dataSet, r);
+    }
+
+    public void addNewTask(String taskName){
+        try {
+            AddValues addValues = new AddValues();
+            addValues.setAttributeIndex("first");
+            addValues.setLabels(taskName);
+            addValues.setInputFormat(dataSet);
+            dataSet = Filter.useFilter(dataSet, addValues);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void addValues(String attributeName, String value){

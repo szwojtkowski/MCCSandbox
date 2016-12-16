@@ -46,7 +46,6 @@ public class InstanceTransformer implements Constants{
         return format;
     }
 
-    //TODO remove default values
     public KnowledgeInstance toKnowledgeInstance(ExecutionModel model){
         KnowledgeInstance instance = new KnowledgeInstance(
                 model.getName(), model.getBatteryUsage(), model.getMillisElapsed(),

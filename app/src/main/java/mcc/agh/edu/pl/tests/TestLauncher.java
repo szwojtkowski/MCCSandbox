@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.Decider;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.RandomDecider;
-import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.WekaNeuralDecider;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.WekaRandomForestDecider;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.fitness.FitnessAlgorithm;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.fitness.WeightedArithmeticMean;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge.KnowledgeRepository;
@@ -25,13 +25,13 @@ public class TestLauncher {
             "QuickSortTask,31;32;33;34;53;63;73;38;39;103;113;1;2;3;4;22;14",
             "SimpleOCRTask,/storage/emulated/0/Documents/andromed.png",
             "SimpleOCRTask,/storage/emulated/0/Documents/barak.png",
-            "SimpleOCRTask,/storage/emulated/0/Documents/bh.png",
-            "SimpleOCRTask,/storage/emulated/0/Documents/bht.png",
-            "SimpleOCRTask,/storage/emulated/0/Documents/davis.png",
-            "SimpleOCRTask,/storage/emulated/0/Documents/inwaz.png",
-            "SimpleOCRTask,/storage/emulated/0/Documents/kans.png",
-            "SimpleOCRTask,/storage/emulated/0/Documents/kansas.png",
-            "SimpleOCRTask,/storage/emulated/0/Documents/nasa.png",
+    //        "SimpleOCRTask,/storage/emulated/0/Documents/bh.png",
+    //        "SimpleOCRTask,/storage/emulated/0/Documents/bht.png",
+    //        "SimpleOCRTask,/storage/emulated/0/Documents/davis.png",
+    //        "SimpleOCRTask,/storage/emulated/0/Documents/inwaz.png",
+    //        "SimpleOCRTask,/storage/emulated/0/Documents/kans.png",
+    //        "SimpleOCRTask,/storage/emulated/0/Documents/kansas.png",
+    //        "SimpleOCRTask,/storage/emulated/0/Documents/nasa.png",
             "SimpleOCRTask,/storage/emulated/0/Documents/ncrp.png",
             "SimpleOCRTask,/storage/emulated/0/Documents/procinw.png",
             "SimpleOCRTask,/storage/emulated/0/Documents/rak.png",
@@ -57,7 +57,7 @@ public class TestLauncher {
 
         FitnessAlgorithm algorithm = new WeightedArithmeticMean(Arrays.asList(1.0, 4.0));
         Decider randomDecider = new RandomDecider(repository);
-        Decider decider = new WekaNeuralDecider(repository, algorithm);
+        Decider decider = new WekaRandomForestDecider(repository, algorithm);
 
         TestSuiteCreator testSuiteCreator = new TestSuiteCreator(bag, randomDecider, decider);
         TestSuite testSuite = testSuiteCreator.create(5, 15);
