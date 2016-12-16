@@ -45,6 +45,18 @@ public class SimpleOCRTask extends SmartTask<SimpleOCRInput, SimpleOCROutput> {
     }
 
     @Override
+    public void executeLocally(SimpleOCRInput arg) {
+        this.addParam("size", String.valueOf(arg.getPayload().length));
+        super.executeLocally(arg);
+    }
+
+    @Override
+    public void executeRemotely(SimpleOCRInput arg) {
+        this.addParam("size", String.valueOf(arg.getPayload().length));
+        super.executeRemotely(arg);
+    }
+
+    @Override
     public SimpleOCROutput processLocally(SimpleOCRInput arg) {
         this.lang = OCRLang.getLanguage(arg.getLanguage());
         Bitmap bitmap = BitmapFactory.decodeByteArray(arg.getPayload(), 0, arg.getPayload().length);

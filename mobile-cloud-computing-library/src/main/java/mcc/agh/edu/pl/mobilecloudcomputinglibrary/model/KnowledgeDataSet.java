@@ -3,12 +3,17 @@ package mcc.agh.edu.pl.mobilecloudcomputinglibrary.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import weka.core.Attribute;
 import weka.core.DenseInstance;
 import weka.core.Instance;
 import weka.core.Instances;
+import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.Add;
+import weka.filters.unsupervised.attribute.AddValues;
+import weka.filters.unsupervised.attribute.Reorder;
 
 public class KnowledgeDataSet implements Constants {
 
@@ -36,7 +41,11 @@ public class KnowledgeDataSet implements Constants {
     public void addKnowledgeInstance(KnowledgeInstance instance){
         String taskName = instance.getTaskName();
 
-        Instance newInstance = new DenseInstance(5);
+        for(Map.Entry<String, String> param: instance.getParams().entrySet()){
+            addAttribute(param.getKey(), param.getValue());
+        }
+
+        Instance newInstance = new DenseInstance(dataSet.numAttributes());
 
         newInstance.setValue(dataSet.attribute(TASK_NAME), taskName);
         newInstance.setValue(dataSet.attribute(BATTERY_USAGE), instance.getBatteryUsage());
@@ -44,7 +53,54 @@ public class KnowledgeDataSet implements Constants {
         newInstance.setValue(dataSet.attribute(WIFI_ENABLED), Boolean.toString(instance.isWifiEnabled()));
         newInstance.setValue(dataSet.attribute(EXECUTION_ENVIRONMENT), instance.getExecutionEnvironment().toString());
 
+        for(Map.Entry<String, String> param: instance.getParams().entrySet()){
+            newInstance.setValue(dataSet.attribute(param.getKey()), param.getValue());
+        }
+
         dataSet.add(newInstance);
+    }
+
+    private void addAttribute(String key, String value){
+        if(dataSet.attribute(key) != null){
+            addValues(key, value);
+        } else {
+            try {
+                Add add = new Add();
+                add.setAttributeName(key);
+                add.setNominalLabels(value);
+                add.setInputFormat(dataSet);
+                dataSet = Filter.useFilter(dataSet, add);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void moveToLast(String attributeName) throws Exception {
+        Reorder r = new Reorder();
+        String range = "first";
+        int index = dataSet.attribute(attributeName).index()+1;
+
+        for (int i = 2; i < dataSet.numAttributes()+1; i++) {
+            if (index != i)
+                range += "," + i;
+        }
+        range += "," + index;
+        r.setAttributeIndices(range);
+        r.setInputFormat(dataSet);
+        dataSet = Filter.useFilter(dataSet, r);
+    }
+
+    private void addValues(String attributeName, String value){
+        try {
+            moveToLast(attributeName);
+            AddValues addValues = new AddValues();
+            addValues.setLabels(value);
+            addValues.setInputFormat(dataSet);
+            dataSet = Filter.useFilter(dataSet, addValues);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Instances getDataSet() {

@@ -1,6 +1,5 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution;
 
-import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 
@@ -75,6 +74,7 @@ public abstract class SmartTask <Q extends SmartInput, R extends SmartOutput> ex
         this.executionModel.setMillisElapsed(System.currentTimeMillis() - this.startTime);
         this.executionModel.setName(this.getName());
         this.executionModel.setExecutionEnvironment(this.type);
+        this.executionModel.setParams(this.params);
         if(executionRegistry != null) {
             this.executionRegistry.registerExecution(executionModel);
         }

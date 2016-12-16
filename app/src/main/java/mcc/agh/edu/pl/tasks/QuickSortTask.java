@@ -27,6 +27,18 @@ public class QuickSortTask extends SmartTask<QuickSortInput, QuickSortOutput> {
         this.setSmartProxy(factory.create(IQuickSort.class, new QuickSort(), "quicksort", QuickSortOutput.class));
     }
 
+    @Override
+    public void executeRemotely(QuickSortInput arg) {
+        this.addParam("length", String.valueOf(arg.getInputArray().length));
+        super.executeRemotely(arg);
+    }
+
+    @Override
+    public void executeLocally(QuickSortInput arg) {
+        this.addParam("length", String.valueOf(arg.getInputArray().length));
+        super.executeLocally(arg);
+    }
+
 
     @Override
     public void end(QuickSortOutput result) {

@@ -8,7 +8,7 @@ public class QuickSortInput implements SmartInput {
         inputArray = arr;
     }
 
-    double [] getInputArray() {
+    public double [] getInputArray() {
         return this.inputArray;
     }
 }

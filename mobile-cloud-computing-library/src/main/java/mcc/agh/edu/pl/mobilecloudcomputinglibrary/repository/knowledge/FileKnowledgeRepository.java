@@ -58,7 +58,7 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
 
     @Override
     public void clearKnowledgeDataSet() {
-        arffHelper.clear(filePath, dataSet.getDataSet());
+        arffHelper.clear(filePath, new KnowledgeDataSet(new HashSet<String>()).getDataSet());
     }
 
     @Override
