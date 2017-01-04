@@ -1,5 +1,7 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider;
 
+import android.util.Log;
+
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.classifiers.PredictionClassifier;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.fitness.EnvironmentFittingSelector;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.fitness.FitnessAlgorithm;
@@ -35,12 +37,12 @@ public abstract class WekaDecider implements Decider, Constants {
         for(ExecutionEnvironment env: ExecutionEnvironment.values()){
             //Log.e("WekaDecider", env.toString());
             double fitness = predictEnvironmentFitness(predictionInstance, env);
-            //Log.e("WekaDecider", "fitness: "+ fitness);
+            Log.e("WekaDecider", env.toString() + " fitness: "+ fitness);
             selector.addEnvironmentFitness(env, fitness);
         }
 
         ExecutionEnvironment selected = selector.getBestFittingEnvironment();
-        //Log.e("WekaDecider", "SELECTED: "+selected.toString());
+        Log.e("WekaDecider", "SELECTED: "+selected.toString());
         return selector.getBestFittingEnvironment();
     }
 

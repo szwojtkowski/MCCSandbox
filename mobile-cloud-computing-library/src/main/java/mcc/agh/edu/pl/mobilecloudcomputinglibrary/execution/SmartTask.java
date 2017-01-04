@@ -97,6 +97,10 @@ public abstract class SmartTask <Q extends SmartInput, R extends SmartOutput> ex
         this.batteryMonitor = batteryMonitor;
     }
 
+    public Map<String, String> getParamsFromInput(SmartInput input){
+        return new HashMap<>();
+    }
+
     public void setWifiManager(WifiManager manager){
         this.wifi = manager;
     }

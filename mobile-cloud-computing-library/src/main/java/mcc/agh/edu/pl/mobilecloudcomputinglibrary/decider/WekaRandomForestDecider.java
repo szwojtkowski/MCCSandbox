@@ -1,5 +1,7 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider;
 
+import android.util.Log;
+
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.classifiers.RandomForestClassifier;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.fitness.FitnessAlgorithm;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.predictors.FitnessPredictor;
@@ -37,6 +39,7 @@ public class WekaRandomForestDecider extends WekaDecider {
         Instances converted = converter.converted();
         Instance prediction = converter.convertedOne();
 
+        Log.e("DECIDER", environment.toString());
         FitnessPredictor predictor = new FitnessPredictor(classifier, fitness);
 
         return predictor.predictInstanceFitness(prediction, converted);

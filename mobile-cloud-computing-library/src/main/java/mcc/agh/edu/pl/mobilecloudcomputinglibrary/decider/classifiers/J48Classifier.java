@@ -5,10 +5,11 @@ import weka.classifiers.trees.J48;
 
 public class J48Classifier implements PredictionClassifier {
 
-    private Classifier model;
+    private J48 model;
 
     public J48Classifier(){
         this.model = new J48();
+        this.model.setUnpruned(true);
     }
 
     @Override

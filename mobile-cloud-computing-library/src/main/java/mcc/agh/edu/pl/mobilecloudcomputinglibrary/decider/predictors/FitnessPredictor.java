@@ -25,19 +25,23 @@ public class FitnessPredictor {
         double timeUsage = predictTimeUsage(instance, dataSet);
 
         //Log.e("Fitness predictor", classifier.getClass().toString());
-        //System.out.println(String.format("batteryUsage: %f, time: %f\n", batteryUsage, timeUsage));
+        System.out.println(String.format("batteryUsage: %f, time: %f\n", batteryUsage, timeUsage));
         //Log.e("Fitness Predictor", dataSet.toString());
 
         return algorithm.resultFor(Arrays.asList(batteryUsage, timeUsage));
     }
 
     private double predictBatteryUsage(Instance instance, Instances dataSet){
-        AttributeValuePredictor predictor = new AttributeValuePredictor(classifier, dataSet);
-        return predictor.predict(instance, Constants.BATTERY_USAGE);
+        AttributeRemover remover = new AttributeRemover(dataSet, instance, Constants.TIME_USAGE);
+        Instances data = remover.removed();
+        AttributeValuePredictor predictor = new AttributeValuePredictor(classifier, data);
+        return predictor.predict(remover.removedOne(), Constants.BATTERY_USAGE);
     }
 
     private double predictTimeUsage(Instance instance, Instances dataSet){
-        AttributeValuePredictor predictor = new AttributeValuePredictor(classifier, dataSet);
-        return predictor.predict(instance, Constants.TIME_USAGE);
+        AttributeRemover remover = new AttributeRemover(dataSet, instance, Constants.BATTERY_USAGE);
+        Instances data = remover.removed();
+        AttributeValuePredictor predictor = new AttributeValuePredictor(classifier, data);
+        return predictor.predict(remover.removedOne(), Constants.TIME_USAGE);
     }
 }

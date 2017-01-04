@@ -1,5 +1,7 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils;
 
+import java.util.Map;
+
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ExecutionModel;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.Constants;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
@@ -24,6 +26,10 @@ public class InstanceTransformer implements Constants{
 
         i.setValue(set.attribute(TASK_NAME), instance.getTaskName());
         i.setValue(set.attribute(WIFI_ENABLED), Boolean.toString(instance.isWifiEnabled()));
+
+        for(Map.Entry<String, String> param: instance.getParams().entrySet()){
+            i.setValue(set.attribute(param.getKey()), param.getValue());
+        }
 
         i.setMissing(set.attribute(BATTERY_USAGE));
         i.setMissing(set.attribute(TIME_USAGE));

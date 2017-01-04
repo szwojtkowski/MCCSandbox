@@ -1,5 +1,7 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider;
 
+import android.util.Log;
+
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.classifiers.NeuralClassifier;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.fitness.FitnessAlgorithm;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.predictors.FitnessPredictor;
@@ -33,6 +35,7 @@ public class WekaNeuralDecider extends WekaDecider {
         Instances normalizedTrainingSet = normalizer.normalized();
         Instance normalizedInstance = normalizer.normalizedOne();
 
+        Log.e("DECIDER", environment.toString());
 
         FitnessPredictor predictor = new FitnessPredictor(classifier, fitness);
 
