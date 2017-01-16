@@ -24,13 +24,13 @@ public class TestLauncher {
     //        "QuickSortTask,11;21;31;4;15;16;71;8",
             "QuickSortTask,31;32;33;34;53;63;73;38;39;103;113;1;2;3;4;22;14",
             "SimpleOCRTask,/storage/emulated/0/Documents/andromed.png",
-            "SimpleOCRTask,/storage/emulated/0/Documents/barak.png",
-            "SimpleOCRTask,/storage/emulated/0/Documents/bh.png",
-    //        "SimpleOCRTask,/storage/emulated/0/Documents/bht.png",
-    //        "SimpleOCRTask,/storage/emulated/0/Documents/davis.png",
+    //        "SimpleOCRTask,/storage/emulated/0/Documents/barak.png",
+    //        "SimpleOCRTask,/storage/emulated/0/Documents/bh.png",
+            "SimpleOCRTask,/storage/emulated/0/Documents/bht.png",
+            "SimpleOCRTask,/storage/emulated/0/Documents/davis.png",
     //        "SimpleOCRTask,/storage/emulated/0/Documents/inwaz.png",
     //        "SimpleOCRTask,/storage/emulated/0/Documents/kans.png",
-            "SimpleOCRTask,/storage/emulated/0/Documents/kansas.png",
+    //        "SimpleOCRTask,/storage/emulated/0/Documents/kansas.png",
     //        "SimpleOCRTask,/storage/emulated/0/Documents/nasa.png",
             "SimpleOCRTask,/storage/emulated/0/Documents/ncrp.png",
             "SimpleOCRTask,/storage/emulated/0/Documents/procinw.png",
@@ -38,7 +38,7 @@ public class TestLauncher {
     //        "SimpleOCRTask,/storage/emulated/0/Documents/rewkub.png",
             "SimpleOCRTask,/storage/emulated/0/Documents/rtsz.png",
             "SimpleOCRTask,/storage/emulated/0/Documents/wjntrz.png",
-    //        "SimpleOCRTask,/storage/emulated/0/Documents/zebra.png"
+            "SimpleOCRTask,/storage/emulated/0/Documents/zebra.png"
     };
 
     private TestCaseFactory factory;
