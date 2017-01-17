@@ -1,12 +1,10 @@
 package mcc.agh.edu.pl.lambdaproxy;
 
-import com.example.ArraySumRequest;
-import com.example.ArraySumResponse;
-import com.mccfunction.ImageScalerRequest;
-import com.mccfunction.ImageScalerResponse;
+import com.mccfunction.ImageScalerInput;
+import com.mccfunction.ImageScalerOutput;
 
 import task.ISharedResource;
 
-public interface IImageScalerLambdaProxy extends ISharedResource<ImageScalerRequest, ImageScalerResponse> {
-    ImageScalerResponse process(ImageScalerRequest request);
+public interface IImageScalerLambdaProxy extends ISharedResource<ImageScalerInput, ImageScalerOutput> {
+    ImageScalerOutput process(ImageScalerInput request);
 }

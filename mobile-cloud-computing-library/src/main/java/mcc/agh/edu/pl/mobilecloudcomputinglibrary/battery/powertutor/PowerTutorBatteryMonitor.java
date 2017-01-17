@@ -2,7 +2,7 @@ package mcc.agh.edu.pl.mobilecloudcomputinglibrary.battery.powertutor;
 
 import android.content.Context;
 
-import mcc.agh.edu.pl.mobilecloudcomputing.PowerTutorFacade;
+import pl.edu.agh.mcc.PowerTutorFacade;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.battery.BatteryMonitor;
 
 public class PowerTutorBatteryMonitor implements BatteryMonitor {

@@ -2,6 +2,6 @@ package com.mccfunction;
 
 import task.ISharedResource;
 
-public interface IPolymonialHalt extends ISharedResource<PolymonialHaltRequest, PolymonialHaltResponse> {
-    PolymonialHaltResponse process(PolymonialHaltRequest request);
+public interface IPolymonialHalt extends ISharedResource<PolymonialHaltInput, PolymonialHaltOutput> {
+    PolymonialHaltOutput process(PolymonialHaltInput request);
 }

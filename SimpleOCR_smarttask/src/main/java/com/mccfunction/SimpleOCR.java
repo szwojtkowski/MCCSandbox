@@ -18,7 +18,7 @@ public class SimpleOCR implements ISimpleOCR {
     final String TESSDATA_PREFIX_VALUE = "/var/task/";
     final String TEMP_FILE_PATH = "/tmp/temp.png";
     @Override
-    public SimpleOCRResponse process(SimpleOCRRequest request) {
+    public SimpleOCROutput process(SimpleOCRInput request) {
         String result = "";
         try {
             temporarilySaveFile(request.getPayload());
@@ -51,7 +51,7 @@ public class SimpleOCR implements ISimpleOCR {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        return new SimpleOCRResponse(result);
+        return new SimpleOCROutput(result);
     }
     private void temporarilySaveFile(byte [] bytes) throws IOException {
         FileOutputStream stream = new FileOutputStream(TEMP_FILE_PATH);

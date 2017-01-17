@@ -8,16 +8,20 @@ import java.util.List;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.PredictionInstance;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge.FileKnowledgeRepository;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge.KnowledgeRepository;
 
 import static org.junit.Assert.assertEquals;
 
 public class RandomDeciderTest {
 
     private RandomDecider decider;
+    private KnowledgeRepository repository;
 
     @Before
     public void createDecider(){
-        this.decider = new RandomDecider();
+        this.repository = new FileKnowledgeRepository("./weka/deciderTest.arff");
+        this.decider = new RandomDecider(repository);
     }
 
     @Test
@@ -25,7 +29,7 @@ public class RandomDeciderTest {
         PredictionInstance instance = new PredictionInstance("task", false);
         List<ExecutionEnvironment> chosenEnvs = new ArrayList<>();
         for(int i = 0; i < 10; i++){
-            chosenEnvs.add(decider.whereExecute(instance));
+            chosenEnvs.add(decider.getExecutionEnvironment(instance));
         }
         assertEquals(true, chosenEnvs.contains(ExecutionEnvironment.CLOUD));
         assertEquals(true, chosenEnvs.contains(ExecutionEnvironment.LOCAL));

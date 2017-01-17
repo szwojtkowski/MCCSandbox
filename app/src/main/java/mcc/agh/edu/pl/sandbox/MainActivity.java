@@ -4,28 +4,27 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 
-import com.example.ArraySumRequest;
-import com.mccfunction.BarcodeReaderRequest;
-import com.mccfunction.ImageScalerRequest;
+import com.example.ArraySumInput;
+import com.mccfunction.BarcodeReaderInput;
+import com.mccfunction.ImageScalerInput;
 import com.mccfunction.OCRLang;
-import com.mccfunction.PolymonialHaltRequest;
-import com.mccfunction.QuickSortRequest;
-import com.mccfunction.SimpleOCRRequest;
+import com.mccfunction.PolymonialHaltInput;
+import com.mccfunction.QuickSortInput;
+import com.mccfunction.SimpleOCRInput;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -37,12 +36,15 @@ import java.io.OutputStream;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.service.local.SmartOffloadingLocalService;
+import mcc.agh.edu.pl.sandbox.handlers.ActivitySetTextHandler;
 import mcc.agh.edu.pl.tasks.ArraySumTask;
 import mcc.agh.edu.pl.tasks.BarcodeReaderTask;
 import mcc.agh.edu.pl.tasks.ImageScalerTask;
 import mcc.agh.edu.pl.tasks.PolymonialHaltTask;
 import mcc.agh.edu.pl.tasks.QuickSortTask;
 import mcc.agh.edu.pl.tasks.SimpleOCRTask;
+import mcc.agh.edu.pl.tests.TestsActivity;
+import mcc.agh.edu.pl.util.FileHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -82,15 +84,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void calculateArraySumHandler(View view) {
-        float [] testArray = {1.f, 2.f, 3.f, 4.f};
-        ArraySumRequest input = new ArraySumRequest(testArray);
+        double [] testArray = {1.f, 2.f, 3.f, 4.f};
+        ArraySumInput input = new ArraySumInput(testArray);
         ArraySumTask task = new ArraySumTask(this);
         service.execute(task, input);
     }
 
     public void calculateQuicksortHandler(View view) {
         double [] testArray = {1.2, 6.1, 0.1, 22.3, 1.32, 13.4, 44.2, 0.0001, 0.002};
-        QuickSortRequest input = new QuickSortRequest(testArray);
+        QuickSortInput input = new QuickSortInput(testArray);
         QuickSortTask task = new QuickSortTask(this);
         service.execute(task, input);
     }
@@ -120,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sleepingProcessHandler(View view) {
-        new PolymonialHaltTask(this).executeRemotely(new PolymonialHaltRequest(20, 20, 20, 20));
+        new PolymonialHaltTask(this).executeRemotely(new PolymonialHaltInput(20, 20, 20, 20));
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -149,42 +151,31 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (requestCode) {
                         case BARCODE_PROCESSING:
-                            BarcodeReaderRequest request = new BarcodeReaderRequest(pixels, width, height);
+                            BarcodeReaderInput request = new BarcodeReaderInput(pixels, width, height);
                             new BarcodeReaderTask(this).execute(request);
                             break;
                         case IMAGE_SCALING:
-                            ImageScalerRequest imageScalerRequest = new ImageScalerRequest(blob.toByteArray(), 80, 80);
+                            ImageScalerInput imageScalerRequest = new ImageScalerInput(blob.toByteArray(), 80, 80);
                             ImageScalerTask scalerTask = new ImageScalerTask(this, (ImageView)findViewById(R.id.imageView));
                             service.execute(scalerTask, imageScalerRequest);
                             break;
                         case OCR_PROCESSING:
+                            byte[] b = FileHelper.getImageAsByteArray(selectedImagePath);
+                            Log.e("MCCMainActivty", selectedImagePath);
                             ActivitySetTextHandler handler = new ActivitySetTextHandler((EditText)findViewById(R.id.editText2));
-                            SimpleOCRRequest ocrRequest = new SimpleOCRRequest(blob.toByteArray(), OCRLang.POL);
+                            SimpleOCRInput ocrRequest = new SimpleOCRInput(b, OCRLang.ENG);
                             SimpleOCRTask ocrTask = new SimpleOCRTask(this, handler);
-                            ocrTask.executeLocally(ocrRequest);
-//                            service.execute(ocrTask, ocrRequest);
+                            //ocrTask.executeLocally(ocrRequest);
+                            service.execute(ocrTask, ocrRequest);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
         }
     }
-    // TODO: move to some helper class
 
     public String getPath(Uri uri) {
-        if( uri == null ) {
-            return null;
-        }
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if( cursor != null ){
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        // this is our fallback here
-        return uri.getPath();
+        return FileHelper.getRealPathFromURI(this, uri);
     }
 
     @Override
@@ -256,6 +247,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void onTestsActivity(View view) {
+        Intent intent = new Intent(this, TestsActivity.class);
+        this.startActivity(intent);
+    }
 
 
     class SmartOffloadingServiceConnection implements ServiceConnection {

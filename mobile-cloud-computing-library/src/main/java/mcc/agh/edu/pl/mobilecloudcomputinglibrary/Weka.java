@@ -38,6 +38,7 @@ public class Weka {
 
         double[] distribution = model.distributionForInstance(testcase);
 
+
         System.out.println(String.format("0: %s, 1: %s ", distribution[0], distribution[1]));
         return new XorResult(distribution[0], distribution[1]);
     }

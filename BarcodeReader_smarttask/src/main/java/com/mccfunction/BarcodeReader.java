@@ -9,14 +9,13 @@ import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 
 public class BarcodeReader implements IBarcodeReader {
 
     @Override
-    public BarcodeReaderResponse process(BarcodeReaderRequest request) {
+    public BarcodeReaderOutput process(BarcodeReaderInput request) {
         try {
             System.out.println("-- LAMBDA --");
             System.out.println("PROCESSING BARCODE...");
@@ -34,10 +33,10 @@ public class BarcodeReader implements IBarcodeReader {
             Result qrCodeResult = new MultiFormatReader().decode(binaryBitmap,
                     hintMap);
 
-            return new BarcodeReaderResponse(qrCodeResult.getText());
+            return new BarcodeReaderOutput(qrCodeResult.getText());
 
         } catch (Exception e) {
-            return new BarcodeReaderResponse("ERROR");
+            return new BarcodeReaderOutput("ERROR");
         }
 
     }

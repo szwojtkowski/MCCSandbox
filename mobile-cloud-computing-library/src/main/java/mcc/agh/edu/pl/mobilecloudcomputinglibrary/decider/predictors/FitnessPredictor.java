@@ -1,0 +1,43 @@
+package mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.predictors;
+
+import java.util.Arrays;
+
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.classifiers.PredictionClassifier;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.fitness.FitnessAlgorithm;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.Constants;
+import weka.core.Instance;
+import weka.core.Instances;
+
+public class FitnessPredictor {
+
+    private PredictionClassifier classifier;
+    private FitnessAlgorithm algorithm;
+
+
+    public FitnessPredictor(PredictionClassifier classifier, FitnessAlgorithm algorithm){
+        this.classifier = classifier;
+        this.algorithm = algorithm;
+    }
+
+    public double predictInstanceFitness(Instance instance, Instances dataSet){
+
+        double batteryUsage = predictBatteryUsage(instance, dataSet);
+        double timeUsage = predictTimeUsage(instance, dataSet);
+
+        //Log.e("Fitness predictor", classifier.getClass().toString());
+        //System.out.println(String.format("batteryUsage: %f, time: %f\n", batteryUsage, timeUsage));
+        //Log.e("Fitness Predictor", dataSet.toString());
+
+        return algorithm.resultFor(Arrays.asList(batteryUsage, timeUsage));
+    }
+
+    private double predictBatteryUsage(Instance instance, Instances dataSet){
+        AttributeValuePredictor predictor = new AttributeValuePredictor(classifier, dataSet);
+        return predictor.predict(instance, Constants.BATTERY_USAGE);
+    }
+
+    private double predictTimeUsage(Instance instance, Instances dataSet){
+        AttributeValuePredictor predictor = new AttributeValuePredictor(classifier, dataSet);
+        return predictor.predict(instance, Constants.TIME_USAGE);
+    }
+}

@@ -13,22 +13,22 @@ public class SmartDecider implements Decider {
     private final int RANDOM_STEP_SIZE = 10;
 
     private RandomDecider randomDecider;
-    private LinearRegressionDecider decider;
+    private Decider decider;
     private KnowledgeRepository repository;
 
     public SmartDecider(KnowledgeRepository repository){
         FitnessAlgorithm algorithm = new WeightedArithmeticMean(Arrays.asList(1.0, 4.0));
-        this.randomDecider = new RandomDecider();
-        this.decider = new LinearRegressionDecider(repository, algorithm);
+        this.randomDecider = new RandomDecider(repository);
+        this.decider = new WekaRandomForestDecider(repository, algorithm);
         this.repository = repository;
     }
 
     @Override
-    public ExecutionEnvironment whereExecute(PredictionInstance instance) {
+    public ExecutionEnvironment getExecutionEnvironment(PredictionInstance instance) {
         if(repository.getKnowledgeData().getDataSet().size() < RANDOM_STEP_SIZE){
-            return randomDecider.whereExecute(instance);
+            return randomDecider.getExecutionEnvironment(instance);
         } else {
-            return decider.whereExecute(instance);
+            return decider.getExecutionEnvironment(instance);
         }
     }
 
