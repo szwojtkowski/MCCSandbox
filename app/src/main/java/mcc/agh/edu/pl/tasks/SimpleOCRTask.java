@@ -13,11 +13,15 @@ import com.mccfunction.SimpleOCR;
 import com.mccfunction.SimpleOCRInput;
 import com.mccfunction.SimpleOCROutput;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ProxyFactory;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ProxyFactoryConfiguration;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.SmartTask;
 import mcc.agh.edu.pl.sandbox.handlers.TextHandler;
 import mcc.agh.edu.pl.tests.TestSuiteExecutor;
+import task.SmartInput;
 
 public class SimpleOCRTask extends SmartTask<SimpleOCRInput, SimpleOCROutput> {
 
@@ -42,6 +46,25 @@ public class SimpleOCRTask extends SmartTask<SimpleOCRInput, SimpleOCROutput> {
             this.setTextHandler.setText(result.getText());
         }
         TestSuiteExecutor.getInstance().executeNext();
+    }
+
+    @Override
+    public void executeLocally(SimpleOCRInput arg) {
+        this.addParam("size", String.valueOf(arg.getPayload().length));
+        super.executeLocally(arg);
+    }
+
+    @Override
+    public void executeRemotely(SimpleOCRInput arg) {
+        this.addParam("size", String.valueOf(arg.getPayload().length));
+        super.executeRemotely(arg);
+    }
+
+    @Override
+    public Map<String, String> getParamsFromInput(SmartInput input) {
+        Map<String, String> params = new HashMap<>();
+        params.put("size", String.valueOf(((SimpleOCRInput) input).getPayload().length));
+        return params;
     }
 
     @Override

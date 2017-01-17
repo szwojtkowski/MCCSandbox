@@ -33,4 +33,8 @@ public class FileHelper {
         src.compress(Bitmap.CompressFormat.PNG, 100, baos);
         return baos.toByteArray();
     }
+
+    public static Bitmap getImageAsBitmap(String path) {
+        return BitmapFactory.decodeFile(path);
+    }
 }

@@ -1,5 +1,7 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.predictors;
 
+import android.util.Log;
+
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.classifiers.PredictionClassifier;
 import weka.classifiers.Classifier;
 import weka.core.Instance;
@@ -20,12 +22,12 @@ public class AttributeValuePredictor {
             Classifier cls = predictionClassifier.getClassifier();
             data.setClass(data.attribute(attributeName));
             cls.buildClassifier(data);
-            return cls.classifyInstance(instance);
+            Double res = cls.classifyInstance(instance);
+            Log.e("Predictor", "Result: "+res);
+            return res;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return Double.MAX_VALUE;
     }
-
-
 }

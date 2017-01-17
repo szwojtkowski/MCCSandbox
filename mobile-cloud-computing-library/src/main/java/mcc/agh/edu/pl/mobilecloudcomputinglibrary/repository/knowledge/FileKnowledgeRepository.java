@@ -11,7 +11,6 @@ import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.Constants;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeDataSet;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.KnowledgeInstance;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.ArffHelper;
-import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.InstanceTransformer;
 import weka.core.Instances;
 
 public class FileKnowledgeRepository implements KnowledgeRepository{
@@ -53,25 +52,19 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
         Instances instances = dataSet.getDataSet();
         arffHelper.save(filePath, instances);
         Log.i(TAG, "Added new instance to knowledge repository");
+        instances.setRelationName("");
         Log.d(TAG, instances.toString());
     }
 
     @Override
     public void clearKnowledgeDataSet() {
-        arffHelper.clear(filePath, dataSet.getDataSet());
+        arffHelper.clear(filePath, new KnowledgeDataSet(new HashSet<String>()).getDataSet());
     }
 
     @Override
     public void registerTask(String name) {
-        if(registeredTasks.contains(name)) {
-            return;
-        }
-        registeredTasks.add(name);
-        KnowledgeDataSet newSet =  new KnowledgeDataSet(registeredTasks);
-        Instances newInstances = newSet.getDataSet();
-        Instances newDataSet = new InstanceTransformer(dataSet).toNewKnowledgeDataSetFormat(newInstances);
-        dataSet.setDataSet(newDataSet);
-        arffHelper.save(filePath, newDataSet);
+        dataSet.addNewTask(name);
+        arffHelper.save(filePath, dataSet.getDataSet());
     }
 
     @Override

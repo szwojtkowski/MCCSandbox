@@ -17,9 +17,9 @@ public class SmartDecider implements Decider {
     private KnowledgeRepository repository;
 
     public SmartDecider(KnowledgeRepository repository){
-        FitnessAlgorithm algorithm = new WeightedArithmeticMean(Arrays.asList(1.0, 4.0));
+        FitnessAlgorithm algorithm = new WeightedArithmeticMean(Arrays.asList(1.0, 10.0));
         this.randomDecider = new RandomDecider(repository);
-        this.decider = new WekaRandomForestDecider(repository, algorithm);
+        this.decider = new WekaJ48Decider(repository, algorithm);
         this.repository = repository;
     }
 

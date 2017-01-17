@@ -28,9 +28,9 @@ import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Environment.class, Log.class})
-public class LinearRegressionDeciderTest {
+public class RandomForestDeciderTest {
 
-    private LinearRegressionDecider decider;
+    private WekaRandomForestDecider decider;
     private KnowledgeRepository repository;
     private static final String EXTERNAL_STORAGE_DIR_PATH = ".";
 
@@ -44,7 +44,7 @@ public class LinearRegressionDeciderTest {
         List<Double> weights = Arrays.asList(5.0, 1.0);
         FitnessAlgorithm algorithm = new WeightedArithmeticMean(weights);
         this.repository = new FileKnowledgeRepository("./weka/deciderTest.arff");
-        this.decider = new LinearRegressionDecider(repository, algorithm);
+        this.decider = new WekaRandomForestDecider(repository, algorithm);
 
         KnowledgeInstance instance = new KnowledgeInstance("task", 8, 6, false, ExecutionEnvironment.CLOUD);
         KnowledgeInstance instance2 = new KnowledgeInstance("task", 12, 10, false, ExecutionEnvironment.CLOUD);

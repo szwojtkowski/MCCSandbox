@@ -31,7 +31,7 @@ public class TestCaseBag {
 
         Random random = new Random(System.currentTimeMillis());
 
-        for(int i = 0; i < numberOfCases; i++){
+        for(int i = 0; i < numberOfCases && i < availableTests.size(); i++){
             String selectedTest = availableTests.remove(random.nextInt(availableTests.size()));
             TestCase test = factory.getTestCase(selectedTest);
             randomizedCases.add(test);

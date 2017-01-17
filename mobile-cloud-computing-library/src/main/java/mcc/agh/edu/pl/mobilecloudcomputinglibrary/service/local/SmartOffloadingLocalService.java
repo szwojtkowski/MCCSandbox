@@ -56,7 +56,7 @@ public class SmartOffloadingLocalService extends Service implements SmartOffload
 
     @Override
     public void execute(SmartTask task, SmartInput input) {
-        PredictionInstance predictionInstance = composePredictionInstance(task);
+        PredictionInstance predictionInstance = composePredictionInstance(task, input);
         task.setExecutionRegistry(executionRegistry);
         task.setBatteryMonitor(batteryMonitor);
         task.setWifiManager(wifiManager);
@@ -88,8 +88,9 @@ public class SmartOffloadingLocalService extends Service implements SmartOffload
         }
     }
 
-    private PredictionInstance composePredictionInstance(SmartTask task){
-        PredictionInstance instance = new PredictionInstance(task.getClass().getSimpleName(), false);
+    private PredictionInstance composePredictionInstance(SmartTask task, SmartInput input){
+        PredictionInstance instance = new PredictionInstance(
+                task.getClass().getSimpleName(), false, task.getParamsFromInput(input));
         return instance;
     }
 

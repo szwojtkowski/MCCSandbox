@@ -1,5 +1,7 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils;
 
+import java.util.Map;
+
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.execution.ExecutionModel;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.Constants;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
@@ -20,10 +22,14 @@ public class InstanceTransformer implements Constants{
 
     public Instance toInstance(PredictionInstance instance){
         Instances set = knowledgeDataSet.getDataSet();
-        Instance i = new DenseInstance(5);
+        Instance i = new DenseInstance(set.numAttributes());
 
         i.setValue(set.attribute(TASK_NAME), instance.getTaskName());
         i.setValue(set.attribute(WIFI_ENABLED), Boolean.toString(instance.isWifiEnabled()));
+
+        for(Map.Entry<String, String> param: instance.getParams().entrySet()){
+            i.setValue(set.attribute(param.getKey()), param.getValue());
+        }
 
         i.setMissing(set.attribute(BATTERY_USAGE));
         i.setMissing(set.attribute(TIME_USAGE));
@@ -46,10 +52,10 @@ public class InstanceTransformer implements Constants{
         return format;
     }
 
-    //TODO remove default values
     public KnowledgeInstance toKnowledgeInstance(ExecutionModel model){
-        KnowledgeInstance instance = new KnowledgeInstance(model.getName(), model.getBatteryUsage(),
-                model.getMillisElapsed(), model.getWifiEnabled(), model.getExecutionEnvironment());
+        KnowledgeInstance instance = new KnowledgeInstance(
+                model.getName(), model.getBatteryUsage(), model.getMillisElapsed(),
+                model.getWifiEnabled(), model.getParams(), model.getExecutionEnvironment());
         return instance;
     }
 }
