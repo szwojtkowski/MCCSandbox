@@ -22,16 +22,7 @@ public class AttributeValuePredictor {
             Classifier cls = predictionClassifier.getClassifier();
             data.setClass(data.attribute(attributeName));
             cls.buildClassifier(data);
-            try {
-                Log.e("Predictor", instance.toString());
-                Log.e("Predictor", data.classAttribute().toString());
-                //Log.e("Predictor", ((J48) cls).graph());
-            }  catch (Exception e) {
-                e.printStackTrace();
-            }
-            int index = (int) cls.classifyInstance(instance);
-            Double res = Double.valueOf(data.classAttribute().value(index));
-            Log.e("Predictor", "Instance"+ instance);
+            Double res = cls.classifyInstance(instance);
             Log.e("Predictor", "Result: "+res);
             return res;
         } catch (Exception e) {

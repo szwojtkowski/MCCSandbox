@@ -5,18 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Switch;
+import android.widget.TextView;
 
 import com.example.ArraySumInput;
 import com.mccfunction.BarcodeReaderInput;
@@ -26,17 +22,14 @@ import com.mccfunction.PolymonialHaltInput;
 import com.mccfunction.QuickSortInput;
 import com.mccfunction.SimpleOCRInput;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.ExecutionEnvironment;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.service.local.SmartOffloadingLocalService;
-import mcc.agh.edu.pl.sandbox.handlers.ActivitySetTextHandler;
+import mcc.agh.edu.pl.sandbox.handlers.TextViewSetTextHandler;
 import mcc.agh.edu.pl.tasks.ArraySumTask;
 import mcc.agh.edu.pl.tasks.BarcodeReaderTask;
 import mcc.agh.edu.pl.tasks.ImageScalerTask;
@@ -55,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int BARCODE_PROCESSING = 1;
     private static final int IMAGE_SCALING = 2;
     private static final int OCR_PROCESSING = 3;
-    private ExecutionEnvironment executionEnvironment = ExecutionEnvironment.LOCAL;
     //  TESSERACT
     private static final String DATA_PATH = Environment.getExternalStorageDirectory().toString() + "/MCCSandbox/";
     private static final String TESSDATA = "tessdata";
@@ -67,20 +59,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         prepareTesseract();
         setContentView(R.layout.activity_main);
-
-        Switch executionTypeSwitch = (Switch) findViewById(R.id.executionTypeSwitch);
-
-        if (executionTypeSwitch != null) {
-            executionTypeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        executionEnvironment = ExecutionEnvironment.CLOUD;
-                    } else {
-                        executionEnvironment = ExecutionEnvironment.LOCAL;
-                    }
-                }
-            });
-        }
     }
 
     public void calculateArraySumHandler(View view) {
@@ -126,52 +104,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        int[] pixels;
-        int width;
-        int height;
-
         if (resultCode == RESULT_OK) {
-                Uri selectedImageUri = data.getData();
-                String selectedImagePath = getPath(selectedImageUri);
-                File file = new File(selectedImagePath);
-                try {
-                    InputStream inputStream = new FileInputStream(file);
-                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                    if (bitmap == null) {
-                        System.out.println("uri is not a bitmap,");
-                    }
+            Uri selectedImageUri = data.getData();
+            String selectedImagePath = getPath(selectedImageUri);
 
-                    width = bitmap.getWidth();
-                    height = bitmap.getHeight();
-                    pixels = new int[width * height];
+            byte[] b = FileHelper.getImageAsByteArray(selectedImagePath);
 
-                    bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
-                    ByteArrayOutputStream blob = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 0, blob);
-
-                    switch (requestCode) {
-                        case BARCODE_PROCESSING:
-                            BarcodeReaderInput request = new BarcodeReaderInput(pixels, width, height);
-                            new BarcodeReaderTask(this).execute(request);
-                            break;
-                        case IMAGE_SCALING:
-                            ImageScalerInput imageScalerRequest = new ImageScalerInput(blob.toByteArray(), 80, 80);
-                            ImageScalerTask scalerTask = new ImageScalerTask(this, (ImageView)findViewById(R.id.imageView));
-                            service.execute(scalerTask, imageScalerRequest);
-                            break;
-                        case OCR_PROCESSING:
-                            byte[] b = FileHelper.getImageAsByteArray(selectedImagePath);
-                            Log.e("MCCMainActivty", selectedImagePath);
-                            ActivitySetTextHandler handler = new ActivitySetTextHandler((EditText)findViewById(R.id.editText2));
-                            SimpleOCRInput ocrRequest = new SimpleOCRInput(b, OCRLang.ENG);
-                            SimpleOCRTask ocrTask = new SimpleOCRTask(this, handler);
-                            //ocrTask.executeLocally(ocrRequest);
-                            service.execute(ocrTask, ocrRequest);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-        }
+            switch (requestCode) {
+                case BARCODE_PROCESSING:
+                    Bitmap bitmap = FileHelper.getImageAsBitmap(selectedImagePath);
+                    int width = bitmap.getWidth();
+                    int height = bitmap.getHeight();
+                    int[] pixels = new int[width * height];
+                    BarcodeReaderInput request = new BarcodeReaderInput(pixels, width, height);
+                    new BarcodeReaderTask(this).execute(request);
+                    break;
+                case IMAGE_SCALING:
+                    ImageScalerInput imageScalerRequest = new ImageScalerInput(b, 80, 80);
+                    ImageScalerTask scalerTask = new ImageScalerTask(this, (ImageView)findViewById(R.id.imageView));
+                    service.execute(scalerTask, imageScalerRequest);
+                    break;
+                case OCR_PROCESSING:
+                    TextViewSetTextHandler handler = new TextViewSetTextHandler((TextView) findViewById(R.id.text));
+                    SimpleOCRInput ocrRequest = new SimpleOCRInput(b, OCRLang.ENG);
+                    SimpleOCRTask ocrTask = new SimpleOCRTask(this, handler);
+                    service.execute(ocrTask, ocrRequest);
+            }
+       }
     }
 
     public String getPath(Uri uri) {
@@ -203,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         copyTessDataFiles(TESSDATA);
     }
     private void prepareDirectory(String path) {

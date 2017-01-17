@@ -64,6 +64,7 @@ public class FileKnowledgeRepository implements KnowledgeRepository{
     @Override
     public void registerTask(String name) {
         dataSet.addNewTask(name);
+        arffHelper.save(filePath, dataSet.getDataSet());
     }
 
     @Override

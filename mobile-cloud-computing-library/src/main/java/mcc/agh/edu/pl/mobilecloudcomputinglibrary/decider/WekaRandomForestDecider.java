@@ -13,6 +13,8 @@ import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.AttributeValueAdder;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.InstanceTransformer;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.Normalizer;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.NumericToNominalConverter;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.extractors.Extractor;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.extractors.WekaTreeResultExtractor;
 import weka.core.Instance;
 import weka.core.Instances;
 
@@ -44,7 +46,9 @@ public class WekaRandomForestDecider extends WekaDecider {
         Instances converted = converter.converted();
         Instance prediction = converter.convertedOne();
 
-        FitnessPredictor predictor = new FitnessPredictor(classifier, fitness);
+
+        Extractor extractor = new WekaTreeResultExtractor(converted);
+        FitnessPredictor predictor = new FitnessPredictor(classifier, fitness, extractor);
 
         return predictor.predictInstanceFitness(prediction, converted);
     }
