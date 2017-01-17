@@ -1,10 +1,13 @@
 package mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.predictors;
 
+import android.util.Log;
+
 import java.util.Arrays;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.classifiers.PredictionClassifier;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.fitness.FitnessAlgorithm;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.model.Constants;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils.AttributeRemover;
 import weka.core.Instance;
 import weka.core.Instances;
 
@@ -24,7 +27,7 @@ public class FitnessPredictor {
         double batteryUsage = predictBatteryUsage(instance, dataSet);
         double timeUsage = predictTimeUsage(instance, dataSet);
 
-        //Log.e("Fitness predictor", classifier.getClass().toString());
+        Log.e("Fitness predictor", classifier.getClass().toString());
         System.out.println(String.format("batteryUsage: %f, time: %f\n", batteryUsage, timeUsage));
         //Log.e("Fitness Predictor", dataSet.toString());
 

@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.Decider;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.RandomDecider;
-import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.WekaRandomForestDecider;
+import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.WekaNeuralDecider;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.fitness.FitnessAlgorithm;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.fitness.WeightedArithmeticMean;
 import mcc.agh.edu.pl.mobilecloudcomputinglibrary.repository.knowledge.KnowledgeRepository;
@@ -52,12 +52,12 @@ public class TestLauncher {
         service.setKnowledgeRepository(repository);
     }
 
-    public void launch(){
+    public void launch() {
         TestCaseBag bag = new TestCaseBag(tests, factory);
 
         FitnessAlgorithm algorithm = new WeightedArithmeticMean(Arrays.asList(1.0, 10.0));
         Decider randomDecider = new RandomDecider(repository);
-        Decider decider = new WekaRandomForestDecider(repository, algorithm);
+        Decider decider = new WekaNeuralDecider(repository, algorithm);
 
         TestSuiteCreator testSuiteCreator = new TestSuiteCreator(bag, randomDecider, decider);
         TestSuite testSuite = testSuiteCreator.create(8, 15);
@@ -66,9 +66,4 @@ public class TestLauncher {
         executor.init(testSuite, service);
         executor.executeNext();
     }
-
-
-
-
-
 }

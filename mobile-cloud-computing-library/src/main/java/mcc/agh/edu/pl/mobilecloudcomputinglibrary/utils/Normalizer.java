@@ -1,4 +1,4 @@
-package mcc.agh.edu.pl.mobilecloudcomputinglibrary.decider.predictors;
+package mcc.agh.edu.pl.mobilecloudcomputinglibrary.utils;
 
 import weka.core.Instance;
 import weka.core.Instances;
